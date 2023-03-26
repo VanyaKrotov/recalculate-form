@@ -1,0 +1,38 @@
+{
+  "name": "recalculate-form",
+  "version": "0.0.1",
+  "description": "",
+  "main": "src/index.ts",
+  "scripts": {
+    "dev": "node scripts/dev.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/VanyaKrotov/recalculate-form.git"
+  },
+  "keywords": [
+    "form",
+    "react",
+    "reactive",
+    "recalculate"
+  ],
+  "author": "vanyakrotov3059@gmail.com",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/VanyaKrotov/recalculate-form/issues"
+  },
+  "homepage": "https://github.com/VanyaKrotov/recalculate-form#readme",
+  "dependencies": {
+    "projectx.state": "^0.0.6-beta",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
+  },
+  "devDependencies": {
+    "@types/lodash": "^4.14.191",
+    "@types/react": "^18.0.28",
+    "@types/react-dom": "^18.0.11",
+    "esbuild": "^0.17.12",
+    "ts-node": "^10.9.1",
+    "typescript": "^5.0.2"
+  }
+}
