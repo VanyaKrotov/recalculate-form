@@ -6,7 +6,6 @@ export type DefaultModes = "native" | "change";
 export type FormDefaultValues = Record<string, any>;
 
 export interface FormState {
-  dirtyFields: Set<string>;
   touchedFields: Set<string>;
   isSubmitted: boolean;
   isSubmitting: boolean;
@@ -18,11 +17,19 @@ export interface FormData<V> {
   errors: Errors;
 }
 
+export type RecalculateObjectValue<M> = {
+  value: unknown;
+  mode?: ChangeMode<M>;
+};
+
+export type RecalculateValue<M> =
+  | RecalculateObjectValue<M>
+  | number
+  | string
+  | boolean;
+
 export type RecalculateHandlerResult<T, M> = Partial<
-  Record<
-    keyof T,
-    { value: unknown; mode?: ChangeMode<M> } | number | string | boolean
-  >
+  Record<keyof T, RecalculateValue<M>>
 >;
 
 export interface RecalculateField<V, E, M> {
@@ -46,7 +53,11 @@ export interface RecalculateOptions<
   M extends string
 > {
   fields: RecalculateField<V, E, M>[];
-  defaultExternal: Partial<E>;
+  defaultExternal?: Partial<E>;
+}
+
+export interface ValidateCallback<T extends FormDefaultValues> {
+  (values: T, errors: Errors): Errors | Promise<Errors>;
 }
 
 export interface JoinRecalculateResult<E> {
@@ -61,6 +72,7 @@ export interface Details<T, M> {
   prev: T;
   curr: T;
   modes: Map<string, ChangeMode<M>>;
+  values: boolean;
 }
 
 export type Errors = Record<string, string>;
@@ -69,18 +81,19 @@ export interface Commit<M extends string> extends CommitChange {
   changeMode?: ChangeMode<M>;
 }
 
+export interface OnSubmit<T> {
+  (FormData: FormData<T>): void | Promise<void>;
+}
+
 export interface FormConstructor<T extends FormDefaultValues, M extends string>
   extends ObserveStateInstance<FormData<T>, Details<T, M>> {
-  get formState(): FormState;
   getValues(): T;
-  getValues<T>(paths: string[]): T;
+  getValues<T extends object>(...paths: string[]): T;
   setErrors(errors: Errors): void;
   resetError(...paths: string[]): void;
   reset(): void;
   commit(changes: Commit<ChangeMode<M>>[]): boolean[];
-  handleSubmit(
-    onSubmit: (values: T) => void | Promise<void>
-  ): (event?: FormEvent) => void;
+  handleSubmit(onSubmit: OnSubmit<T>): (event?: FormEvent) => void;
 }
 
 export interface FormConstructorParams<T> {
@@ -88,12 +101,11 @@ export interface FormConstructorParams<T> {
 }
 
 export interface UseFieldResult<T> {
-  change: <T>(value: T) => void;
+  change: (value: T) => void;
   fieldState: {
-    isDirty: boolean;
     isTouched: boolean;
+    error: string | null;
   };
-  error: string | null;
   input: {
     name: string;
     value: T;

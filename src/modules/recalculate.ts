@@ -1,14 +1,25 @@
 import { Path, PathTree } from "projectx.state";
 
 import {
-  ChangeMode,
   Commit,
   Details,
   FormConstructor,
   JoinRecalculateResult,
   RecalculateField,
+  RecalculateObjectValue,
   RecalculateOptions,
+  RecalculateValue,
 } from "../shared";
+
+function getRecalculateResult<M>(
+  result: RecalculateValue<M>
+): RecalculateObjectValue<M> {
+  if (result && typeof result === "object") {
+    return result;
+  }
+
+  return { value: result, mode: "change" };
+}
 
 function createRecalculate<
   T extends object,
@@ -16,14 +27,14 @@ function createRecalculate<
   M extends string
 >(
   form: FormConstructor<T, M>,
-  { defaultExternal, fields }: RecalculateOptions<T, E, M>
+  { defaultExternal = {}, fields }: RecalculateOptions<T, E, M>
 ): JoinRecalculateResult<E> {
   type Keys = keyof T | keyof E;
   const recalculateMap = fields.reduce(
     (acc, item) => Object.assign(acc, { [item.path]: item }),
     {} as Record<Keys, RecalculateField<T, E, M>>
   );
-  const memo = structuredClone(defaultExternal);
+  let memo = structuredClone(defaultExternal);
   let lastCalledPath: string;
   const workPromises = new Map<string, Promise<any>>();
 
@@ -51,14 +62,10 @@ function createRecalculate<
     }
 
     const commits: Commit<M>[] = [];
-    for (const key in result) {
-      const res = result[key];
+    for (const path in result) {
+      const { value, mode = "change" } = getRecalculateResult<M>(result[path]);
 
-      const { value, mode = "change" } = (
-        typeof res === "object" ? res : { value: res }
-      ) as { value: unknown; mode?: ChangeMode<M> };
-
-      commits.push({ path: `values.${key}`, value, changeMode: mode });
+      commits.push({ path, value, changeMode: mode });
     }
 
     form.commit(commits);
@@ -81,7 +88,7 @@ function createRecalculate<
   async function callRecalculate(field: string, detail: Details<T, M>) {
     const options = recalculateMap[field as Keys];
     const { watchType = "native" } = options;
-    if (watchType !== (detail.modes.get(`values.${field}`) || "change")) {
+    if (watchType !== (detail.modes.get(field) || "change")) {
       return;
     }
 
@@ -106,7 +113,8 @@ function createRecalculate<
   }
 
   const unsubscribe = form.listen(({ changeTree, detail }) => {
-    const entry = entries.find(([, tree]) => tree.includes(changeTree));
+    const entry =
+      detail.values && entries.find(([, tree]) => tree.includes(changeTree));
     if (!entry) {
       return;
     }
@@ -124,7 +132,7 @@ function createRecalculate<
 
       form.commit([
         {
-          path: `values.${path}`,
+          path,
           value: value === undefined ? Path.get(form.data.values, path) : value,
           changeMode: options.watchType || "native",
         },
@@ -132,6 +140,9 @@ function createRecalculate<
     },
     dispose: () => {
       unsubscribe();
+      memo = structuredClone(defaultExternal);
+      lastCalledPath = undefined;
+      workPromises.clear();
     },
   };
 }

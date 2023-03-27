@@ -9,7 +9,6 @@ function FormProvider<T extends object, M extends string>({
   form,
   children,
 }: Props<T, M>): ReactElement<Props<T, M>> {
-  // @ts-ignore
   return <FormContext.Provider value={form}>{children}</FormContext.Provider>;
 }
 

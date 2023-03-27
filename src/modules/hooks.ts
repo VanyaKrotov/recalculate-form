@@ -3,6 +3,7 @@ import { Path } from "projectx.state";
 
 import Form from "./form";
 import {
+  Errors,
   FormConstructor,
   FormConstructorParams,
   FormContext,
@@ -11,6 +12,7 @@ import {
   JoinRecalculateResult,
   RecalculateOptions,
   UseFieldResult,
+  ValidateCallback,
 } from "../shared";
 import { createRecalculate } from "./recalculate";
 
@@ -27,30 +29,37 @@ export function useField<
   M extends string = string
 >(name: string, form?: FormConstructor<V, M>): UseFieldResult<T> {
   const formContext = form || useFormContext();
-  const path = `values.${name}`;
-  const [value, setValue] = useState<T>(() => Path.get(formContext.data, path));
-
-  useEffect(
-    () =>
-      formContext.watch([path], () =>
-        setValue(Path.get(formContext.data, path))
-      ),
-    [formContext, path]
+  const [value, setValue] = useState<T>(() =>
+    Path.get(formContext.data.values, name)
   );
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    const unsubscribeValue = formContext.watch([`values.${name}`], () =>
+      setValue(Path.get(formContext.data.values, name))
+    );
+    const unsubscribeError = formContext.watch(["errors"], () => {
+      setError(formContext.data.errors[name]);
+    });
+
+    return () => {
+      unsubscribeValue();
+      unsubscribeError();
+    };
+  }, [formContext, name]);
 
   return {
     input: {
       name,
       value,
       onChange: ({ target: { value } }) =>
-        formContext.commit([{ path, value, changeMode: "native" }]),
+        formContext.commit([{ path: name, value, changeMode: "native" }]),
     },
-    change: <T>(value: T) => formContext.commit([{ path, value }]),
+    change: (value: T) => formContext.commit([{ path: name, value }]),
     fieldState: {
-      isDirty: formContext.formState.dirtyFields.has(name),
-      isTouched: formContext.formState.touchedFields.has(name),
+      isTouched: formContext.data.state.touchedFields.has(name),
+      error,
     },
-    error: formContext.data.errors[path] || null,
   };
 }
 
@@ -60,14 +69,16 @@ export function useWatch<
   M extends string
 >(paths: string[] = [], form?: FormConstructor<V, M>): R {
   const formContext = form || useFormContext();
-  const [values, setValues] = useState<R>(() => formContext.getValues(paths));
+  const [values, setValues] = useState<R>(() =>
+    formContext.getValues(...paths)
+  );
 
   useEffect(
     () =>
       formContext.watch(
         paths.length ? paths.map((path) => `values.${path}`) : ["values"],
         () => {
-          setValues({ ...(formContext.getValues(paths) as R) });
+          setValues(formContext.getValues(...paths));
         }
       ),
     paths
@@ -76,7 +87,7 @@ export function useWatch<
   return values;
 }
 
-export function useForm<T extends object, M extends string = "">(
+export function useForm<T extends object, M extends string = string>(
   options: FormConstructorParams<T>
 ): FormConstructor<T, M> {
   const formApiRef = useRef<FormConstructor<T, M> | null>(null);
@@ -114,15 +125,56 @@ export function useFormState<T extends object, M extends string>(
   form?: FormConstructor<T, M>
 ): FormState {
   const formContext = form || useFormContext();
-  const [state, setState] = useState(() => formContext.formState);
+  const [state, setState] = useState(() => formContext.data.state);
 
   useEffect(
     () =>
       formContext.watch(["state"], () =>
-        setState({ ...formContext.formState })
+        setState({ ...formContext.data.state })
       ),
     [formContext]
   );
 
   return state;
+}
+
+export function useValidate<T extends FormDefaultValues, M extends string>(
+  validator: ValidateCallback<T>,
+  form: FormConstructor<T, M>
+): void {
+  const formContext = form || useFormContext();
+
+  useEffect(
+    () =>
+      formContext.watch(["values"], () => {
+        const result = validator(
+          formContext.data.values,
+          formContext.data.errors
+        );
+
+        if (result instanceof Promise) {
+          result.then((errors) => formContext.setErrors(errors));
+        } else {
+          formContext.setErrors(result);
+        }
+      }),
+    [formContext]
+  );
+}
+
+export function useErrors<T extends FormDefaultValues, M extends string>(
+  form?: FormConstructor<T, M>
+): Errors {
+  const formContext = form || useFormContext();
+  const [errors, setErrors] = useState<Errors>(() => formContext.data.errors);
+
+  useEffect(
+    () =>
+      formContext.watch(["errors"], () => {
+        setErrors(formContext.data.errors);
+      }),
+    [formContext]
+  );
+
+  return errors;
 }

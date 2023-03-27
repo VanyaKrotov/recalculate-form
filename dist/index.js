@@ -2483,7 +2483,7 @@
           var HostPortal = 4;
           var HostComponent = 5;
           var HostText = 6;
-          var Fragment = 7;
+          var Fragment2 = 7;
           var Mode = 8;
           var ContextConsumer = 9;
           var ContextProvider = 10;
@@ -3639,7 +3639,7 @@
                 return "DehydratedFragment";
               case ForwardRef:
                 return getWrappedName$1(type, type.render, "ForwardRef");
-              case Fragment:
+              case Fragment2:
                 return "Fragment";
               case HostComponent:
                 return type;
@@ -13310,7 +13310,7 @@
               }
             }
             function updateFragment2(returnFiber, current2, fragment, lanes, key) {
-              if (current2 === null || current2.tag !== Fragment) {
+              if (current2 === null || current2.tag !== Fragment2) {
                 var created = createFiberFromFragment(fragment, returnFiber.mode, lanes, key);
                 created.return = returnFiber;
                 return created;
@@ -13713,7 +13713,7 @@
                 if (child.key === key) {
                   var elementType = element.type;
                   if (elementType === REACT_FRAGMENT_TYPE) {
-                    if (child.tag === Fragment) {
+                    if (child.tag === Fragment2) {
                       deleteRemainingChildren(returnFiber, child.sibling);
                       var existing = useFiber(child, element.props.children);
                       existing.return = returnFiber;
@@ -17888,7 +17888,7 @@
                 var _resolvedProps2 = workInProgress2.elementType === type ? _unresolvedProps2 : resolveDefaultProps(type, _unresolvedProps2);
                 return updateForwardRef(current2, workInProgress2, type, _resolvedProps2, renderLanes2);
               }
-              case Fragment:
+              case Fragment2:
                 return updateFragment(current2, workInProgress2, renderLanes2);
               case Mode:
                 return updateMode(current2, workInProgress2, renderLanes2);
@@ -18161,7 +18161,7 @@
               case SimpleMemoComponent:
               case FunctionComponent:
               case ForwardRef:
-              case Fragment:
+              case Fragment2:
               case Mode:
               case Profiler:
               case ContextConsumer:
@@ -22420,7 +22420,7 @@
             return fiber;
           }
           function createFiberFromFragment(elements, mode, lanes, key) {
-            var fiber = createFiber(Fragment, elements, key, mode);
+            var fiber = createFiber(Fragment2, elements, key, mode);
             fiber.lanes = lanes;
             return fiber;
           }
@@ -24425,11 +24425,11 @@
               return jsxWithValidation(type, props, key, false);
             }
           }
-          var jsx3 = jsxWithValidationDynamic;
-          var jsxs2 = jsxWithValidationStatic;
+          var jsx6 = jsxWithValidationDynamic;
+          var jsxs5 = jsxWithValidationStatic;
           exports.Fragment = REACT_FRAGMENT_TYPE;
-          exports.jsx = jsx3;
-          exports.jsxs = jsxs2;
+          exports.jsx = jsx6;
+          exports.jsxs = jsxs5;
         })();
       }
     }
@@ -24448,7 +24448,6 @@
   });
 
   // dev/index.tsx
-  var import_react3 = __toESM(require_react());
   var import_client = __toESM(require_client());
 
   // src/modules/hooks.ts
@@ -24764,34 +24763,46 @@
       this.options = options;
       this.handleSubmit = (onSubmit) => (event) => __async(this, null, function* () {
         event == null ? void 0 : event.preventDefault();
-        this.commit([
+        this.baseCommit([
           { path: "state.isSubmitted", value: true },
           { path: "state.isSubmitting", value: true }
         ]);
         try {
-          yield onSubmit(this.data.values);
+          yield onSubmit(this.data);
         } catch (error) {
           console.error(error);
         } finally {
-          this.commit([{ path: "state.isSubmitting", value: false }]);
+          this.baseCommit([{ path: "state.isSubmitting", value: false }]);
         }
       });
       this.data = {
         values: structuredClone(options.defaultValues),
-        state: this.getDefaultState(),
+        state: {
+          touchedFields: /* @__PURE__ */ new Set(),
+          isSubmitted: false,
+          isSubmitting: false
+        },
         errors: {}
-      };
-    }
-    getDefaultState() {
-      return {
-        dirtyFields: /* @__PURE__ */ new Set(),
-        touchedFields: /* @__PURE__ */ new Set(),
-        isSubmitted: false,
-        isSubmitting: false
       };
     }
     get formState() {
       return this.data.state;
+    }
+    baseCommit(changes) {
+      if (!changes.length) {
+        return [];
+      }
+      const changeTree = new PathTree();
+      const results = [];
+      for (const { path, value } of changes) {
+        changeTree.push(path);
+        results.push(Path.set(this.data, path, value));
+      }
+      this.emit({
+        changeTree,
+        detail: { prev: {}, curr: {}, modes: /* @__PURE__ */ new Map(), values: false }
+      });
+      return results;
     }
     commit(changes) {
       if (!changes.length) {
@@ -24804,40 +24815,42 @@
       for (const { path, value, changeMode = "change" } of changes) {
         changeTree.push(path);
         modes.set(path, changeMode);
-        results.push(Path.set(this.data, path, value));
+        if (changeMode === "native") {
+          this.data.state.touchedFields.add(path);
+        }
+        results.push(Path.set(this.data.values, path, value));
       }
-      this.emit({ changeTree, detail: { prev, curr: this.data.values, modes } });
+      changeTree.push("state.touchedFields");
+      this.emit({
+        changeTree: PathTree.pushPrefix("values", changeTree),
+        detail: { prev, curr: this.data.values, modes, values: true }
+      });
       return results;
     }
     change(values) {
       const changeTree = new PathTree();
-      const prev = structuredClone(this.data.values);
       for (const key in values) {
         changeTree.push(key);
         this.data[key] = values[key];
       }
       this.emit({
         changeTree,
-        detail: { curr: this.data.values, prev, modes: /* @__PURE__ */ new Map() }
+        detail: { curr: {}, prev: {}, modes: /* @__PURE__ */ new Map(), values: false }
       });
     }
     setErrors(errors) {
-      this.commit(
-        Object.entries(errors).map(([path, error]) => ({
-          path,
-          value: error,
-          changeMode: "change"
-        }))
-      );
+      this.change({
+        errors: Object.assign(this.data.errors, errors)
+      });
     }
     resetError(...paths) {
       const errors = this.data.errors;
       for (const path of paths) {
         delete errors[path];
       }
-      this.change({ errors });
+      this.change({ errors: paths.length ? errors : {} });
     }
-    getValues(paths) {
+    getValues(...paths) {
       if (!(paths == null ? void 0 : paths.length)) {
         return this.data.values;
       }
@@ -24849,7 +24862,11 @@
     reset() {
       this.change({
         values: structuredClone(this.options.defaultValues),
-        state: this.getDefaultState(),
+        state: {
+          touchedFields: /* @__PURE__ */ new Set(),
+          isSubmitted: false,
+          isSubmitting: false
+        },
         errors: {}
       });
     }
@@ -24858,15 +24875,23 @@
 
   // src/shared/constants.ts
   var import_react = __toESM(require_react());
-  var FormContext = (0, import_react.createContext)({});
+  var FormContext = (0, import_react.createContext)(
+    {}
+  );
 
   // src/modules/recalculate.ts
-  function createRecalculate(form, { defaultExternal, fields }) {
+  function getRecalculateResult(result) {
+    if (result && typeof result === "object") {
+      return result;
+    }
+    return { value: result, mode: "change" };
+  }
+  function createRecalculate(form, { defaultExternal = {}, fields }) {
     const recalculateMap = fields.reduce(
       (acc, item) => Object.assign(acc, { [item.path]: item }),
       {}
     );
-    const memo = structuredClone(defaultExternal);
+    let memo = structuredClone(defaultExternal);
     let lastCalledPath;
     const workPromises = /* @__PURE__ */ new Map();
     function handleResult(_0, _1, _2) {
@@ -24888,10 +24913,9 @@
           result = handleResult2;
         }
         const commits = [];
-        for (const key in result) {
-          const res = result[key];
-          const { value, mode = "change" } = typeof res === "object" ? res : { value: res };
-          commits.push({ path: `values.${key}`, value, changeMode: mode });
+        for (const path2 in result) {
+          const { value, mode = "change" } = getRecalculateResult(result[path2]);
+          commits.push({ path: path2, value, changeMode: mode });
         }
         form.commit(commits);
       });
@@ -24914,7 +24938,7 @@
       return __async(this, null, function* () {
         const options = recalculateMap[field];
         const { watchType = "native" } = options;
-        if (watchType !== (detail.modes.get(`values.${field}`) || "change")) {
+        if (watchType !== (detail.modes.get(field) || "change")) {
           return;
         }
         lastCalledPath = field;
@@ -24936,7 +24960,7 @@
       entries.push([path, new PathTree([`values.${path}`])]);
     }
     const unsubscribe = form.listen(({ changeTree, detail }) => {
-      const entry = entries.find(([, tree]) => tree.includes(changeTree));
+      const entry = detail.values && entries.find(([, tree]) => tree.includes(changeTree));
       if (!entry) {
         return;
       }
@@ -24951,7 +24975,7 @@
         }
         form.commit([
           {
-            path: `values.${path}`,
+            path,
             value: value === void 0 ? Path.get(form.data.values, path) : value,
             changeMode: options.watchType || "native"
           }
@@ -24959,6 +24983,9 @@
       },
       dispose: () => {
         unsubscribe();
+        memo = structuredClone(defaultExternal);
+        lastCalledPath = void 0;
+        workPromises.clear();
       }
     };
   }
@@ -24969,42 +24996,35 @@
   }
   function useField(name, form) {
     const formContext = form || useFormContext();
-    const path = `values.${name}`;
-    const [value, setValue] = (0, import_react2.useState)(() => Path.get(formContext.data, path));
-    (0, import_react2.useEffect)(
-      () => formContext.watch(
-        [path],
-        () => setValue(Path.get(formContext.data, path))
-      ),
-      [formContext, path]
+    const [value, setValue] = (0, import_react2.useState)(
+      () => Path.get(formContext.data.values, name)
     );
+    const [error, setError] = (0, import_react2.useState)(null);
+    (0, import_react2.useEffect)(() => {
+      const unsubscribeValue = formContext.watch(
+        [`values.${name}`],
+        () => setValue(Path.get(formContext.data.values, name))
+      );
+      const unsubscribeError = formContext.watch(["errors"], () => {
+        setError(formContext.data.errors[name]);
+      });
+      return () => {
+        unsubscribeValue();
+        unsubscribeError();
+      };
+    }, [formContext, name]);
     return {
       input: {
         name,
         value,
-        onChange: ({ target: { value: value2 } }) => formContext.commit([{ path, value: value2, changeMode: "native" }])
+        onChange: ({ target: { value: value2 } }) => formContext.commit([{ path: name, value: value2, changeMode: "native" }])
       },
-      change: (value2) => formContext.commit([{ path, value: value2 }]),
+      change: (value2) => formContext.commit([{ path: name, value: value2 }]),
       fieldState: {
-        isDirty: formContext.formState.dirtyFields.has(name),
-        isTouched: formContext.formState.touchedFields.has(name)
-      },
-      error: formContext.data.errors[path] || null
+        isTouched: formContext.data.state.touchedFields.has(name),
+        error
+      }
     };
-  }
-  function useWatch(paths = [], form) {
-    const formContext = form || useFormContext();
-    const [values, setValues] = (0, import_react2.useState)(() => formContext.getValues(paths));
-    (0, import_react2.useEffect)(
-      () => formContext.watch(
-        paths.length ? paths.map((path) => `values.${path}`) : ["values"],
-        () => {
-          setValues(__spreadValues({}, formContext.getValues(paths)));
-        }
-      ),
-      paths
-    );
-    return values;
   }
   function useForm(options) {
     const formApiRef = (0, import_react2.useRef)(null);
@@ -25026,18 +25046,6 @@
     }, []);
     return resultRef.current;
   }
-  function useFormState(form) {
-    const formContext = form || useFormContext();
-    const [state, setState] = (0, import_react2.useState)(() => formContext.formState);
-    (0, import_react2.useEffect)(
-      () => formContext.watch(
-        ["state"],
-        () => setState(__spreadValues({}, formContext.formState))
-      ),
-      [formContext]
-    );
-    return state;
-  }
 
   // src/modules/provider.tsx
   var import_jsx_runtime = __toESM(require_jsx_runtime());
@@ -25049,131 +25057,168 @@
   }
   var provider_default = FormProvider;
 
-  // dev/index.tsx
+  // dev/examples/login.tsx
   var import_jsx_runtime2 = __toESM(require_jsx_runtime());
-  var container = document.getElementById("root");
-  var root = (0, import_client.createRoot)(container);
-  root.render(/* @__PURE__ */ (0, import_jsx_runtime2.jsx)(App, {}));
-  function Input({ name }) {
-    const { input } = useField(name);
-    console.log(`render[input:${name}]`);
-    return /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("input", __spreadProps(__spreadValues({}, input), { type: "number" }));
-  }
-  function Bottom() {
-    const values = useWatch();
-    console.log("render[Bottom]");
-    return /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("pre", { children: JSON.stringify(values) });
+  function Input({ name, type, label }) {
+    const {
+      input,
+      fieldState: { error }
+    } = useField(name);
+    return /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("label", { children: [
+      /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("span", { children: [
+        label,
+        " "
+      ] }),
+      /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("input", __spreadProps(__spreadValues({}, input), { type })),
+      error && /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("div", { style: { color: "tomato" }, children: error })
+    ] });
   }
   function App() {
-    const [values, setValues] = (0, import_react3.useState)(["a", "b"]);
     const form = useForm({
-      defaultValues: { first: 1, second: 0 }
+      defaultValues: { password: "", username: "" }
     });
-    const recalculate = useRecalculate(
+    return /* @__PURE__ */ (0, import_jsx_runtime2.jsx)(provider_default, { form, children: /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("form", { onSubmit: form.handleSubmit((values) => console.log(values)), children: [
+      /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("h1", { children: "Login" }),
+      /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("div", { children: /* @__PURE__ */ (0, import_jsx_runtime2.jsx)(Input, { name: "username", type: "text", label: "Username" }) }),
+      /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("div", { children: /* @__PURE__ */ (0, import_jsx_runtime2.jsx)(Input, { name: "password", type: "password", label: "password" }) }),
+      /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("button", { type: "submit", children: "Login" })
+    ] }) });
+  }
+  var login_default = App;
+
+  // dev/examples/recalculate.tsx
+  var import_jsx_runtime3 = __toESM(require_jsx_runtime());
+  function Input2({ name, type, label }) {
+    const {
+      input,
+      fieldState: { error }
+    } = useField(name);
+    return /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("label", { children: [
+      /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("span", { children: [
+        label,
+        " "
+      ] }),
+      /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("input", __spreadProps(__spreadValues({}, input), { type })),
+      error && /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("div", { style: { color: "tomato" }, children: error })
+    ] });
+  }
+  function App2() {
+    const form = useForm({
+      defaultValues: { first: 0, second: 0 }
+    });
+    useRecalculate(
       {
         fields: [
           {
             path: "first",
-            handler: (current, _prev, { external: { price = 1 } }) => {
+            handler(current) {
               return {
-                second: Number(current) * price
+                second: Number(current) + 10
               };
             }
           },
           {
             path: "second",
-            handler: (current, _prev, { external: { price = 1 } }) => {
+            handler(current) {
               return {
-                first: Number(current) * price
+                first: Number(current) * 10
+              };
+            }
+          }
+        ]
+      },
+      form
+    );
+    return /* @__PURE__ */ (0, import_jsx_runtime3.jsx)(provider_default, { form, children: /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("form", { onSubmit: form.handleSubmit((values) => console.log(values)), children: [
+      /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("h1", { children: "Recalculate" }),
+      /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("div", { children: /* @__PURE__ */ (0, import_jsx_runtime3.jsx)(Input2, { name: "first", type: "number", label: "First" }) }),
+      /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("div", { children: /* @__PURE__ */ (0, import_jsx_runtime3.jsx)(Input2, { name: "second", type: "number", label: "Second" }) }),
+      /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("button", { type: "submit", children: "Submit" })
+    ] }) });
+  }
+  var recalculate_default = App2;
+
+  // dev/examples/recalculate-external.tsx
+  var import_react3 = __toESM(require_react());
+  var import_jsx_runtime4 = __toESM(require_jsx_runtime());
+  function Input3({ name, type, label }) {
+    const {
+      input,
+      fieldState: { error }
+    } = useField(name);
+    return /* @__PURE__ */ (0, import_jsx_runtime4.jsxs)("label", { children: [
+      /* @__PURE__ */ (0, import_jsx_runtime4.jsxs)("span", { children: [
+        label,
+        " "
+      ] }),
+      /* @__PURE__ */ (0, import_jsx_runtime4.jsx)("input", __spreadProps(__spreadValues({}, input), { type })),
+      error && /* @__PURE__ */ (0, import_jsx_runtime4.jsx)("div", { style: { color: "tomato" }, children: error })
+    ] });
+  }
+  function App3() {
+    const [mul, setMul] = (0, import_react3.useState)(10);
+    const form = useForm({
+      defaultValues: { first: 0, second: 0 }
+    });
+    const recalculate = useRecalculate(
+      {
+        defaultExternal: { multiple: mul },
+        fields: [
+          {
+            path: "first",
+            handler(current, prev, { external }) {
+              return {
+                second: Number(current) * external.multiple
               };
             }
           },
           {
-            path: "price",
-            handler: (current, prev, { values: values2, lastCalledPath = "first" }) => {
+            path: "second",
+            handler(current, prev, { external }) {
               return {
-                [lastCalledPath === "first" ? "second" : "first"]: Number(current) * values2[lastCalledPath]
+                first: Number(current) * external.multiple
+              };
+            }
+          },
+          {
+            path: "multiple",
+            handler(current, prev, { lastCalledPath, values }) {
+              const field = lastCalledPath === "first" ? "second" : "first";
+              return {
+                [field]: values[lastCalledPath] * Number(current)
               };
             }
           }
-        ],
-        defaultExternal: { price: 1 }
+        ]
       },
       form
     );
-    console.log(recalculate);
     (0, import_react3.useEffect)(() => {
-      let price = 1;
-      setInterval(() => {
-        recalculate.callExternal("price", ++price);
-      }, 5e3);
-    }, []);
-    console.log("render[App]");
-    return /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)(provider_default, { form, children: [
-      /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)(
-        "form",
-        {
-          onSubmit: form.handleSubmit(
-            (values2) => __async(this, null, function* () {
-              return new Promise(
-                (res) => setTimeout(() => {
-                  res();
-                  console.log(values2);
-                }, 5e3)
-              );
-            })
-          ),
-          children: [
-            /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("div", { children: [
-              /* @__PURE__ */ (0, import_jsx_runtime2.jsx)(Input, { name: "first" }),
-              /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)(
-                "select",
-                {
-                  value: values[0],
-                  onChange: ({ target: { value } }) => {
-                    setValues((prev) => {
-                      return prev[1] === value ? [value, prev[0]] : [value, prev[1]];
-                    });
-                    recalculate.callRecalculate("first");
-                  },
-                  children: [
-                    /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("option", { value: "a", children: "A" }),
-                    /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("option", { value: "b", children: "B" })
-                  ]
-                }
-              )
-            ] }),
-            /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("div", { children: [
-              /* @__PURE__ */ (0, import_jsx_runtime2.jsx)(Input, { name: "second" }),
-              /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)(
-                "select",
-                {
-                  value: values[1],
-                  onChange: ({ target: { value } }) => {
-                    setValues(
-                      (prev) => prev[0] === value ? [prev[1], value] : [prev[0], value]
-                    );
-                    recalculate.callRecalculate("second");
-                  },
-                  children: [
-                    /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("option", { value: "a", children: "A" }),
-                    /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("option", { value: "b", children: "B" })
-                  ]
-                }
-              )
-            ] }),
-            /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("button", { type: "submit", children: "submit" })
-          ]
-        }
-      ),
-      /* @__PURE__ */ (0, import_jsx_runtime2.jsx)(Button, {}),
-      /* @__PURE__ */ (0, import_jsx_runtime2.jsx)(Bottom, {})
+      recalculate.callExternal("multiple", mul);
+    }, [mul]);
+    return /* @__PURE__ */ (0, import_jsx_runtime4.jsxs)(provider_default, { form, children: [
+      /* @__PURE__ */ (0, import_jsx_runtime4.jsxs)("form", { onSubmit: form.handleSubmit((values) => console.log(values)), children: [
+        /* @__PURE__ */ (0, import_jsx_runtime4.jsx)("h1", { children: "Recalculate external" }),
+        /* @__PURE__ */ (0, import_jsx_runtime4.jsx)("div", { children: /* @__PURE__ */ (0, import_jsx_runtime4.jsx)(Input3, { name: "first", type: "number", label: "First" }) }),
+        /* @__PURE__ */ (0, import_jsx_runtime4.jsx)("div", { children: /* @__PURE__ */ (0, import_jsx_runtime4.jsx)(Input3, { name: "second", type: "number", label: "Second" }) }),
+        /* @__PURE__ */ (0, import_jsx_runtime4.jsx)("button", { type: "submit", children: "Submit" })
+      ] }),
+      /* @__PURE__ */ (0, import_jsx_runtime4.jsx)("button", { onClick: () => setMul((prev) => prev + 1), children: mul })
     ] });
   }
-  function Button() {
-    const form = useFormContext();
-    const { isSubmitting } = useFormState();
-    return /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("button", { disabled: isSubmitting, onClick: () => form.reset(), children: "reset" });
+  var recalculate_external_default = App3;
+
+  // dev/index.tsx
+  var import_jsx_runtime5 = __toESM(require_jsx_runtime());
+  var container = document.getElementById("root");
+  var root = (0, import_client.createRoot)(container);
+  root.render(/* @__PURE__ */ (0, import_jsx_runtime5.jsx)(App4, {}));
+  function App4() {
+    return /* @__PURE__ */ (0, import_jsx_runtime5.jsxs)(import_jsx_runtime5.Fragment, { children: [
+      /* @__PURE__ */ (0, import_jsx_runtime5.jsx)(login_default, {}),
+      /* @__PURE__ */ (0, import_jsx_runtime5.jsx)(recalculate_default, {}),
+      /* @__PURE__ */ (0, import_jsx_runtime5.jsx)(recalculate_external_default, {})
+    ] });
   }
 })();
 /*! Bundled license information:

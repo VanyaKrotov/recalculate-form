@@ -1,6 +1,5 @@
 import { FormEvent } from "react";
-import { PathTree, Path } from "projectx.state";
-import { ObserveState } from "projectx.state/src/modules";
+import { PathTree, Path, ObserveState } from "projectx.state";
 
 import {
   ChangeMode,
@@ -11,7 +10,7 @@ import {
   FormConstructorParams,
   FormData,
   FormDefaultValues,
-  FormState,
+  OnSubmit,
 } from "../shared";
 
 class Form<T extends FormDefaultValues, M extends string>
@@ -20,27 +19,43 @@ class Form<T extends FormDefaultValues, M extends string>
 {
   public data: FormData<T>;
 
-  private getDefaultState(): FormState {
-    return {
-      dirtyFields: new Set(),
-      touchedFields: new Set(),
-      isSubmitted: false,
-      isSubmitting: false,
-    };
-  }
-
   constructor(private readonly options: FormConstructorParams<T>) {
     super();
 
     this.data = {
       values: structuredClone(options.defaultValues),
-      state: this.getDefaultState(),
+      state: {
+        touchedFields: new Set(),
+        isSubmitted: false,
+        isSubmitting: false,
+      },
       errors: {},
     };
   }
 
   public get formState() {
     return this.data.state;
+  }
+
+  private baseCommit(changes: Commit<M>[]): boolean[] {
+    if (!changes.length) {
+      return [];
+    }
+
+    const changeTree = new PathTree();
+    const results: boolean[] = [];
+    for (const { path, value } of changes) {
+      changeTree.push(path);
+
+      results.push(Path.set(this.data, path, value));
+    }
+
+    this.emit({
+      changeTree,
+      detail: { prev: {} as T, curr: {} as T, modes: new Map(), values: false },
+    });
+
+    return results;
   }
 
   public commit(changes: Commit<M>[]): boolean[] {
@@ -55,40 +70,42 @@ class Form<T extends FormDefaultValues, M extends string>
     for (const { path, value, changeMode = "change" } of changes) {
       changeTree.push(path);
       modes.set(path, changeMode);
+      if (changeMode === "native") {
+        this.data.state.touchedFields.add(path);
+      }
 
-      results.push(Path.set(this.data, path, value));
+      results.push(Path.set(this.data.values, path, value));
     }
 
-    this.emit({ changeTree, detail: { prev, curr: this.data.values, modes } });
+    changeTree.push("state.touchedFields");
+
+    this.emit({
+      changeTree: PathTree.pushPrefix("values", changeTree),
+      detail: { prev, curr: this.data.values, modes, values: true },
+    });
 
     return results;
   }
 
   private change(values: Partial<FormData<T>>): void {
     const changeTree = new PathTree();
-    const prev = structuredClone(this.data.values);
-    type Key = keyof FormData<T>;
     for (const key in values) {
       changeTree.push(key);
 
       // @ts-ignore
-      this.data[key as Key] = values[key as Key];
+      this.data[key] = values[key];
     }
 
     this.emit({
       changeTree,
-      detail: { curr: this.data.values, prev, modes: new Map() },
+      detail: { curr: {} as T, prev: {} as T, modes: new Map(), values: false },
     });
   }
 
   public setErrors(errors: Errors): void {
-    this.commit(
-      Object.entries(errors).map(([path, error]) => ({
-        path,
-        value: error,
-        changeMode: "change",
-      }))
-    );
+    this.change({
+      errors: Object.assign(this.data.errors, errors),
+    });
   }
 
   public resetError(...paths: string[]): void {
@@ -97,11 +114,11 @@ class Form<T extends FormDefaultValues, M extends string>
       delete errors[path];
     }
 
-    this.change({ errors });
+    this.change({ errors: paths.length ? errors : {} });
   }
 
   public getValues(): T;
-  public getValues(paths?: string[]): unknown {
+  public getValues(...paths: string[]): unknown {
     if (!paths?.length) {
       return this.data.values;
     }
@@ -115,29 +132,33 @@ class Form<T extends FormDefaultValues, M extends string>
 
   public handleSubmit =
     (
-      onSubmit: (values: T) => void | Promise<void>
+      onSubmit: OnSubmit<T>
     ): ((event?: FormEvent<Element> | undefined) => void) =>
     async (event) => {
       event?.preventDefault();
 
-      this.commit([
+      this.baseCommit([
         { path: "state.isSubmitted", value: true },
         { path: "state.isSubmitting", value: true },
       ]);
 
       try {
-        await onSubmit(this.data.values);
+        await onSubmit(this.data);
       } catch (error) {
         console.error(error);
       } finally {
-        this.commit([{ path: "state.isSubmitting", value: false }]);
+        this.baseCommit([{ path: "state.isSubmitting", value: false }]);
       }
     };
 
   public reset(): void {
     this.change({
       values: structuredClone(this.options.defaultValues),
-      state: this.getDefaultState(),
+      state: {
+        touchedFields: new Set(),
+        isSubmitted: false,
+        isSubmitting: false,
+      },
       errors: {},
     });
   }
