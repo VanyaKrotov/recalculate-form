@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useForm, useField, FormProvider, useRecalculate } from "../../src";
+import { useForm, useField, FormProvider, useRecalculate } from "../../dist/dev";
 
 interface InputProps {
   name: string;

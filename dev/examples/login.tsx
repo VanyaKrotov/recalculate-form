@@ -1,4 +1,4 @@
-import { useForm, useField, FormProvider } from "../../src";
+import { useForm, useField, FormProvider } from "../../dist/dev";
 
 interface InputProps {
   name: string;

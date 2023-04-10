@@ -1,3 +1,4 @@
+"use strict";
 (() => {
   var __create = Object.create;
   var __defProp = Object.defineProperty;
@@ -53,26 +54,6 @@
     if (member.has(obj))
       throw TypeError("Cannot add the same private member more than once");
     member instanceof WeakSet ? member.add(obj) : member.set(obj, value);
-  };
-  var __async = (__this, __arguments, generator) => {
-    return new Promise((resolve, reject) => {
-      var fulfilled = (value) => {
-        try {
-          step(generator.next(value));
-        } catch (e) {
-          reject(e);
-        }
-      };
-      var rejected = (value) => {
-        try {
-          step(generator.throw(value));
-        } catch (e) {
-          reject(e);
-        }
-      };
-      var step = (x) => x.done ? resolve(x.value) : Promise.resolve(x.value).then(fulfilled, rejected);
-      step((generator = generator.apply(__this, __arguments)).next());
-    });
   };
 
   // node_modules/react/cjs/react.development.js
@@ -24450,12 +24431,32 @@
   // dev/index.tsx
   var import_client = __toESM(require_client());
 
-  // src/modules/hooks.ts
+  // dist/dev.js
+  var import_react = __toESM(require_react());
   var import_react2 = __toESM(require_react());
-
-  // node_modules/projectx.state/src/components/observer.ts
-  var _listeners;
-  var Observer = class {
+  var import_jsx_runtime = __toESM(require_jsx_runtime());
+  var __async = (__this, __arguments, generator) => {
+    return new Promise((resolve, reject) => {
+      var fulfilled = (value) => {
+        try {
+          step(generator.next(value));
+        } catch (e) {
+          reject(e);
+        }
+      };
+      var rejected = (value) => {
+        try {
+          step(generator.throw(value));
+        } catch (e) {
+          reject(e);
+        }
+      };
+      var step = (x) => x.done ? resolve(x.value) : Promise.resolve(x.value).then(fulfilled, rejected);
+      step((generator = generator.apply(__this, __arguments)).next());
+    });
+  };
+  var _listeners, _a;
+  var Observer = (_a = class {
     constructor() {
       __privateAdd(this, _listeners, /* @__PURE__ */ new Set());
     }
@@ -24475,10 +24476,7 @@
     dispose() {
       __privateGet(this, _listeners).clear();
     }
-  };
-  _listeners = new WeakMap();
-
-  // node_modules/projectx.state/src/components/batch-manager.ts
+  }, _listeners = new WeakMap(), _a);
   var BatchManager = class {
     constructor() {
       this.batches = [];
@@ -24500,8 +24498,6 @@
       batch2.forEach((handler) => handler());
     }
   };
-
-  // node_modules/projectx.state/src/shared/utils.ts
   var defaultEqualResolver = (a, b) => a === b;
   function isNull(target) {
     return target === null;
@@ -24515,8 +24511,6 @@
     }
     return true;
   }
-
-  // node_modules/projectx.state/src/components/path.ts
   function getRecursive(target, path) {
     if (!path.length) {
       return target;
@@ -24645,8 +24639,6 @@
     }
   };
   Path.pattern = /^([\w\d_-]+(\.{1}[\w\d_-]+)*)+$/;
-
-  // node_modules/projectx.state/src/components/path-tree.ts
   var PathTreeNode = class {
     constructor(path, children = {}) {
       this.path = path;
@@ -24710,11 +24702,7 @@
       return this.testTreeRecursive(this, node);
     }
   };
-
-  // node_modules/projectx.state/src/modules/batch.ts
   var manager = new BatchManager();
-
-  // node_modules/projectx.state/src/modules/state.ts
   var ObserveState = class extends Observer {
     reaction(selectors, action, {
       resolver = defaultEqualResolver,
@@ -24755,8 +24743,6 @@
       });
     }
   };
-
-  // src/modules/form.ts
   var Form = class extends ObserveState {
     constructor(options) {
       super();
@@ -24872,14 +24858,9 @@
     }
   };
   var form_default = Form;
-
-  // src/shared/constants.ts
-  var import_react = __toESM(require_react());
-  var FormContext = (0, import_react.createContext)(
+  var FormContext = (0, import_react2.createContext)(
     {}
   );
-
-  // src/modules/recalculate.ts
   function getRecalculateResult(result) {
     if (result && typeof result === "object") {
       return result;
@@ -24989,18 +24970,16 @@
       }
     };
   }
-
-  // src/modules/hooks.ts
   function useFormContext() {
-    return (0, import_react2.useContext)(FormContext);
+    return (0, import_react.useContext)(FormContext);
   }
   function useField(name, form) {
     const formContext = form || useFormContext();
-    const [value, setValue] = (0, import_react2.useState)(
+    const [value, setValue] = (0, import_react.useState)(
       () => Path.get(formContext.data.values, name)
     );
-    const [error, setError] = (0, import_react2.useState)(null);
-    (0, import_react2.useEffect)(() => {
+    const [error, setError] = (0, import_react.useState)(null);
+    (0, import_react.useEffect)(() => {
       const unsubscribeValue = formContext.watch(
         [`values.${name}`],
         () => setValue(Path.get(formContext.data.values, name))
@@ -25027,7 +25006,7 @@
     };
   }
   function useForm(options) {
-    const formApiRef = (0, import_react2.useRef)(null);
+    const formApiRef = (0, import_react.useRef)(null);
     if (!formApiRef.current) {
       formApiRef.current = new form_default(options);
     }
@@ -25035,20 +25014,19 @@
   }
   function useRecalculate(schema, form) {
     const formContext = form || useFormContext();
-    const resultRef = (0, import_react2.useRef)(null);
+    const resultRef = (0, import_react.useRef)(null);
     if (!resultRef.current) {
       resultRef.current = createRecalculate(formContext, schema);
     }
-    (0, import_react2.useEffect)(() => {
-      return () => {
-        resultRef.current.dispose();
-      };
-    }, []);
+    (0, import_react.useEffect)(
+      () => () => {
+        var _a2;
+        (_a2 = resultRef.current) == null ? void 0 : _a2.dispose();
+      },
+      []
+    );
     return resultRef.current;
   }
-
-  // src/modules/provider.tsx
-  var import_jsx_runtime = __toESM(require_jsx_runtime());
   function FormProvider({
     form,
     children

@@ -35,7 +35,7 @@ function createRecalculate<
     {} as Record<Keys, RecalculateField<T, E, M>>
   );
   let memo = structuredClone(defaultExternal);
-  let lastCalledPath: string;
+  let lastCalledPath: string | undefined;
   const workPromises = new Map<string, Promise<any>>();
 
   async function handleResult(
@@ -63,7 +63,7 @@ function createRecalculate<
 
     const commits: Commit<M>[] = [];
     for (const path in result) {
-      const { value, mode = "change" } = getRecalculateResult<M>(result[path]);
+      const { value, mode = "change" } = getRecalculateResult<M>(result[path]!);
 
       commits.push({ path, value, changeMode: mode });
     }

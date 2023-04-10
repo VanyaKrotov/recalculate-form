@@ -29,7 +29,7 @@ export function useField<
   M extends string = string
 >(name: string, form?: FormConstructor<V, M>): UseFieldResult<T> {
   const formContext = form || useFormContext();
-  const [value, setValue] = useState<T>(() =>
+  const [value, setValue] = useState<T | null>(() =>
     Path.get(formContext.data.values, name)
   );
   const [error, setError] = useState<string | null>(null);
@@ -112,11 +112,12 @@ export function useRecalculate<
     resultRef.current = createRecalculate<T, E, M>(formContext, schema);
   }
 
-  useEffect(() => {
-    return () => {
-      resultRef.current.dispose();
-    };
-  }, []);
+  useEffect(
+    () => () => {
+      resultRef.current?.dispose();
+    },
+    []
+  );
 
   return resultRef.current;
 }

@@ -5,7 +5,7 @@ const { runServer } = require("./server");
 esbuild
   .context({
     entryPoints: ["./dev/index.tsx"],
-    outfile: "dist/index.js",
+    outfile: "build/index.js",
     target: "es2015",
     bundle: true,
     sourcemap: true,
@@ -19,6 +19,6 @@ esbuild
   })
   .then(() =>
     runServer({
-      outDir: "dist",
+      outDir: "build",
     })
   );

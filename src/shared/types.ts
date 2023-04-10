@@ -108,7 +108,7 @@ export interface UseFieldResult<T> {
   };
   input: {
     name: string;
-    value: T;
+    value?: T;
     onChange: ChangeEventHandler<HTMLInputElement>;
   };
 }
