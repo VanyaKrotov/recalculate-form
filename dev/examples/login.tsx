@@ -1,4 +1,4 @@
-import { useForm, useField, FormProvider } from "../../dist/dev";
+import { useForm, useField, FormProvider, useCommit } from "../../src";
 
 interface InputProps {
   name: string;
@@ -26,6 +26,8 @@ function App() {
     defaultValues: { password: "", username: "" },
   });
 
+  const commit = useCommit(form);
+
   return (
     <FormProvider form={form}>
       <form onSubmit={form.handleSubmit((values) => console.log(values))}>
@@ -39,6 +41,10 @@ function App() {
 
         <button type="submit">Login</button>
       </form>
+
+      <button onClick={() => commit([{ path: "username", value: "test" }])}>
+        push
+      </button>
     </FormProvider>
   );
 }

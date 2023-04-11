@@ -88,7 +88,11 @@ export interface OnSubmit<T> {
 export interface FormConstructor<T extends FormDefaultValues, M extends string>
   extends ObserveStateInstance<FormData<T>, Details<T, M>> {
   getValues(): T;
-  getValues<T extends object>(...paths: string[]): T;
+  getValues<T extends Array<T>>(...paths: string[]): T;
+  getValues<T extends Record<string, unknown>>(
+    path: Record<string, boolean>
+  ): T;
+  getValues<T extends Array<T>>(paths: string[]): T;
   setErrors(errors: Errors): void;
   resetError(...paths: string[]): void;
   reset(): void;

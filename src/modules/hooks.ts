@@ -23,12 +23,25 @@ export function useFormContext<
   return useContext(FormContext) as FormConstructor<T, M>;
 }
 
+function useContextOrDefault<T extends object, M extends string = never>(
+  form?: FormConstructor<T, M>
+) {
+  const formContext = form || useFormContext();
+  if (!formContext) {
+    throw new Error(
+      "An error occurred while retrieving the form context. Check for context or pass it as an argument."
+    );
+  }
+
+  return formContext;
+}
+
 export function useField<
   T,
   V extends FormDefaultValues = FormDefaultValues,
   M extends string = string
 >(name: string, form?: FormConstructor<V, M>): UseFieldResult<T> {
-  const formContext = form || useFormContext();
+  const formContext = useContextOrDefault(form);
   const [value, setValue] = useState<T | null>(() =>
     Path.get(formContext.data.values, name)
   );
@@ -51,7 +64,7 @@ export function useField<
   return {
     input: {
       name,
-      value,
+      value: value || undefined,
       onChange: ({ target: { value } }) =>
         formContext.commit([{ path: name, value, changeMode: "native" }]),
     },
@@ -63,25 +76,35 @@ export function useField<
   };
 }
 
+export function useWatch<V extends object, R, M extends string>(
+  path: string,
+  form?: FormConstructor<V, M>
+): R;
 export function useWatch<
   V extends object,
   R extends FormDefaultValues,
   M extends string
->(paths: string[] = [], form?: FormConstructor<V, M>): R {
-  const formContext = form || useFormContext();
-  const [values, setValues] = useState<R>(() =>
-    formContext.getValues(...paths)
+>(paths?: string[], form?: FormConstructor<V, M>): R;
+
+export function useWatch(
+  paths: unknown,
+  form?: FormConstructor<FormDefaultValues, string>
+): unknown {
+  const formContext = useContextOrDefault(form);
+  const [values, setValues] = useState<unknown>(() =>
+    formContext.getValues(paths as string[])
   );
+
+  const watchPath = Array.isArray(paths)
+    ? paths.map((path) => `values.${path}`)
+    : [`values${paths ? `.${paths}` : ""}`];
 
   useEffect(
     () =>
-      formContext.watch(
-        paths.length ? paths.map((path) => `values.${path}`) : ["values"],
-        () => {
-          setValues(formContext.getValues(...paths));
-        }
+      formContext.watch(watchPath, () =>
+        setValues(formContext.getValues(paths as string[]))
       ),
-    paths
+    watchPath
   );
 
   return values;
@@ -106,7 +129,7 @@ export function useRecalculate<
   schema: RecalculateOptions<T, E, M>,
   form?: FormConstructor<T, M>
 ): JoinRecalculateResult<E> {
-  const formContext = form || useFormContext<T, M>();
+  const formContext = useContextOrDefault(form);
   const resultRef = useRef<JoinRecalculateResult<E> | null>(null);
   if (!resultRef.current) {
     resultRef.current = createRecalculate<T, E, M>(formContext, schema);
@@ -125,7 +148,7 @@ export function useRecalculate<
 export function useFormState<T extends object, M extends string>(
   form?: FormConstructor<T, M>
 ): FormState {
-  const formContext = form || useFormContext();
+  const formContext = useContextOrDefault(form);
   const [state, setState] = useState(() => formContext.data.state);
 
   useEffect(
@@ -143,7 +166,7 @@ export function useValidate<T extends FormDefaultValues, M extends string>(
   validator: ValidateCallback<T>,
   form: FormConstructor<T, M>
 ): void {
-  const formContext = form || useFormContext();
+  const formContext = useContextOrDefault(form);
 
   useEffect(
     () =>
@@ -166,7 +189,7 @@ export function useValidate<T extends FormDefaultValues, M extends string>(
 export function useErrors<T extends FormDefaultValues, M extends string>(
   form?: FormConstructor<T, M>
 ): Errors {
-  const formContext = form || useFormContext();
+  const formContext = useContextOrDefault(form);
   const [errors, setErrors] = useState<Errors>(() => formContext.data.errors);
 
   useEffect(
@@ -178,4 +201,12 @@ export function useErrors<T extends FormDefaultValues, M extends string>(
   );
 
   return errors;
+}
+
+export function useCommit<T extends FormDefaultValues, M extends string>(
+  form?: FormConstructor<T, M>
+) {
+  const formContext = useContextOrDefault(form);
+
+  return formContext.commit.bind(formContext);
 }

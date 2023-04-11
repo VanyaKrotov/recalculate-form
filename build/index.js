@@ -23,8 +23,15 @@
     return a;
   };
   var __spreadProps = (a, b) => __defProps(a, __getOwnPropDescs(b));
+  var __esm = (fn, res) => function __init() {
+    return fn && (res = (0, fn[__getOwnPropNames(fn)[0]])(fn = 0)), res;
+  };
   var __commonJS = (cb, mod) => function __require() {
     return mod || (0, cb[__getOwnPropNames(cb)[0]])((mod = { exports: {} }).exports, mod), mod.exports;
+  };
+  var __export = (target, all) => {
+    for (var name in all)
+      __defProp(target, name, { get: all[name], enumerable: true });
   };
   var __copyProps = (to, from, except, desc) => {
     if (from && typeof from === "object" || typeof from === "function") {
@@ -42,18 +49,26 @@
     isNodeMode || !mod || !mod.__esModule ? __defProp(target, "default", { value: mod, enumerable: true }) : target,
     mod
   ));
-  var __accessCheck = (obj, member, msg) => {
-    if (!member.has(obj))
-      throw TypeError("Cannot " + msg);
-  };
-  var __privateGet = (obj, member, getter) => {
-    __accessCheck(obj, member, "read from private field");
-    return getter ? getter.call(obj) : member.get(obj);
-  };
-  var __privateAdd = (obj, member, value) => {
-    if (member.has(obj))
-      throw TypeError("Cannot add the same private member more than once");
-    member instanceof WeakSet ? member.add(obj) : member.set(obj, value);
+  var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: true }), mod);
+  var __async = (__this, __arguments, generator) => {
+    return new Promise((resolve, reject) => {
+      var fulfilled = (value) => {
+        try {
+          step(generator.next(value));
+        } catch (e) {
+          reject(e);
+        }
+      };
+      var rejected = (value) => {
+        try {
+          step(generator.throw(value));
+        } catch (e) {
+          reject(e);
+        }
+      };
+      var step = (x) => x.done ? resolve(x.value) : Promise.resolve(x.value).then(fulfilled, rejected);
+      step((generator = generator.apply(__this, __arguments)).next());
+    });
   };
 
   // node_modules/react/cjs/react.development.js
@@ -815,7 +830,7 @@
             }
             return children;
           }
-          function createContext2(defaultValue) {
+          function createContext3(defaultValue) {
             var context = {
               $$typeof: REACT_CONTEXT_TYPE,
               // As a workaround to support multiple concurrent renderers, we categorize
@@ -1101,7 +1116,7 @@
             }
             return dispatcher;
           }
-          function useContext2(Context) {
+          function useContext3(Context) {
             var dispatcher = resolveDispatcher();
             {
               if (Context._context !== void 0) {
@@ -1115,7 +1130,7 @@
             }
             return dispatcher.useContext(Context);
           }
-          function useState3(initialState) {
+          function useState4(initialState) {
             var dispatcher = resolveDispatcher();
             return dispatcher.useState(initialState);
           }
@@ -1123,11 +1138,11 @@
             var dispatcher = resolveDispatcher();
             return dispatcher.useReducer(reducer, initialArg, init);
           }
-          function useRef2(initialValue) {
+          function useRef3(initialValue) {
             var dispatcher = resolveDispatcher();
             return dispatcher.useRef(initialValue);
           }
-          function useEffect3(create, deps) {
+          function useEffect4(create, deps) {
             var dispatcher = resolveDispatcher();
             return dispatcher.useEffect(create, deps);
           }
@@ -1895,7 +1910,7 @@
           exports.Suspense = REACT_SUSPENSE_TYPE;
           exports.__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED = ReactSharedInternals;
           exports.cloneElement = cloneElement$1;
-          exports.createContext = createContext2;
+          exports.createContext = createContext3;
           exports.createElement = createElement$1;
           exports.createFactory = createFactory;
           exports.createRef = createRef;
@@ -1906,18 +1921,18 @@
           exports.startTransition = startTransition;
           exports.unstable_act = act;
           exports.useCallback = useCallback;
-          exports.useContext = useContext2;
+          exports.useContext = useContext3;
           exports.useDebugValue = useDebugValue;
           exports.useDeferredValue = useDeferredValue;
-          exports.useEffect = useEffect3;
+          exports.useEffect = useEffect4;
           exports.useId = useId;
           exports.useImperativeHandle = useImperativeHandle;
           exports.useInsertionEffect = useInsertionEffect;
           exports.useLayoutEffect = useLayoutEffect;
           exports.useMemo = useMemo;
           exports.useReducer = useReducer;
-          exports.useRef = useRef2;
-          exports.useState = useState3;
+          exports.useRef = useRef3;
+          exports.useState = useState4;
           exports.useSyncExternalStore = useSyncExternalStore;
           exports.useTransition = useTransition;
           exports.version = ReactVersion;
@@ -3783,7 +3798,7 @@
             if (node.hasOwnProperty(valueField) || typeof descriptor === "undefined" || typeof descriptor.get !== "function" || typeof descriptor.set !== "function") {
               return;
             }
-            var get2 = descriptor.get, set3 = descriptor.set;
+            var get2 = descriptor.get, set4 = descriptor.set;
             Object.defineProperty(node, valueField, {
               configurable: true,
               get: function() {
@@ -3794,7 +3809,7 @@
                   checkFormFieldValueStringCoercion(value);
                 }
                 currentValue = "" + value;
-                set3.call(this, value);
+                set4.call(this, value);
               }
             });
             Object.defineProperty(node, valueField, {
@@ -5705,7 +5720,7 @@
           function has(key) {
             return key._reactInternals !== void 0;
           }
-          function set2(key, value) {
+          function set3(key, value) {
             key._reactInternals = value;
           }
           var NoFlags = (
@@ -6838,14 +6853,14 @@
           function includesSomeLane(a, b) {
             return (a & b) !== NoLanes;
           }
-          function isSubsetOfLanes(set3, subset) {
-            return (set3 & subset) === subset;
+          function isSubsetOfLanes(set4, subset) {
+            return (set4 & subset) === subset;
           }
           function mergeLanes(a, b) {
             return a | b;
           }
-          function removeLanes(set3, subset) {
-            return set3 & ~subset;
+          function removeLanes(set4, subset) {
+            return set4 & ~subset;
           }
           function intersectLanes(a, b) {
             return a & b;
@@ -8919,12 +8934,12 @@
               // Then we can remove this special list.
               // This is a breaking change that can wait until React 18.
               domEventName === "scroll";
-              var _listeners2 = accumulateSinglePhaseListeners(targetInst, reactName, nativeEvent.type, inCapturePhase, accumulateTargetOnly);
-              if (_listeners2.length > 0) {
+              var _listeners3 = accumulateSinglePhaseListeners(targetInst, reactName, nativeEvent.type, inCapturePhase, accumulateTargetOnly);
+              if (_listeners3.length > 0) {
                 var _event = new SyntheticEventCtor(reactName, reactEventType, null, nativeEvent, nativeEventTarget);
                 dispatchQueue.push({
                   event: _event,
-                  listeners: _listeners2
+                  listeners: _listeners3
                 });
               }
             }
@@ -11624,9 +11639,9 @@
               }
               return maybeStrictRoot;
             };
-            var setToSortedString = function(set3) {
+            var setToSortedString = function(set4) {
               var array = [];
-              set3.forEach(function(value) {
+              set4.forEach(function(value) {
                 array.push(value);
               });
               return array.sort().join(", ");
@@ -12710,7 +12725,7 @@
           function adoptClassInstance(workInProgress2, instance) {
             instance.updater = classComponentUpdater;
             workInProgress2.stateNode = instance;
-            set2(instance, workInProgress2);
+            set3(instance, workInProgress2);
             {
               instance._reactInternalInstance = fakeInternalInstance;
             }
@@ -23538,6 +23553,392 @@
     }
   });
 
+  // node_modules/projectx.state/dist/dev.js
+  var dev_exports = {};
+  __export(dev_exports, {
+    ObserveState: () => ObserveState,
+    Path: () => Path,
+    PathTree: () => PathTree,
+    batch: () => batch,
+    combine: () => combine,
+    default: () => State
+  });
+  function isNull(target) {
+    return target === null;
+  }
+  function isUndefined(target) {
+    return target === void 0;
+  }
+  function isEmptyObject(obj) {
+    for (const _key in obj) {
+      return false;
+    }
+    return true;
+  }
+  function getRecursive(target, path) {
+    if (!path.length) {
+      return target;
+    }
+    if (isNull(target) || isUndefined(target)) {
+      return null;
+    }
+    let next = void 0;
+    const [first, ...rest] = path;
+    if (target instanceof Map) {
+      next = target.get(first);
+    } else if (target instanceof Set) {
+      next = target.size < Number(first) ? void 0 : Array.from(target)[first];
+    } else if (first in target) {
+      next = target[first];
+    }
+    return isUndefined(next) ? null : getRecursive(next, rest);
+  }
+  function set(target, key, value) {
+    if (target instanceof Map) {
+      target.set(key, value);
+      return true;
+    }
+    if (target instanceof Set) {
+      throw new Error(
+        "The `Path.set` function does not support setting in values `Set` by key."
+      );
+    }
+    if (typeof target === "object") {
+      target[key] = value;
+      return true;
+    }
+    return false;
+  }
+  function setRecursive(target, path, value) {
+    if (isNull(target) || isUndefined(target)) {
+      return false;
+    }
+    const [first, ...rest] = path;
+    if (!rest.length) {
+      return set(target, first, value);
+    }
+    const next = getRecursive(target, [first]);
+    if (next) {
+      return setRecursive(next, rest, value);
+    }
+    const [second] = rest;
+    const isNumberKey = !Number.isNaN(Number(second));
+    const nextVal = isNumberKey ? new Array() : {};
+    if (target instanceof Map) {
+      target.set(first, nextVal);
+    } else if (target instanceof Set) {
+      const arr = Array.from(target);
+      arr[first] = nextVal;
+    } else if (typeof target === "object") {
+      target[first] = nextVal;
+    } else {
+      return false;
+    }
+    return setRecursive(nextVal, rest, value);
+  }
+  function hasRecursive(target, path) {
+    if (isNull(target) || isUndefined(target)) {
+      return false;
+    }
+    let next = null;
+    let has = true;
+    const [first, ...rest] = path;
+    if (target instanceof Map) {
+      next = target.get(first);
+      has = target.has(first);
+    } else if (target instanceof Set) {
+      const array = Array.from(target);
+      has = first in array;
+      next = array[first];
+    } else if (first in target) {
+      has = first in target;
+      next = target[first];
+    } else {
+      return false;
+    }
+    if (!has || !rest.length) {
+      return has;
+    }
+    return hasRecursive(next, rest);
+  }
+  function batch(handler) {
+    manager.open();
+    try {
+      handler();
+    } finally {
+      manager.close();
+    }
+  }
+  function combine(states) {
+    return new class extends ObserveState {
+      constructor() {
+        super();
+        this.unlisten = [];
+        const combined = {};
+        for (const key in states) {
+          const state = states[key];
+          combined[key] = state.data;
+          this.unlisten.push(
+            state.listen(
+              (event) => this.emit({
+                detail: event.detail,
+                changeTree: PathTree.pushPrefix(key, event.changeTree)
+              })
+            )
+          );
+        }
+        this.data = combined;
+      }
+      dispose() {
+        this.unlisten.forEach((unlisten) => unlisten());
+        super.dispose();
+      }
+    }();
+  }
+  var __accessCheck, __privateGet, __privateAdd, defaultEqualResolver, _listeners, Observer, Path, PathTreeNode, PathTree, BatchManager, manager, ObserveState, State;
+  var init_dev = __esm({
+    "node_modules/projectx.state/dist/dev.js"() {
+      __accessCheck = (obj, member, msg) => {
+        if (!member.has(obj))
+          throw TypeError("Cannot " + msg);
+      };
+      __privateGet = (obj, member, getter) => {
+        __accessCheck(obj, member, "read from private field");
+        return getter ? getter.call(obj) : member.get(obj);
+      };
+      __privateAdd = (obj, member, value) => {
+        if (member.has(obj))
+          throw TypeError("Cannot add the same private member more than once");
+        member instanceof WeakSet ? member.add(obj) : member.set(obj, value);
+      };
+      defaultEqualResolver = (a, b) => a === b;
+      Observer = class {
+        constructor() {
+          __privateAdd(this, _listeners, /* @__PURE__ */ new Set());
+        }
+        listen(listener) {
+          __privateGet(this, _listeners).add(listener);
+          return () => {
+            __privateGet(this, _listeners).delete(listener);
+          };
+        }
+        emit(event) {
+          for (const listener of __privateGet(this, _listeners)) {
+            if (listener(event)) {
+              return;
+            }
+          }
+        }
+        dispose() {
+          __privateGet(this, _listeners).clear();
+        }
+      };
+      _listeners = /* @__PURE__ */ new WeakMap();
+      Path = class {
+        static isValid(path) {
+          return this.pattern.test(path);
+        }
+        static get(target, path) {
+          if (!path) {
+            return target;
+          }
+          if (!this.isValid(path)) {
+            console.assert(false, `[px.state] Path \`${path}\` is not valid.`);
+            return target;
+          }
+          return getRecursive(target, path.split("."));
+        }
+        static has(target, path) {
+          if (!this.isValid(path)) {
+            console.assert(false, `[px.state] Path \`${path}\` is not valid.`);
+            return false;
+          }
+          return hasRecursive(target, path.split("."));
+        }
+        static set(target, path, value) {
+          if (!path) {
+            return false;
+          }
+          if (!this.isValid(path)) {
+            console.assert(false, `[px.state] Path \`${path}\` is not valid.`);
+            return false;
+          }
+          return setRecursive(target, path.split("."), value);
+        }
+        static toLodashPath(path) {
+          return path.replace(/\.(\d)+/g, "[$1]").replace(/^(\d)+\./gm, "[$1].");
+        }
+        static fromString(path) {
+          return path.split(".");
+        }
+        static toString(path) {
+          return path.join(".");
+        }
+      };
+      Path.pattern = /^([\w\d_-]+(\.{1}[\w\d_-]+)*)+$/;
+      PathTreeNode = class {
+        constructor(path, children = {}) {
+          this.path = path;
+          this.children = children;
+          this.point = false;
+        }
+        get isEmpty() {
+          return isEmptyObject(this.children);
+        }
+      };
+      PathTree = class extends PathTreeNode {
+        constructor(paths = []) {
+          super("");
+          this.createTree(paths);
+        }
+        static pushPrefix(path, node) {
+          const tree = new PathTree();
+          tree.children[path] = new PathTreeNode(path, node.children);
+          return tree;
+        }
+        pushNode(node, [path, ...rest]) {
+          if (path in node.children) {
+            node.children[path].point = true;
+          } else {
+            node.children[path] = new PathTreeNode(path);
+          }
+          if (rest.length) {
+            return this.pushNode(node.children[path], rest);
+          }
+        }
+        createTree(paths) {
+          for (const path of paths) {
+            if (!Path.isValid(path)) {
+              console.assert(false, `[px.state] Path \`${path}\` is not valid!`);
+              continue;
+            }
+            this.pushNode(this, Path.fromString(path));
+          }
+        }
+        push(path) {
+          this.pushNode(this, Path.fromString(path));
+        }
+        testTreeRecursive(watch, change) {
+          if (watch.point || watch.isEmpty && change.isEmpty || change.isEmpty != watch.isEmpty) {
+            return true;
+          }
+          for (const key in watch.children) {
+            if (!(key in change.children)) {
+              continue;
+            }
+            if (this.testTreeRecursive(watch.children[key], change.children[key])) {
+              return true;
+            }
+          }
+          return false;
+        }
+        includes(node) {
+          if (node.isEmpty) {
+            return this.isEmpty;
+          }
+          return this.testTreeRecursive(this, node);
+        }
+      };
+      BatchManager = class {
+        constructor() {
+          this.batches = [];
+        }
+        open() {
+          this.batches.push(/* @__PURE__ */ new Set());
+        }
+        action(handler) {
+          if (!this.batches.length) {
+            return handler();
+          }
+          this.batches[this.batches.length - 1].add(handler);
+        }
+        close() {
+          const batch22 = this.batches.pop();
+          if (!batch22) {
+            return;
+          }
+          batch22.forEach((handler) => handler());
+        }
+      };
+      manager = new BatchManager();
+      ObserveState = class extends Observer {
+        reaction(selectors, action, {
+          resolver = defaultEqualResolver,
+          initCall = false
+        } = {}) {
+          const callSelectors = () => selectors.map((selector) => selector(this.data));
+          const hasSelector = selectors.length > 0;
+          let memo = callSelectors();
+          if (initCall) {
+            action.apply(null, memo);
+          }
+          const handler = () => {
+            if (!hasSelector) {
+              return action.apply(null);
+            }
+            const values = callSelectors();
+            if (values.every((value, index) => resolver(value, memo[index]))) {
+              return;
+            }
+            memo = values;
+            return action.apply(null, memo);
+          };
+          return this.listen(() => manager.action(handler));
+        }
+        watch(paths, action, { initCall = false } = {}) {
+          let tree = paths;
+          if (!(paths instanceof PathTree)) {
+            tree = new PathTree(paths);
+          }
+          if (initCall) {
+            action();
+          }
+          return this.listen(({ changeTree }) => {
+            if (!tree.includes(changeTree)) {
+              return;
+            }
+            return manager.action(action);
+          });
+        }
+      };
+      State = class extends ObserveState {
+        change(value) {
+          const changeTree = new PathTree();
+          for (const key in value) {
+            changeTree.push(key);
+            this.data[key] = value[key];
+          }
+          this.emit({
+            changeTree,
+            detail: {}
+          });
+        }
+        commit(changes) {
+          const changeTree = new PathTree();
+          const results = [];
+          for (const { path, value } of changes) {
+            changeTree.push(path);
+            results.push(Path.set(this.data, path, value));
+          }
+          this.emit({ changeTree, detail: {} });
+          return results;
+        }
+      };
+    }
+  });
+
+  // node_modules/projectx.state/dist/main.js
+  var require_main = __commonJS({
+    "node_modules/projectx.state/dist/main.js"(exports, module) {
+      "use strict";
+      if (false) {
+        module.exports = null;
+      } else {
+        module.exports = (init_dev(), __toCommonJS(dev_exports));
+      }
+    }
+  });
+
   // node_modules/react/cjs/react-jsx-runtime.development.js
   var require_react_jsx_runtime_development = __commonJS({
     "node_modules/react/cjs/react-jsx-runtime.development.js"(exports) {
@@ -24406,10 +24807,10 @@
               return jsxWithValidation(type, props, key, false);
             }
           }
-          var jsx6 = jsxWithValidationDynamic;
+          var jsx7 = jsxWithValidationDynamic;
           var jsxs5 = jsxWithValidationStatic;
           exports.Fragment = REACT_FRAGMENT_TYPE;
-          exports.jsx = jsx6;
+          exports.jsx = jsx7;
           exports.jsxs = jsxs5;
         })();
       }
@@ -24431,319 +24832,13 @@
   // dev/index.tsx
   var import_client = __toESM(require_client());
 
-  // dist/dev.js
-  var import_react = __toESM(require_react());
+  // src/modules/hooks.ts
   var import_react2 = __toESM(require_react());
-  var import_jsx_runtime = __toESM(require_jsx_runtime());
-  var __async = (__this, __arguments, generator) => {
-    return new Promise((resolve, reject) => {
-      var fulfilled = (value) => {
-        try {
-          step(generator.next(value));
-        } catch (e) {
-          reject(e);
-        }
-      };
-      var rejected = (value) => {
-        try {
-          step(generator.throw(value));
-        } catch (e) {
-          reject(e);
-        }
-      };
-      var step = (x) => x.done ? resolve(x.value) : Promise.resolve(x.value).then(fulfilled, rejected);
-      step((generator = generator.apply(__this, __arguments)).next());
-    });
-  };
-  var _listeners, _a;
-  var Observer = (_a = class {
-    constructor() {
-      __privateAdd(this, _listeners, /* @__PURE__ */ new Set());
-    }
-    listen(listener) {
-      __privateGet(this, _listeners).add(listener);
-      return () => {
-        __privateGet(this, _listeners).delete(listener);
-      };
-    }
-    emit(event) {
-      for (const listener of __privateGet(this, _listeners)) {
-        if (listener(event)) {
-          return;
-        }
-      }
-    }
-    dispose() {
-      __privateGet(this, _listeners).clear();
-    }
-  }, _listeners = new WeakMap(), _a);
-  var BatchManager = class {
-    constructor() {
-      this.batches = [];
-    }
-    open() {
-      this.batches.push(/* @__PURE__ */ new Set());
-    }
-    action(handler) {
-      if (!this.batches.length) {
-        return handler();
-      }
-      this.batches[this.batches.length - 1].add(handler);
-    }
-    close() {
-      const batch2 = this.batches.pop();
-      if (!batch2) {
-        return;
-      }
-      batch2.forEach((handler) => handler());
-    }
-  };
-  var defaultEqualResolver = (a, b) => a === b;
-  function isNull(target) {
-    return target === null;
-  }
-  function isUndefined(target) {
-    return target === void 0;
-  }
-  function isEmptyObject(obj) {
-    for (const _key in obj) {
-      return false;
-    }
-    return true;
-  }
-  function getRecursive(target, path) {
-    if (!path.length) {
-      return target;
-    }
-    if (isNull(target) || isUndefined(target)) {
-      return null;
-    }
-    let next = void 0;
-    const [first, ...rest] = path;
-    if (target instanceof Map) {
-      next = target.get(first);
-    } else if (target instanceof Set) {
-      next = target.size < Number(first) ? void 0 : Array.from(target)[first];
-    } else if (first in target) {
-      next = target[first];
-    }
-    return isUndefined(next) ? null : getRecursive(next, rest);
-  }
-  function set(target, key, value) {
-    if (target instanceof Map) {
-      target.set(key, value);
-      return true;
-    }
-    if (target instanceof Set) {
-      throw new Error(
-        "The `Path.set` function does not support setting in values `Set` by key."
-      );
-    }
-    if (typeof target === "object") {
-      target[key] = value;
-      return true;
-    }
-    return false;
-  }
-  function setRecursive(target, path, value) {
-    if (isNull(target) || isUndefined(target)) {
-      return false;
-    }
-    const [first, ...rest] = path;
-    if (!rest.length) {
-      return set(target, first, value);
-    }
-    const next = getRecursive(target, [first]);
-    if (next) {
-      return setRecursive(next, rest, value);
-    }
-    const [second] = rest;
-    const isNumberKey = !Number.isNaN(Number(second));
-    const nextVal = isNumberKey ? new Array() : {};
-    if (target instanceof Map) {
-      target.set(first, nextVal);
-    } else if (target instanceof Set) {
-      const arr = Array.from(target);
-      arr[first] = nextVal;
-    } else if (typeof target === "object") {
-      target[first] = nextVal;
-    } else {
-      return false;
-    }
-    return setRecursive(nextVal, rest, value);
-  }
-  function hasRecursive(target, path) {
-    if (isNull(target) || isUndefined(target)) {
-      return false;
-    }
-    let next = null;
-    let has = true;
-    const [first, ...rest] = path;
-    if (target instanceof Map) {
-      next = target.get(first);
-      has = target.has(first);
-    } else if (target instanceof Set) {
-      const array = Array.from(target);
-      has = first in array;
-      next = array[first];
-    } else if (first in target) {
-      has = first in target;
-      next = target[first];
-    } else {
-      return false;
-    }
-    if (!has || !rest.length) {
-      return has;
-    }
-    return hasRecursive(next, rest);
-  }
-  var Path = class {
-    static isValid(path) {
-      return this.pattern.test(path);
-    }
-    static get(target, path) {
-      if (!path) {
-        return target;
-      }
-      if (!this.isValid(path)) {
-        console.assert(false, `[px.state] Path \`${path}\` is not valid.`);
-        return target;
-      }
-      return getRecursive(target, path.split("."));
-    }
-    static has(target, path) {
-      if (!this.isValid(path)) {
-        console.assert(false, `[px.state] Path \`${path}\` is not valid.`);
-        return false;
-      }
-      return hasRecursive(target, path.split("."));
-    }
-    static set(target, path, value) {
-      if (!path) {
-        return false;
-      }
-      if (!this.isValid(path)) {
-        console.assert(false, `[px.state] Path \`${path}\` is not valid.`);
-        return false;
-      }
-      return setRecursive(target, path.split("."), value);
-    }
-    static toLodashPath(path) {
-      return path.replaceAll(/\.(\d)+/g, "[$1]").replaceAll(/^(\d)+\./gm, "[$1].");
-    }
-    static fromString(path) {
-      return path.split(".");
-    }
-    static toString(path) {
-      return path.join(".");
-    }
-  };
-  Path.pattern = /^([\w\d_-]+(\.{1}[\w\d_-]+)*)+$/;
-  var PathTreeNode = class {
-    constructor(path, children = {}) {
-      this.path = path;
-      this.children = children;
-      this.point = false;
-    }
-    get isEmpty() {
-      return isEmptyObject(this.children);
-    }
-  };
-  var PathTree = class extends PathTreeNode {
-    constructor(paths = []) {
-      super("");
-      this.createTree(paths);
-    }
-    static pushPrefix(path, node) {
-      const tree = new PathTree();
-      tree.children[path] = new PathTreeNode(path, node.children);
-      return tree;
-    }
-    pushNode(node, [path, ...rest]) {
-      if (path in node.children) {
-        node.children[path].point = true;
-      } else {
-        node.children[path] = new PathTreeNode(path);
-      }
-      if (rest.length) {
-        return this.pushNode(node.children[path], rest);
-      }
-    }
-    createTree(paths) {
-      for (const path of paths) {
-        if (!Path.isValid(path)) {
-          console.assert(false, `[px.state] Path \`${path}\` is not valid!`);
-          continue;
-        }
-        this.pushNode(this, Path.fromString(path));
-      }
-    }
-    push(path) {
-      this.pushNode(this, Path.fromString(path));
-    }
-    testTreeRecursive(watch, change) {
-      if (watch.point || watch.isEmpty && change.isEmpty || change.isEmpty != watch.isEmpty) {
-        return true;
-      }
-      for (const key in watch.children) {
-        if (!(key in change.children)) {
-          continue;
-        }
-        if (this.testTreeRecursive(watch.children[key], change.children[key])) {
-          return true;
-        }
-      }
-      return false;
-    }
-    includes(node) {
-      if (node.isEmpty) {
-        return this.isEmpty;
-      }
-      return this.testTreeRecursive(this, node);
-    }
-  };
-  var manager = new BatchManager();
-  var ObserveState = class extends Observer {
-    reaction(selectors, action, {
-      resolver = defaultEqualResolver,
-      initCall = false
-    } = {}) {
-      const callSelectors = () => selectors.map((selector) => selector(this.data));
-      const hasSelector = selectors.length > 0;
-      let memo = callSelectors();
-      if (initCall) {
-        action.apply(null, memo);
-      }
-      const handler = () => {
-        if (!hasSelector) {
-          return action.apply(null);
-        }
-        const values = callSelectors();
-        if (values.every((value, index) => resolver(value, memo[index]))) {
-          return;
-        }
-        memo = values;
-        return action.apply(null, memo);
-      };
-      return this.listen(() => manager.action(handler));
-    }
-    watch(paths, action, { initCall = false } = {}) {
-      let tree = paths;
-      if (!(paths instanceof PathTree)) {
-        tree = new PathTree(paths);
-      }
-      if (initCall) {
-        action();
-      }
-      return this.listen(({ changeTree }) => {
-        if (!tree.includes(changeTree)) {
-          return;
-        }
-        return manager.action(action);
-      });
-    }
-  };
-  var Form = class extends ObserveState {
+  var import_projectx3 = __toESM(require_main());
+
+  // src/modules/form.ts
+  var import_projectx = __toESM(require_main());
+  var Form = class extends import_projectx.ObserveState {
     constructor(options) {
       super();
       this.options = options;
@@ -24778,11 +24873,11 @@
       if (!changes.length) {
         return [];
       }
-      const changeTree = new PathTree();
+      const changeTree = new import_projectx.PathTree();
       const results = [];
       for (const { path, value } of changes) {
         changeTree.push(path);
-        results.push(Path.set(this.data, path, value));
+        results.push(import_projectx.Path.set(this.data, path, value));
       }
       this.emit({
         changeTree,
@@ -24794,7 +24889,7 @@
       if (!changes.length) {
         return [];
       }
-      const changeTree = new PathTree();
+      const changeTree = new import_projectx.PathTree();
       const prev = structuredClone(this.data.values);
       const results = [];
       const modes = /* @__PURE__ */ new Map();
@@ -24804,17 +24899,17 @@
         if (changeMode === "native") {
           this.data.state.touchedFields.add(path);
         }
-        results.push(Path.set(this.data.values, path, value));
+        results.push(import_projectx.Path.set(this.data.values, path, value));
       }
       changeTree.push("state.touchedFields");
       this.emit({
-        changeTree: PathTree.pushPrefix("values", changeTree),
+        changeTree: import_projectx.PathTree.pushPrefix("values", changeTree),
         detail: { prev, curr: this.data.values, modes, values: true }
       });
       return results;
     }
     change(values) {
-      const changeTree = new PathTree();
+      const changeTree = new import_projectx.PathTree();
       for (const key in values) {
         changeTree.push(key);
         this.data[key] = values[key];
@@ -24836,12 +24931,32 @@
       }
       this.change({ errors: paths.length ? errors : {} });
     }
-    getValues(...paths) {
-      if (!(paths == null ? void 0 : paths.length)) {
+    getValues(...args) {
+      if (!args.length) {
         return this.data.values;
       }
-      return paths.reduce(
-        (acc, path) => Object.assign(acc, { [path]: Path.get(this.data.values, path) }),
+      if (args.length > 1) {
+        return args.reduce(
+          (acc, p) => acc.concat(import_projectx.Path.get(this.data.values, p)),
+          []
+        );
+      }
+      const [first] = args;
+      const type = typeof first;
+      if (type === "string") {
+        return import_projectx.Path.get(this.data.values, first);
+      }
+      if (!type || type !== "object") {
+        throw new Error("Invalid format argument of `getValues` method.");
+      }
+      if (Array.isArray(first)) {
+        return first.reduce(
+          (acc, p) => acc.concat(import_projectx.Path.get(this.data.values, p)),
+          []
+        );
+      }
+      return Object.keys(first).reduce(
+        (acc, p) => Object.assign(acc, { [p]: import_projectx.Path.get(this.data.values, p) }),
         {}
       );
     }
@@ -24858,131 +24973,39 @@
     }
   };
   var form_default = Form;
-  var FormContext = (0, import_react2.createContext)(
+
+  // src/shared/constants.ts
+  var import_react = __toESM(require_react());
+  var FormContext = (0, import_react.createContext)(
     {}
   );
-  function getRecalculateResult(result) {
-    if (result && typeof result === "object") {
-      return result;
-    }
-    return { value: result, mode: "change" };
-  }
-  function createRecalculate(form, { defaultExternal = {}, fields }) {
-    const recalculateMap = fields.reduce(
-      (acc, item) => Object.assign(acc, { [item.path]: item }),
-      {}
-    );
-    let memo = structuredClone(defaultExternal);
-    let lastCalledPath;
-    const workPromises = /* @__PURE__ */ new Map();
-    function handleResult(_0, _1, _2) {
-      return __async(this, arguments, function* (current, prev, { handler, path }) {
-        const handleResult2 = handler(current, prev, {
-          external: memo,
-          state: form.data.state,
-          values: form.data.values,
-          lastCalledPath
-        });
-        let result;
-        if (handleResult2 instanceof Promise) {
-          workPromises.set(String(path), handleResult2);
-          result = yield handleResult2;
-          if (workPromises.get(String(path)) !== handleResult2) {
-            return;
-          }
-        } else {
-          result = handleResult2;
-        }
-        const commits = [];
-        for (const path2 in result) {
-          const { value, mode = "change" } = getRecalculateResult(result[path2]);
-          commits.push({ path: path2, value, changeMode: mode });
-        }
-        form.commit(commits);
-      });
-    }
-    function callExternal(field, value) {
-      return __async(this, null, function* () {
-        if (!(field in recalculateMap)) {
-          return;
-        }
-        const options = recalculateMap[field];
-        const prev = Path.get(memo, String(field));
-        Path.set(memo, String(field), value);
-        try {
-          yield handleResult(value, prev, options);
-        } catch (e) {
-        }
-      });
-    }
-    function callRecalculate(field, detail) {
-      return __async(this, null, function* () {
-        const options = recalculateMap[field];
-        const { watchType = "native" } = options;
-        if (watchType !== (detail.modes.get(field) || "change")) {
-          return;
-        }
-        lastCalledPath = field;
-        try {
-          yield handleResult(
-            Path.get(detail.curr, field),
-            Path.get(detail.prev, field),
-            options
-          );
-        } catch (e) {
-        }
-      });
-    }
-    const entries = [];
-    for (const path in recalculateMap) {
-      if (!Path.has(form.data.values, path)) {
-        continue;
-      }
-      entries.push([path, new PathTree([`values.${path}`])]);
-    }
-    const unsubscribe = form.listen(({ changeTree, detail }) => {
-      const entry = detail.values && entries.find(([, tree]) => tree.includes(changeTree));
-      if (!entry) {
-        return;
-      }
-      callRecalculate(entry[0], detail);
-    });
-    return {
-      callExternal: (path, value) => callExternal(path, value),
-      callRecalculate: (path, value) => {
-        const options = recalculateMap[path];
-        if (!options) {
-          return;
-        }
-        form.commit([
-          {
-            path,
-            value: value === void 0 ? Path.get(form.data.values, path) : value,
-            changeMode: options.watchType || "native"
-          }
-        ]);
-      },
-      dispose: () => {
-        unsubscribe();
-        memo = structuredClone(defaultExternal);
-        lastCalledPath = void 0;
-        workPromises.clear();
-      }
-    };
-  }
+
+  // src/modules/recalculate.ts
+  var import_projectx2 = __toESM(require_main());
+
+  // src/modules/hooks.ts
   function useFormContext() {
-    return (0, import_react.useContext)(FormContext);
+    return (0, import_react2.useContext)(FormContext);
+  }
+  function useContextOrDefault(form) {
+    const formContext = form || useFormContext();
+    if (!formContext) {
+      throw new Error(
+        "An error occurred while retrieving the form context. Check for context or pass it as an argument."
+      );
+    }
+    return formContext;
   }
   function useField(name, form) {
-    const formContext = form || useFormContext();
-    const [value, setValue] = (0, import_react.useState)(
-      () => Path.get(formContext.data.values, name)
+    const formContext = useContextOrDefault(form);
+    const [value, setValue] = (0, import_react2.useState)(
+      () => import_projectx3.Path.get(formContext.data.values, name)
     );
-    const [error, setError] = (0, import_react.useState)(null);
-    (0, import_react.useEffect)(() => {
+    const [error, setError] = (0, import_react2.useState)(null);
+    (0, import_react2.useEffect)(() => {
       const unsubscribeValue = formContext.watch(
         [`values.${name}`],
-        () => setValue(Path.get(formContext.data.values, name))
+        () => setValue(import_projectx3.Path.get(formContext.data.values, name))
       );
       const unsubscribeError = formContext.watch(["errors"], () => {
         setError(formContext.data.errors[name]);
@@ -24995,7 +25018,7 @@
     return {
       input: {
         name,
-        value,
+        value: value || void 0,
         onChange: ({ target: { value: value2 } }) => formContext.commit([{ path: name, value: value2, changeMode: "native" }])
       },
       change: (value2) => formContext.commit([{ path: name, value: value2 }]),
@@ -25006,27 +25029,19 @@
     };
   }
   function useForm(options) {
-    const formApiRef = (0, import_react.useRef)(null);
+    const formApiRef = (0, import_react2.useRef)(null);
     if (!formApiRef.current) {
       formApiRef.current = new form_default(options);
     }
     return formApiRef.current;
   }
-  function useRecalculate(schema, form) {
-    const formContext = form || useFormContext();
-    const resultRef = (0, import_react.useRef)(null);
-    if (!resultRef.current) {
-      resultRef.current = createRecalculate(formContext, schema);
-    }
-    (0, import_react.useEffect)(
-      () => () => {
-        var _a2;
-        (_a2 = resultRef.current) == null ? void 0 : _a2.dispose();
-      },
-      []
-    );
-    return resultRef.current;
+  function useCommit(form) {
+    const formContext = useContextOrDefault(form);
+    return formContext.commit.bind(formContext);
   }
+
+  // src/modules/provider.tsx
+  var import_jsx_runtime = __toESM(require_jsx_runtime());
   function FormProvider({
     form,
     children
@@ -25055,33 +25070,812 @@
     const form = useForm({
       defaultValues: { password: "", username: "" }
     });
-    return /* @__PURE__ */ (0, import_jsx_runtime2.jsx)(provider_default, { form, children: /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("form", { onSubmit: form.handleSubmit((values) => console.log(values)), children: [
-      /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("h1", { children: "Login" }),
-      /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("div", { children: /* @__PURE__ */ (0, import_jsx_runtime2.jsx)(Input, { name: "username", type: "text", label: "Username" }) }),
-      /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("div", { children: /* @__PURE__ */ (0, import_jsx_runtime2.jsx)(Input, { name: "password", type: "password", label: "password" }) }),
-      /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("button", { type: "submit", children: "Login" })
-    ] }) });
+    const commit = useCommit(form);
+    return /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)(provider_default, { form, children: [
+      /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("form", { onSubmit: form.handleSubmit((values) => console.log(values)), children: [
+        /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("h1", { children: "Login" }),
+        /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("div", { children: /* @__PURE__ */ (0, import_jsx_runtime2.jsx)(Input, { name: "username", type: "text", label: "Username" }) }),
+        /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("div", { children: /* @__PURE__ */ (0, import_jsx_runtime2.jsx)(Input, { name: "password", type: "password", label: "password" }) }),
+        /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("button", { type: "submit", children: "Login" })
+      ] }),
+      /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("button", { onClick: () => commit([{ path: "username", value: "test" }]), children: "push" })
+    ] });
   }
   var login_default = App;
 
-  // dev/examples/recalculate.tsx
+  // dist/dev.js
+  var import_react3 = __toESM(require_react());
+  var import_react4 = __toESM(require_react());
   var import_jsx_runtime3 = __toESM(require_jsx_runtime());
+  var __create2 = Object.create;
+  var __defProp2 = Object.defineProperty;
+  var __getOwnPropDesc2 = Object.getOwnPropertyDescriptor;
+  var __getOwnPropNames2 = Object.getOwnPropertyNames;
+  var __getProtoOf2 = Object.getPrototypeOf;
+  var __hasOwnProp2 = Object.prototype.hasOwnProperty;
+  var __esm2 = (fn, res) => function __init() {
+    return fn && (res = (0, fn[__getOwnPropNames2(fn)[0]])(fn = 0)), res;
+  };
+  var __commonJS2 = (cb, mod) => function __require() {
+    return mod || (0, cb[__getOwnPropNames2(cb)[0]])((mod = { exports: {} }).exports, mod), mod.exports;
+  };
+  var __export2 = (target, all) => {
+    for (var name in all)
+      __defProp2(target, name, { get: all[name], enumerable: true });
+  };
+  var __copyProps2 = (to, from, except, desc) => {
+    if (from && typeof from === "object" || typeof from === "function") {
+      for (let key of __getOwnPropNames2(from))
+        if (!__hasOwnProp2.call(to, key) && key !== except)
+          __defProp2(to, key, { get: () => from[key], enumerable: !(desc = __getOwnPropDesc2(from, key)) || desc.enumerable });
+    }
+    return to;
+  };
+  var __toESM2 = (mod, isNodeMode, target) => (target = mod != null ? __create2(__getProtoOf2(mod)) : {}, __copyProps2(
+    // If the importer is in node compatibility mode or this is not an ESM
+    // file that has been converted to a CommonJS file using a Babel-
+    // compatible transform (i.e. "__esModule" has not been set), then set
+    // "default" to the CommonJS "module.exports" for node compatibility.
+    isNodeMode || !mod || !mod.__esModule ? __defProp2(target, "default", { value: mod, enumerable: true }) : target,
+    mod
+  ));
+  var __toCommonJS2 = (mod) => __copyProps2(__defProp2({}, "__esModule", { value: true }), mod);
+  var __async2 = (__this, __arguments, generator) => {
+    return new Promise((resolve, reject) => {
+      var fulfilled = (value) => {
+        try {
+          step(generator.next(value));
+        } catch (e) {
+          reject(e);
+        }
+      };
+      var rejected = (value) => {
+        try {
+          step(generator.throw(value));
+        } catch (e) {
+          reject(e);
+        }
+      };
+      var step = (x) => x.done ? resolve(x.value) : Promise.resolve(x.value).then(fulfilled, rejected);
+      step((generator = generator.apply(__this, __arguments)).next());
+    });
+  };
+  var dev_exports2 = {};
+  __export2(dev_exports2, {
+    ObserveState: () => ObserveState3,
+    Path: () => Path5,
+    PathTree: () => PathTree4,
+    batch: () => batch2,
+    combine: () => combine2,
+    default: () => State2
+  });
+  function isNull2(target) {
+    return target === null;
+  }
+  function isUndefined2(target) {
+    return target === void 0;
+  }
+  function isEmptyObject2(obj) {
+    for (const _key in obj) {
+      return false;
+    }
+    return true;
+  }
+  function getRecursive2(target, path) {
+    if (!path.length) {
+      return target;
+    }
+    if (isNull2(target) || isUndefined2(target)) {
+      return null;
+    }
+    let next = void 0;
+    const [first, ...rest] = path;
+    if (target instanceof Map) {
+      next = target.get(first);
+    } else if (target instanceof Set) {
+      next = target.size < Number(first) ? void 0 : Array.from(target)[first];
+    } else if (first in target) {
+      next = target[first];
+    }
+    return isUndefined2(next) ? null : getRecursive2(next, rest);
+  }
+  function set2(target, key, value) {
+    if (target instanceof Map) {
+      target.set(key, value);
+      return true;
+    }
+    if (target instanceof Set) {
+      throw new Error(
+        "The `Path.set` function does not support setting in values `Set` by key."
+      );
+    }
+    if (typeof target === "object") {
+      target[key] = value;
+      return true;
+    }
+    return false;
+  }
+  function setRecursive2(target, path, value) {
+    if (isNull2(target) || isUndefined2(target)) {
+      return false;
+    }
+    const [first, ...rest] = path;
+    if (!rest.length) {
+      return set2(target, first, value);
+    }
+    const next = getRecursive2(target, [first]);
+    if (next) {
+      return setRecursive2(next, rest, value);
+    }
+    const [second] = rest;
+    const isNumberKey = !Number.isNaN(Number(second));
+    const nextVal = isNumberKey ? new Array() : {};
+    if (target instanceof Map) {
+      target.set(first, nextVal);
+    } else if (target instanceof Set) {
+      const arr = Array.from(target);
+      arr[first] = nextVal;
+    } else if (typeof target === "object") {
+      target[first] = nextVal;
+    } else {
+      return false;
+    }
+    return setRecursive2(nextVal, rest, value);
+  }
+  function hasRecursive2(target, path) {
+    if (isNull2(target) || isUndefined2(target)) {
+      return false;
+    }
+    let next = null;
+    let has = true;
+    const [first, ...rest] = path;
+    if (target instanceof Map) {
+      next = target.get(first);
+      has = target.has(first);
+    } else if (target instanceof Set) {
+      const array = Array.from(target);
+      has = first in array;
+      next = array[first];
+    } else if (first in target) {
+      has = first in target;
+      next = target[first];
+    } else {
+      return false;
+    }
+    if (!has || !rest.length) {
+      return has;
+    }
+    return hasRecursive2(next, rest);
+  }
+  function batch2(handler) {
+    manager2.open();
+    try {
+      handler();
+    } finally {
+      manager2.close();
+    }
+  }
+  function combine2(states) {
+    return new class extends ObserveState3 {
+      constructor() {
+        super();
+        this.unlisten = [];
+        const combined = {};
+        for (const key in states) {
+          const state = states[key];
+          combined[key] = state.data;
+          this.unlisten.push(
+            state.listen(
+              (event) => this.emit({
+                detail: event.detail,
+                changeTree: PathTree4.pushPrefix(key, event.changeTree)
+              })
+            )
+          );
+        }
+        this.data = combined;
+      }
+      dispose() {
+        this.unlisten.forEach((unlisten) => unlisten());
+        super.dispose();
+      }
+    }();
+  }
+  var __accessCheck2;
+  var __privateGet2;
+  var __privateAdd2;
+  var defaultEqualResolver2;
+  var _listeners2;
+  var Observer2;
+  var Path5;
+  var PathTreeNode2;
+  var PathTree4;
+  var BatchManager2;
+  var manager2;
+  var ObserveState3;
+  var State2;
+  var init_dev2 = __esm2({
+    "node_modules/projectx.state/dist/dev.js"() {
+      __accessCheck2 = (obj, member, msg) => {
+        if (!member.has(obj))
+          throw TypeError("Cannot " + msg);
+      };
+      __privateGet2 = (obj, member, getter) => {
+        __accessCheck2(obj, member, "read from private field");
+        return getter ? getter.call(obj) : member.get(obj);
+      };
+      __privateAdd2 = (obj, member, value) => {
+        if (member.has(obj))
+          throw TypeError("Cannot add the same private member more than once");
+        member instanceof WeakSet ? member.add(obj) : member.set(obj, value);
+      };
+      defaultEqualResolver2 = (a, b) => a === b;
+      Observer2 = class {
+        constructor() {
+          __privateAdd2(this, _listeners2, /* @__PURE__ */ new Set());
+        }
+        listen(listener) {
+          __privateGet2(this, _listeners2).add(listener);
+          return () => {
+            __privateGet2(this, _listeners2).delete(listener);
+          };
+        }
+        emit(event) {
+          for (const listener of __privateGet2(this, _listeners2)) {
+            if (listener(event)) {
+              return;
+            }
+          }
+        }
+        dispose() {
+          __privateGet2(this, _listeners2).clear();
+        }
+      };
+      _listeners2 = /* @__PURE__ */ new WeakMap();
+      Path5 = class {
+        static isValid(path) {
+          return this.pattern.test(path);
+        }
+        static get(target, path) {
+          if (!path) {
+            return target;
+          }
+          if (!this.isValid(path)) {
+            console.assert(false, `[px.state] Path \`${path}\` is not valid.`);
+            return target;
+          }
+          return getRecursive2(target, path.split("."));
+        }
+        static has(target, path) {
+          if (!this.isValid(path)) {
+            console.assert(false, `[px.state] Path \`${path}\` is not valid.`);
+            return false;
+          }
+          return hasRecursive2(target, path.split("."));
+        }
+        static set(target, path, value) {
+          if (!path) {
+            return false;
+          }
+          if (!this.isValid(path)) {
+            console.assert(false, `[px.state] Path \`${path}\` is not valid.`);
+            return false;
+          }
+          return setRecursive2(target, path.split("."), value);
+        }
+        static toLodashPath(path) {
+          return path.replace(/\.(\d)+/g, "[$1]").replace(/^(\d)+\./gm, "[$1].");
+        }
+        static fromString(path) {
+          return path.split(".");
+        }
+        static toString(path) {
+          return path.join(".");
+        }
+      };
+      Path5.pattern = /^([\w\d_-]+(\.{1}[\w\d_-]+)*)+$/;
+      PathTreeNode2 = class {
+        constructor(path, children = {}) {
+          this.path = path;
+          this.children = children;
+          this.point = false;
+        }
+        get isEmpty() {
+          return isEmptyObject2(this.children);
+        }
+      };
+      PathTree4 = class extends PathTreeNode2 {
+        constructor(paths = []) {
+          super("");
+          this.createTree(paths);
+        }
+        static pushPrefix(path, node) {
+          const tree = new PathTree4();
+          tree.children[path] = new PathTreeNode2(path, node.children);
+          return tree;
+        }
+        pushNode(node, [path, ...rest]) {
+          if (path in node.children) {
+            node.children[path].point = true;
+          } else {
+            node.children[path] = new PathTreeNode2(path);
+          }
+          if (rest.length) {
+            return this.pushNode(node.children[path], rest);
+          }
+        }
+        createTree(paths) {
+          for (const path of paths) {
+            if (!Path5.isValid(path)) {
+              console.assert(false, `[px.state] Path \`${path}\` is not valid!`);
+              continue;
+            }
+            this.pushNode(this, Path5.fromString(path));
+          }
+        }
+        push(path) {
+          this.pushNode(this, Path5.fromString(path));
+        }
+        testTreeRecursive(watch, change) {
+          if (watch.point || watch.isEmpty && change.isEmpty || change.isEmpty != watch.isEmpty) {
+            return true;
+          }
+          for (const key in watch.children) {
+            if (!(key in change.children)) {
+              continue;
+            }
+            if (this.testTreeRecursive(watch.children[key], change.children[key])) {
+              return true;
+            }
+          }
+          return false;
+        }
+        includes(node) {
+          if (node.isEmpty) {
+            return this.isEmpty;
+          }
+          return this.testTreeRecursive(this, node);
+        }
+      };
+      BatchManager2 = class {
+        constructor() {
+          this.batches = [];
+        }
+        open() {
+          this.batches.push(/* @__PURE__ */ new Set());
+        }
+        action(handler) {
+          if (!this.batches.length) {
+            return handler();
+          }
+          this.batches[this.batches.length - 1].add(handler);
+        }
+        close() {
+          const batch22 = this.batches.pop();
+          if (!batch22) {
+            return;
+          }
+          batch22.forEach((handler) => handler());
+        }
+      };
+      manager2 = new BatchManager2();
+      ObserveState3 = class extends Observer2 {
+        reaction(selectors, action, {
+          resolver = defaultEqualResolver2,
+          initCall = false
+        } = {}) {
+          const callSelectors = () => selectors.map((selector) => selector(this.data));
+          const hasSelector = selectors.length > 0;
+          let memo = callSelectors();
+          if (initCall) {
+            action.apply(null, memo);
+          }
+          const handler = () => {
+            if (!hasSelector) {
+              return action.apply(null);
+            }
+            const values = callSelectors();
+            if (values.every((value, index) => resolver(value, memo[index]))) {
+              return;
+            }
+            memo = values;
+            return action.apply(null, memo);
+          };
+          return this.listen(() => manager2.action(handler));
+        }
+        watch(paths, action, { initCall = false } = {}) {
+          let tree = paths;
+          if (!(paths instanceof PathTree4)) {
+            tree = new PathTree4(paths);
+          }
+          if (initCall) {
+            action();
+          }
+          return this.listen(({ changeTree }) => {
+            if (!tree.includes(changeTree)) {
+              return;
+            }
+            return manager2.action(action);
+          });
+        }
+      };
+      State2 = class extends ObserveState3 {
+        change(value) {
+          const changeTree = new PathTree4();
+          for (const key in value) {
+            changeTree.push(key);
+            this.data[key] = value[key];
+          }
+          this.emit({
+            changeTree,
+            detail: {}
+          });
+        }
+        commit(changes) {
+          const changeTree = new PathTree4();
+          const results = [];
+          for (const { path, value } of changes) {
+            changeTree.push(path);
+            results.push(Path5.set(this.data, path, value));
+          }
+          this.emit({ changeTree, detail: {} });
+          return results;
+        }
+      };
+    }
+  });
+  var require_main2 = __commonJS2({
+    "node_modules/projectx.state/dist/main.js"(exports, module) {
+      "use strict";
+      if (false) {
+        module.exports = null;
+      } else {
+        module.exports = (init_dev2(), __toCommonJS2(dev_exports2));
+      }
+    }
+  });
+  var import_projectx32 = __toESM2(require_main2());
+  var import_projectx4 = __toESM2(require_main2());
+  var Form2 = class extends import_projectx4.ObserveState {
+    constructor(options) {
+      super();
+      this.options = options;
+      this.handleSubmit = (onSubmit) => (event) => __async2(this, null, function* () {
+        event == null ? void 0 : event.preventDefault();
+        this.baseCommit([
+          { path: "state.isSubmitted", value: true },
+          { path: "state.isSubmitting", value: true }
+        ]);
+        try {
+          yield onSubmit(this.data);
+        } catch (error) {
+          console.error(error);
+        } finally {
+          this.baseCommit([{ path: "state.isSubmitting", value: false }]);
+        }
+      });
+      this.data = {
+        values: structuredClone(options.defaultValues),
+        state: {
+          touchedFields: /* @__PURE__ */ new Set(),
+          isSubmitted: false,
+          isSubmitting: false
+        },
+        errors: {}
+      };
+    }
+    get formState() {
+      return this.data.state;
+    }
+    baseCommit(changes) {
+      if (!changes.length) {
+        return [];
+      }
+      const changeTree = new import_projectx4.PathTree();
+      const results = [];
+      for (const { path, value } of changes) {
+        changeTree.push(path);
+        results.push(import_projectx4.Path.set(this.data, path, value));
+      }
+      this.emit({
+        changeTree,
+        detail: { prev: {}, curr: {}, modes: /* @__PURE__ */ new Map(), values: false }
+      });
+      return results;
+    }
+    commit(changes) {
+      if (!changes.length) {
+        return [];
+      }
+      const changeTree = new import_projectx4.PathTree();
+      const prev = structuredClone(this.data.values);
+      const results = [];
+      const modes = /* @__PURE__ */ new Map();
+      for (const { path, value, changeMode = "change" } of changes) {
+        changeTree.push(path);
+        modes.set(path, changeMode);
+        if (changeMode === "native") {
+          this.data.state.touchedFields.add(path);
+        }
+        results.push(import_projectx4.Path.set(this.data.values, path, value));
+      }
+      changeTree.push("state.touchedFields");
+      this.emit({
+        changeTree: import_projectx4.PathTree.pushPrefix("values", changeTree),
+        detail: { prev, curr: this.data.values, modes, values: true }
+      });
+      return results;
+    }
+    change(values) {
+      const changeTree = new import_projectx4.PathTree();
+      for (const key in values) {
+        changeTree.push(key);
+        this.data[key] = values[key];
+      }
+      this.emit({
+        changeTree,
+        detail: { curr: {}, prev: {}, modes: /* @__PURE__ */ new Map(), values: false }
+      });
+    }
+    setErrors(errors) {
+      this.change({
+        errors: Object.assign(this.data.errors, errors)
+      });
+    }
+    resetError(...paths) {
+      const errors = this.data.errors;
+      for (const path of paths) {
+        delete errors[path];
+      }
+      this.change({ errors: paths.length ? errors : {} });
+    }
+    getValues(...args) {
+      if (!args.length) {
+        return this.data.values;
+      }
+      if (args.length > 1) {
+        return args.reduce(
+          (acc, p) => acc.concat(import_projectx4.Path.get(this.data.values, p)),
+          []
+        );
+      }
+      const [first] = args;
+      const type = typeof first;
+      if (type === "string") {
+        return import_projectx4.Path.get(this.data.values, first);
+      }
+      if (!type || type !== "object") {
+        throw new Error("Invalid format argument of `getValues` method.");
+      }
+      if (Array.isArray(first)) {
+        return first.reduce(
+          (acc, p) => acc.concat(import_projectx4.Path.get(this.data.values, p)),
+          []
+        );
+      }
+      return Object.keys(first).reduce(
+        (acc, p) => Object.assign(acc, { [p]: import_projectx4.Path.get(this.data.values, p) }),
+        {}
+      );
+    }
+    reset() {
+      this.change({
+        values: structuredClone(this.options.defaultValues),
+        state: {
+          touchedFields: /* @__PURE__ */ new Set(),
+          isSubmitted: false,
+          isSubmitting: false
+        },
+        errors: {}
+      });
+    }
+  };
+  var form_default2 = Form2;
+  var FormContext2 = (0, import_react4.createContext)(
+    {}
+  );
+  var import_projectx22 = __toESM2(require_main2());
+  function getRecalculateResult(result) {
+    if (result && typeof result === "object") {
+      return result;
+    }
+    return { value: result, mode: "change" };
+  }
+  function createRecalculate2(form, { defaultExternal = {}, fields }) {
+    const recalculateMap = fields.reduce(
+      (acc, item) => Object.assign(acc, { [item.path]: item }),
+      {}
+    );
+    let memo = structuredClone(defaultExternal);
+    let lastCalledPath;
+    const workPromises = /* @__PURE__ */ new Map();
+    function handleResult(_0, _1, _2) {
+      return __async2(this, arguments, function* (current, prev, { handler, path }) {
+        const handleResult2 = handler(current, prev, {
+          external: memo,
+          state: form.data.state,
+          values: form.data.values,
+          lastCalledPath
+        });
+        let result;
+        if (handleResult2 instanceof Promise) {
+          workPromises.set(String(path), handleResult2);
+          result = yield handleResult2;
+          if (workPromises.get(String(path)) !== handleResult2) {
+            return;
+          }
+        } else {
+          result = handleResult2;
+        }
+        const commits = [];
+        for (const path2 in result) {
+          const { value, mode = "change" } = getRecalculateResult(result[path2]);
+          commits.push({ path: path2, value, changeMode: mode });
+        }
+        form.commit(commits);
+      });
+    }
+    function callExternal(field, value) {
+      return __async2(this, null, function* () {
+        if (!(field in recalculateMap)) {
+          return;
+        }
+        const options = recalculateMap[field];
+        const prev = import_projectx22.Path.get(memo, String(field));
+        import_projectx22.Path.set(memo, String(field), value);
+        try {
+          yield handleResult(value, prev, options);
+        } catch (e) {
+        }
+      });
+    }
+    function callRecalculate(field, detail) {
+      return __async2(this, null, function* () {
+        const options = recalculateMap[field];
+        const { watchType = "native" } = options;
+        if (watchType !== (detail.modes.get(field) || "change")) {
+          return;
+        }
+        lastCalledPath = field;
+        try {
+          yield handleResult(
+            import_projectx22.Path.get(detail.curr, field),
+            import_projectx22.Path.get(detail.prev, field),
+            options
+          );
+        } catch (e) {
+        }
+      });
+    }
+    const entries = [];
+    for (const path in recalculateMap) {
+      if (!import_projectx22.Path.has(form.data.values, path)) {
+        continue;
+      }
+      entries.push([path, new import_projectx22.PathTree([`values.${path}`])]);
+    }
+    const unsubscribe = form.listen(({ changeTree, detail }) => {
+      const entry = detail.values && entries.find(([, tree]) => tree.includes(changeTree));
+      if (!entry) {
+        return;
+      }
+      callRecalculate(entry[0], detail);
+    });
+    return {
+      callExternal: (path, value) => callExternal(path, value),
+      callRecalculate: (path, value) => {
+        const options = recalculateMap[path];
+        if (!options) {
+          return;
+        }
+        form.commit([
+          {
+            path,
+            value: value === void 0 ? import_projectx22.Path.get(form.data.values, path) : value,
+            changeMode: options.watchType || "native"
+          }
+        ]);
+      },
+      dispose: () => {
+        unsubscribe();
+        memo = structuredClone(defaultExternal);
+        lastCalledPath = void 0;
+        workPromises.clear();
+      }
+    };
+  }
+  function useFormContext2() {
+    return (0, import_react3.useContext)(FormContext2);
+  }
+  function useContextOrDefault2(form) {
+    const formContext = form || useFormContext2();
+    if (!formContext) {
+      throw new Error(
+        "An error occurred while retrieving the form context. Check for context or pass it as an argument."
+      );
+    }
+    return formContext;
+  }
+  function useField2(name, form) {
+    const formContext = useContextOrDefault2(form);
+    const [value, setValue] = (0, import_react3.useState)(
+      () => import_projectx32.Path.get(formContext.data.values, name)
+    );
+    const [error, setError] = (0, import_react3.useState)(null);
+    (0, import_react3.useEffect)(() => {
+      const unsubscribeValue = formContext.watch(
+        [`values.${name}`],
+        () => setValue(import_projectx32.Path.get(formContext.data.values, name))
+      );
+      const unsubscribeError = formContext.watch(["errors"], () => {
+        setError(formContext.data.errors[name]);
+      });
+      return () => {
+        unsubscribeValue();
+        unsubscribeError();
+      };
+    }, [formContext, name]);
+    return {
+      input: {
+        name,
+        value: value || void 0,
+        onChange: ({ target: { value: value2 } }) => formContext.commit([{ path: name, value: value2, changeMode: "native" }])
+      },
+      change: (value2) => formContext.commit([{ path: name, value: value2 }]),
+      fieldState: {
+        isTouched: formContext.data.state.touchedFields.has(name),
+        error
+      }
+    };
+  }
+  function useForm2(options) {
+    const formApiRef = (0, import_react3.useRef)(null);
+    if (!formApiRef.current) {
+      formApiRef.current = new form_default2(options);
+    }
+    return formApiRef.current;
+  }
+  function useRecalculate(schema, form) {
+    const formContext = useContextOrDefault2(form);
+    const resultRef = (0, import_react3.useRef)(null);
+    if (!resultRef.current) {
+      resultRef.current = createRecalculate2(formContext, schema);
+    }
+    (0, import_react3.useEffect)(
+      () => () => {
+        var _a;
+        (_a = resultRef.current) == null ? void 0 : _a.dispose();
+      },
+      []
+    );
+    return resultRef.current;
+  }
+  function FormProvider2({
+    form,
+    children
+  }) {
+    return /* @__PURE__ */ (0, import_jsx_runtime3.jsx)(FormContext2.Provider, { value: form, children });
+  }
+  var provider_default2 = FormProvider2;
+
+  // dev/examples/recalculate.tsx
+  var import_jsx_runtime4 = __toESM(require_jsx_runtime());
   function Input2({ name, type, label }) {
     const {
       input,
       fieldState: { error }
-    } = useField(name);
-    return /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("label", { children: [
-      /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("span", { children: [
+    } = useField2(name);
+    return /* @__PURE__ */ (0, import_jsx_runtime4.jsxs)("label", { children: [
+      /* @__PURE__ */ (0, import_jsx_runtime4.jsxs)("span", { children: [
         label,
         " "
       ] }),
-      /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("input", __spreadProps(__spreadValues({}, input), { type })),
-      error && /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("div", { style: { color: "tomato" }, children: error })
+      /* @__PURE__ */ (0, import_jsx_runtime4.jsx)("input", __spreadProps(__spreadValues({}, input), { type })),
+      error && /* @__PURE__ */ (0, import_jsx_runtime4.jsx)("div", { style: { color: "tomato" }, children: error })
     ] });
   }
   function App2() {
-    const form = useForm({
+    const form = useForm2({
       defaultValues: { first: 0, second: 0 }
     });
     useRecalculate(
@@ -25107,35 +25901,35 @@
       },
       form
     );
-    return /* @__PURE__ */ (0, import_jsx_runtime3.jsx)(provider_default, { form, children: /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("form", { onSubmit: form.handleSubmit((values) => console.log(values)), children: [
-      /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("h1", { children: "Recalculate" }),
-      /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("div", { children: /* @__PURE__ */ (0, import_jsx_runtime3.jsx)(Input2, { name: "first", type: "number", label: "First" }) }),
-      /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("div", { children: /* @__PURE__ */ (0, import_jsx_runtime3.jsx)(Input2, { name: "second", type: "number", label: "Second" }) }),
-      /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("button", { type: "submit", children: "Submit" })
+    return /* @__PURE__ */ (0, import_jsx_runtime4.jsx)(provider_default2, { form, children: /* @__PURE__ */ (0, import_jsx_runtime4.jsxs)("form", { onSubmit: form.handleSubmit((values) => console.log(values)), children: [
+      /* @__PURE__ */ (0, import_jsx_runtime4.jsx)("h1", { children: "Recalculate" }),
+      /* @__PURE__ */ (0, import_jsx_runtime4.jsx)("div", { children: /* @__PURE__ */ (0, import_jsx_runtime4.jsx)(Input2, { name: "first", type: "number", label: "First" }) }),
+      /* @__PURE__ */ (0, import_jsx_runtime4.jsx)("div", { children: /* @__PURE__ */ (0, import_jsx_runtime4.jsx)(Input2, { name: "second", type: "number", label: "Second" }) }),
+      /* @__PURE__ */ (0, import_jsx_runtime4.jsx)("button", { type: "submit", children: "Submit" })
     ] }) });
   }
   var recalculate_default = App2;
 
   // dev/examples/recalculate-external.tsx
-  var import_react3 = __toESM(require_react());
-  var import_jsx_runtime4 = __toESM(require_jsx_runtime());
+  var import_react5 = __toESM(require_react());
+  var import_jsx_runtime5 = __toESM(require_jsx_runtime());
   function Input3({ name, type, label }) {
     const {
       input,
       fieldState: { error }
-    } = useField(name);
-    return /* @__PURE__ */ (0, import_jsx_runtime4.jsxs)("label", { children: [
-      /* @__PURE__ */ (0, import_jsx_runtime4.jsxs)("span", { children: [
+    } = useField2(name);
+    return /* @__PURE__ */ (0, import_jsx_runtime5.jsxs)("label", { children: [
+      /* @__PURE__ */ (0, import_jsx_runtime5.jsxs)("span", { children: [
         label,
         " "
       ] }),
-      /* @__PURE__ */ (0, import_jsx_runtime4.jsx)("input", __spreadProps(__spreadValues({}, input), { type })),
-      error && /* @__PURE__ */ (0, import_jsx_runtime4.jsx)("div", { style: { color: "tomato" }, children: error })
+      /* @__PURE__ */ (0, import_jsx_runtime5.jsx)("input", __spreadProps(__spreadValues({}, input), { type })),
+      error && /* @__PURE__ */ (0, import_jsx_runtime5.jsx)("div", { style: { color: "tomato" }, children: error })
     ] });
   }
   function App3() {
-    const [mul, setMul] = (0, import_react3.useState)(10);
-    const form = useForm({
+    const [mul, setMul] = (0, import_react5.useState)(10);
+    const form = useForm2({
       defaultValues: { first: 0, second: 0 }
     });
     const recalculate = useRecalculate(
@@ -25171,31 +25965,31 @@
       },
       form
     );
-    (0, import_react3.useEffect)(() => {
+    (0, import_react5.useEffect)(() => {
       recalculate.callExternal("multiple", mul);
     }, [mul]);
-    return /* @__PURE__ */ (0, import_jsx_runtime4.jsxs)(provider_default, { form, children: [
-      /* @__PURE__ */ (0, import_jsx_runtime4.jsxs)("form", { onSubmit: form.handleSubmit((values) => console.log(values)), children: [
-        /* @__PURE__ */ (0, import_jsx_runtime4.jsx)("h1", { children: "Recalculate external" }),
-        /* @__PURE__ */ (0, import_jsx_runtime4.jsx)("div", { children: /* @__PURE__ */ (0, import_jsx_runtime4.jsx)(Input3, { name: "first", type: "number", label: "First" }) }),
-        /* @__PURE__ */ (0, import_jsx_runtime4.jsx)("div", { children: /* @__PURE__ */ (0, import_jsx_runtime4.jsx)(Input3, { name: "second", type: "number", label: "Second" }) }),
-        /* @__PURE__ */ (0, import_jsx_runtime4.jsx)("button", { type: "submit", children: "Submit" })
+    return /* @__PURE__ */ (0, import_jsx_runtime5.jsxs)(provider_default2, { form, children: [
+      /* @__PURE__ */ (0, import_jsx_runtime5.jsxs)("form", { onSubmit: form.handleSubmit((values) => console.log(values)), children: [
+        /* @__PURE__ */ (0, import_jsx_runtime5.jsx)("h1", { children: "Recalculate external" }),
+        /* @__PURE__ */ (0, import_jsx_runtime5.jsx)("div", { children: /* @__PURE__ */ (0, import_jsx_runtime5.jsx)(Input3, { name: "first", type: "number", label: "First" }) }),
+        /* @__PURE__ */ (0, import_jsx_runtime5.jsx)("div", { children: /* @__PURE__ */ (0, import_jsx_runtime5.jsx)(Input3, { name: "second", type: "number", label: "Second" }) }),
+        /* @__PURE__ */ (0, import_jsx_runtime5.jsx)("button", { type: "submit", children: "Submit" })
       ] }),
-      /* @__PURE__ */ (0, import_jsx_runtime4.jsx)("button", { onClick: () => setMul((prev) => prev + 1), children: mul })
+      /* @__PURE__ */ (0, import_jsx_runtime5.jsx)("button", { onClick: () => setMul((prev) => prev + 1), children: mul })
     ] });
   }
   var recalculate_external_default = App3;
 
   // dev/index.tsx
-  var import_jsx_runtime5 = __toESM(require_jsx_runtime());
+  var import_jsx_runtime6 = __toESM(require_jsx_runtime());
   var container = document.getElementById("root");
   var root = (0, import_client.createRoot)(container);
-  root.render(/* @__PURE__ */ (0, import_jsx_runtime5.jsx)(App4, {}));
+  root.render(/* @__PURE__ */ (0, import_jsx_runtime6.jsx)(App4, {}));
   function App4() {
-    return /* @__PURE__ */ (0, import_jsx_runtime5.jsxs)(import_jsx_runtime5.Fragment, { children: [
-      /* @__PURE__ */ (0, import_jsx_runtime5.jsx)(login_default, {}),
-      /* @__PURE__ */ (0, import_jsx_runtime5.jsx)(recalculate_default, {}),
-      /* @__PURE__ */ (0, import_jsx_runtime5.jsx)(recalculate_external_default, {})
+    return /* @__PURE__ */ (0, import_jsx_runtime6.jsxs)(import_jsx_runtime6.Fragment, { children: [
+      /* @__PURE__ */ (0, import_jsx_runtime6.jsx)(login_default, {}),
+      /* @__PURE__ */ (0, import_jsx_runtime6.jsx)(recalculate_default, {}),
+      /* @__PURE__ */ (0, import_jsx_runtime6.jsx)(recalculate_external_default, {})
     ] });
   }
 })();

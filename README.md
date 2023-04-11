@@ -14,7 +14,6 @@ Or
 yarn add recalculate-form
 ```
 
-
 ## API
 
 ### `Form<T, M>` - основной класс для создания экземпляра формы
@@ -125,6 +124,8 @@ yarn add recalculate-form
 - `callRecalculate(field: string, value?: unknown): void` - функция для вызова перерасчетов формы (иммитирует изменение значения из поля ввода). Вызывает декораторы с типом мутации указанным для отслеживания;
 
 - `dispose: VoidFunction` - метод для очищеня дначений и отключения отслеживания значений;
+
+### `useCommit<T, M>(form?: FormConstructor<T, M>): CommitFunction` - хук для получения функции мутации значений формы.
 
 ### `FormProvider<T, M>` - `react` компонент провайдера формы;
 

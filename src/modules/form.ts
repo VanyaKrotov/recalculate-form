@@ -118,14 +118,42 @@ class Form<T extends FormDefaultValues, M extends string>
   }
 
   public getValues(): T;
-  public getValues(...paths: string[]): unknown {
-    if (!paths?.length) {
+  public getValues<T extends Array<T>>(...paths: string[]): T;
+  public getValues<T extends Array<T>>(paths: string[]): T;
+  public getValues<T extends Record<string, unknown>>(
+    path: Record<string, boolean>
+  ): T;
+  public getValues(...args: unknown[]): any {
+    if (!args.length) {
       return this.data.values;
     }
 
-    return paths.reduce(
-      (acc, path) =>
-        Object.assign(acc, { [path]: Path.get(this.data.values, path) }),
+    if (args.length > 1) {
+      return (args as string[]).reduce(
+        (acc: unknown[], p) => acc.concat(Path.get(this.data.values, p)),
+        []
+      );
+    }
+
+    const [first] = args;
+    const type = typeof first;
+    if (type === "string") {
+      return Path.get(this.data.values, first as string);
+    }
+
+    if (!type || type !== "object") {
+      throw new Error("Invalid format argument of `getValues` method.");
+    }
+
+    if (Array.isArray(first)) {
+      return first.reduce(
+        (acc: unknown[], p) => acc.concat(Path.get(this.data.values, p)),
+        []
+      );
+    }
+
+    return Object.keys(first as object).reduce(
+      (acc, p) => Object.assign(acc, { [p]: Path.get(this.data.values, p) }),
       {}
     );
   }
