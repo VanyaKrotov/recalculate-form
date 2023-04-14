@@ -10,6 +10,7 @@ import {
   FormConstructorParams,
   FormData,
   FormDefaultValues,
+  InputErrors,
   OnSubmit,
 } from "../shared";
 
@@ -102,13 +103,21 @@ class Form<T extends FormDefaultValues, M extends string>
     });
   }
 
-  public setErrors(errors: Errors): void {
+  public setErrors(errors: InputErrors): void {
     this.change({
-      errors: Object.assign(this.data.errors, errors),
+      errors: Object.entries(errors).reduce((acc, [key, error]) => {
+        if (error) {
+          acc[key] = error;
+        } else {
+          delete acc[key];
+        }
+
+        return acc;
+      }, this.data.errors),
     });
   }
 
-  public resetError(...paths: string[]): void {
+  public resetErrors(...paths: string[]): void {
     const errors = this.data.errors;
     for (const path of paths) {
       delete errors[path];

@@ -36,6 +36,21 @@ function useContextOrDefault<T extends object, M extends string = never>(
   return formContext;
 }
 
+function getOnChangeValue<T>(event: unknown): T {
+  if (
+    typeof event === "object" &&
+    event &&
+    "target" in event &&
+    event.target &&
+    typeof event.target === "object" &&
+    "value" in event.target
+  ) {
+    return event.target.value as T;
+  }
+
+  return event as T;
+}
+
 export function useField<
   T,
   V extends FormDefaultValues = FormDefaultValues,
@@ -64,9 +79,16 @@ export function useField<
   return {
     input: {
       name,
-      value: value || undefined,
-      onChange: ({ target: { value } }) =>
-        formContext.commit([{ path: name, value, changeMode: "native" }]),
+      value: (value || "") as T,
+      onChange: (event: unknown) => {
+        formContext.commit([
+          {
+            path: name,
+            value: getOnChangeValue<T>(event),
+            changeMode: "native",
+          },
+        ]);
+      },
     },
     change: (value: T) => formContext.commit([{ path: name, value }]),
     fieldState: {
@@ -164,43 +186,51 @@ export function useFormState<T extends object, M extends string>(
 
 export function useValidate<T extends FormDefaultValues, M extends string>(
   validator: ValidateCallback<T>,
-  form: FormConstructor<T, M>
+  deps: any[] = [],
+  form?: FormConstructor<T, M>
 ): void {
   const formContext = useContextOrDefault(form);
 
   useEffect(
     () =>
-      formContext.watch(["values"], () => {
-        const result = validator(
+      formContext.watch(["values"], async () => {
+        const result = await validator(
           formContext.data.values,
           formContext.data.errors
         );
 
-        if (result instanceof Promise) {
-          result.then((errors) => formContext.setErrors(errors));
+        if (result === null) {
+          formContext.resetErrors();
         } else {
           formContext.setErrors(result);
         }
       }),
-    [formContext]
+    [formContext].concat(deps)
   );
 }
 
-export function useErrors<T extends FormDefaultValues, M extends string>(
+export function useError<T extends FormDefaultValues, M extends string>(
   form?: FormConstructor<T, M>
-): Errors {
+): { errors: Errors } & Pick<
+  FormConstructor<T, M>,
+  "setErrors" | "resetErrors"
+> {
   const formContext = useContextOrDefault(form);
   const [errors, setErrors] = useState<Errors>(() => formContext.data.errors);
 
   useEffect(
     () =>
       formContext.watch(["errors"], () => {
-        setErrors(formContext.data.errors);
+        setErrors({ ...formContext.data.errors });
       }),
     [formContext]
   );
 
-  return errors;
+  return {
+    errors,
+    setErrors: formContext.setErrors.bind(formContext),
+    resetErrors: formContext.resetErrors.bind(formContext),
+  };
 }
 
 export function useCommit<T extends FormDefaultValues, M extends string>(

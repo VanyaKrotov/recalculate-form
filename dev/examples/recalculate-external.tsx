@@ -1,5 +1,5 @@
-import { useEffect, useState } from "react";
-import { useForm, useField, FormProvider, useRecalculate } from "../../dist/dev";
+import React, { useEffect, useState } from "react";
+import { useForm, useField, FormProvider, useRecalculate } from "../../src";
 
 interface InputProps {
   name: string;
@@ -11,7 +11,7 @@ function Input({ name, type, label }: InputProps) {
   const {
     input,
     fieldState: { error },
-  } = useField<string>(name);
+  } = useField(name);
 
   return (
     <label>
@@ -67,6 +67,8 @@ function App() {
   useEffect(() => {
     recalculate.callExternal("multiple", mul);
   }, [mul]);
+
+  recalculate.callRecalculate("");
 
   return (
     <FormProvider form={form}>

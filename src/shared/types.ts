@@ -1,5 +1,5 @@
 import { CommitChange, ObserveStateInstance } from "projectx.state";
-import { ChangeEventHandler, FormEvent } from "react";
+import { ChangeEvent, FormEvent } from "react";
 
 export type DefaultModes = "native" | "change";
 
@@ -57,7 +57,7 @@ export interface RecalculateOptions<
 }
 
 export interface ValidateCallback<T extends FormDefaultValues> {
-  (values: T, errors: Errors): Errors | Promise<Errors>;
+  (values: T, errors: Errors): InputErrors | null | Promise<InputErrors | null>;
 }
 
 export interface JoinRecalculateResult<E> {
@@ -77,6 +77,8 @@ export interface Details<T, M> {
 
 export type Errors = Record<string, string>;
 
+export type InputErrors = Record<string, string | null>;
+
 export interface Commit<M extends string> extends CommitChange {
   changeMode?: ChangeMode<M>;
 }
@@ -93,8 +95,8 @@ export interface FormConstructor<T extends FormDefaultValues, M extends string>
     path: Record<string, boolean>
   ): T;
   getValues<T extends Array<T>>(paths: string[]): T;
-  setErrors(errors: Errors): void;
-  resetError(...paths: string[]): void;
+  setErrors(errors: InputErrors): void;
+  resetErrors(...paths: string[]): void;
   reset(): void;
   commit(changes: Commit<ChangeMode<M>>[]): boolean[];
   handleSubmit(onSubmit: OnSubmit<T>): (event?: FormEvent) => void;
@@ -112,7 +114,8 @@ export interface UseFieldResult<T> {
   };
   input: {
     name: string;
-    value?: T;
-    onChange: ChangeEventHandler<HTMLInputElement>;
+    value: T;
+    onChange(event: ChangeEvent<HTMLInputElement>): void;
+    onChange(value: T): void;
   };
 }

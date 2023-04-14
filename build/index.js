@@ -2428,9 +2428,9 @@
           if (typeof __REACT_DEVTOOLS_GLOBAL_HOOK__ !== "undefined" && typeof __REACT_DEVTOOLS_GLOBAL_HOOK__.registerInternalModuleStart === "function") {
             __REACT_DEVTOOLS_GLOBAL_HOOK__.registerInternalModuleStart(new Error());
           }
-          var React = require_react();
+          var React2 = require_react();
           var Scheduler = require_scheduler();
-          var ReactSharedInternals = React.__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED;
+          var ReactSharedInternals = React2.__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED;
           var suppressWarning = false;
           function setSuppressWarning(newSuppressWarning) {
             {
@@ -4035,7 +4035,7 @@
             {
               if (props.value == null) {
                 if (typeof props.children === "object" && props.children !== null) {
-                  React.Children.forEach(props.children, function(child) {
+                  React2.Children.forEach(props.children, function(child) {
                     if (child == null) {
                       return;
                     }
@@ -12482,7 +12482,7 @@
             }
           }
           var fakeInternalInstance = {};
-          var emptyRefsObject = new React.Component().refs;
+          var emptyRefsObject = new React2.Component().refs;
           var didWarnAboutStateAssignmentForComponent;
           var didWarnAboutUninitializedState;
           var didWarnAboutGetSnapshotBeforeUpdateWithoutDidUpdate;
@@ -23946,7 +23946,7 @@
       if (true) {
         (function() {
           "use strict";
-          var React = require_react();
+          var React2 = require_react();
           var REACT_ELEMENT_TYPE = Symbol.for("react.element");
           var REACT_PORTAL_TYPE = Symbol.for("react.portal");
           var REACT_FRAGMENT_TYPE = Symbol.for("react.fragment");
@@ -23972,7 +23972,7 @@
             }
             return null;
           }
-          var ReactSharedInternals = React.__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED;
+          var ReactSharedInternals = React2.__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED;
           function error(format) {
             {
               {
@@ -24921,10 +24921,17 @@
     }
     setErrors(errors) {
       this.change({
-        errors: Object.assign(this.data.errors, errors)
+        errors: Object.entries(errors).reduce((acc, [key, error]) => {
+          if (error) {
+            acc[key] = error;
+          } else {
+            delete acc[key];
+          }
+          return acc;
+        }, this.data.errors)
       });
     }
-    resetError(...paths) {
+    resetErrors(...paths) {
       const errors = this.data.errors;
       for (const path of paths) {
         delete errors[path];
@@ -24982,6 +24989,115 @@
 
   // src/modules/recalculate.ts
   var import_projectx2 = __toESM(require_main());
+  function getRecalculateResult(result) {
+    if (result && typeof result === "object") {
+      return result;
+    }
+    return { value: result, mode: "change" };
+  }
+  function createRecalculate(form, { defaultExternal = {}, fields }) {
+    const recalculateMap = fields.reduce(
+      (acc, item) => Object.assign(acc, { [item.path]: item }),
+      {}
+    );
+    let memo = structuredClone(defaultExternal);
+    let lastCalledPath;
+    const workPromises = /* @__PURE__ */ new Map();
+    function handleResult(_0, _1, _2) {
+      return __async(this, arguments, function* (current, prev, { handler, path }) {
+        const handleResult2 = handler(current, prev, {
+          external: memo,
+          state: form.data.state,
+          values: form.data.values,
+          lastCalledPath
+        });
+        let result;
+        if (handleResult2 instanceof Promise) {
+          workPromises.set(String(path), handleResult2);
+          result = yield handleResult2;
+          if (workPromises.get(String(path)) !== handleResult2) {
+            return;
+          }
+        } else {
+          result = handleResult2;
+        }
+        const commits = [];
+        for (const path2 in result) {
+          const { value, mode = "change" } = getRecalculateResult(result[path2]);
+          commits.push({ path: path2, value, changeMode: mode });
+        }
+        form.commit(commits);
+      });
+    }
+    function callExternal(field, value) {
+      return __async(this, null, function* () {
+        if (!(field in recalculateMap)) {
+          return;
+        }
+        const options = recalculateMap[field];
+        const prev = import_projectx2.Path.get(memo, String(field));
+        import_projectx2.Path.set(memo, String(field), value);
+        try {
+          yield handleResult(value, prev, options);
+        } catch (e) {
+        }
+      });
+    }
+    function callRecalculate(field, detail) {
+      return __async(this, null, function* () {
+        const options = recalculateMap[field];
+        const { watchType = "native" } = options;
+        if (watchType !== (detail.modes.get(field) || "change")) {
+          return;
+        }
+        lastCalledPath = field;
+        try {
+          yield handleResult(
+            import_projectx2.Path.get(detail.curr, field),
+            import_projectx2.Path.get(detail.prev, field),
+            options
+          );
+        } catch (e) {
+        }
+      });
+    }
+    const entries = [];
+    for (const path in recalculateMap) {
+      if (!import_projectx2.Path.has(form.data.values, path)) {
+        continue;
+      }
+      entries.push([path, new import_projectx2.PathTree([`values.${path}`])]);
+    }
+    const unsubscribe = form.listen(({ changeTree, detail }) => {
+      const entry = detail.values && entries.find(([, tree]) => tree.includes(changeTree));
+      if (!entry) {
+        return;
+      }
+      callRecalculate(entry[0], detail);
+    });
+    return {
+      callExternal: (path, value) => callExternal(path, value),
+      callRecalculate: (path, value) => {
+        const options = recalculateMap[path];
+        if (!options) {
+          return;
+        }
+        form.commit([
+          {
+            path,
+            value: value === void 0 ? import_projectx2.Path.get(form.data.values, path) : value,
+            changeMode: options.watchType || "native"
+          }
+        ]);
+      },
+      dispose: () => {
+        unsubscribe();
+        memo = structuredClone(defaultExternal);
+        lastCalledPath = void 0;
+        workPromises.clear();
+      }
+    };
+  }
 
   // src/modules/hooks.ts
   function useFormContext() {
@@ -24995,6 +25111,12 @@
       );
     }
     return formContext;
+  }
+  function getOnChangeValue(event) {
+    if (typeof event === "object" && event && "target" in event && event.target && typeof event.target === "object" && "value" in event.target) {
+      return event.target.value;
+    }
+    return event;
   }
   function useField(name, form) {
     const formContext = useContextOrDefault(form);
@@ -25018,8 +25140,16 @@
     return {
       input: {
         name,
-        value: value || void 0,
-        onChange: ({ target: { value: value2 } }) => formContext.commit([{ path: name, value: value2, changeMode: "native" }])
+        value: value || "",
+        onChange: (event) => {
+          formContext.commit([
+            {
+              path: name,
+              value: getOnChangeValue(event),
+              changeMode: "native"
+            }
+          ]);
+        }
       },
       change: (value2) => formContext.commit([{ path: name, value: value2 }]),
       fieldState: {
@@ -25035,9 +25165,52 @@
     }
     return formApiRef.current;
   }
-  function useCommit(form) {
+  function useRecalculate(schema, form) {
     const formContext = useContextOrDefault(form);
-    return formContext.commit.bind(formContext);
+    const resultRef = (0, import_react2.useRef)(null);
+    if (!resultRef.current) {
+      resultRef.current = createRecalculate(formContext, schema);
+    }
+    (0, import_react2.useEffect)(
+      () => () => {
+        var _a;
+        (_a = resultRef.current) == null ? void 0 : _a.dispose();
+      },
+      []
+    );
+    return resultRef.current;
+  }
+  function useValidate(validator, deps = [], form) {
+    const formContext = useContextOrDefault(form);
+    (0, import_react2.useEffect)(
+      () => formContext.watch(["values"], () => __async(this, null, function* () {
+        const result = yield validator(
+          formContext.data.values,
+          formContext.data.errors
+        );
+        if (result === null) {
+          formContext.resetErrors();
+        } else {
+          formContext.setErrors(result);
+        }
+      })),
+      [formContext].concat(deps)
+    );
+  }
+  function useError(form) {
+    const formContext = useContextOrDefault(form);
+    const [errors, setErrors] = (0, import_react2.useState)(() => formContext.data.errors);
+    (0, import_react2.useEffect)(
+      () => formContext.watch(["errors"], () => {
+        setErrors(__spreadValues({}, formContext.data.errors));
+      }),
+      [formContext]
+    );
+    return {
+      errors,
+      setErrors: formContext.setErrors.bind(formContext),
+      resetErrors: formContext.resetErrors.bind(formContext)
+    };
   }
 
   // src/modules/provider.tsx
@@ -25070,7 +25243,18 @@
     const form = useForm({
       defaultValues: { password: "", username: "" }
     });
-    const commit = useCommit(form);
+    const { errors, resetErrors, setErrors } = useError(form);
+    useValidate(
+      ({ password, username }) => {
+        const errors2 = {};
+        errors2.password = password.length ? null : "Error";
+        errors2.username = username.length ? null : "Error";
+        return errors2;
+      },
+      [],
+      form
+    );
+    console.log(errors);
     return /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)(provider_default, { form, children: [
       /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("form", { onSubmit: form.handleSubmit((values) => console.log(values)), children: [
         /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("h1", { children: "Login" }),
@@ -25078,7 +25262,9 @@
         /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("div", { children: /* @__PURE__ */ (0, import_jsx_runtime2.jsx)(Input, { name: "password", type: "password", label: "password" }) }),
         /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("button", { type: "submit", children: "Login" })
       ] }),
-      /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("button", { onClick: () => commit([{ path: "username", value: "test" }]), children: "push" })
+      /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("button", { onClick: () => setErrors({ loading: "random text" }), children: "set errors" }),
+      /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("button", { onClick: () => setErrors({ loading: null }), children: "reset random errors" }),
+      /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("button", { onClick: () => resetErrors(), children: "reset errors" })
     ] });
   }
   var login_default = App;
@@ -25619,10 +25805,17 @@
     }
     setErrors(errors) {
       this.change({
-        errors: Object.assign(this.data.errors, errors)
+        errors: Object.entries(errors).reduce((acc, [key, error]) => {
+          if (error) {
+            acc[key] = error;
+          } else {
+            delete acc[key];
+          }
+          return acc;
+        }, this.data.errors)
       });
     }
-    resetError(...paths) {
+    resetErrors(...paths) {
       const errors = this.data.errors;
       for (const path of paths) {
         delete errors[path];
@@ -25675,7 +25868,7 @@
     {}
   );
   var import_projectx22 = __toESM2(require_main2());
-  function getRecalculateResult(result) {
+  function getRecalculateResult2(result) {
     if (result && typeof result === "object") {
       return result;
     }
@@ -25709,7 +25902,7 @@
         }
         const commits = [];
         for (const path2 in result) {
-          const { value, mode = "change" } = getRecalculateResult(result[path2]);
+          const { value, mode = "change" } = getRecalculateResult2(result[path2]);
           commits.push({ path: path2, value, changeMode: mode });
         }
         form.commit(commits);
@@ -25818,7 +26011,7 @@
     return {
       input: {
         name,
-        value: value || void 0,
+        value: value || "",
         onChange: ({ target: { value: value2 } }) => formContext.commit([{ path: name, value: value2, changeMode: "native" }])
       },
       change: (value2) => formContext.commit([{ path: name, value: value2 }]),
@@ -25835,7 +26028,7 @@
     }
     return formApiRef.current;
   }
-  function useRecalculate(schema, form) {
+  function useRecalculate2(schema, form) {
     const formContext = useContextOrDefault2(form);
     const resultRef = (0, import_react3.useRef)(null);
     if (!resultRef.current) {
@@ -25878,7 +26071,7 @@
     const form = useForm2({
       defaultValues: { first: 0, second: 0 }
     });
-    useRecalculate(
+    useRecalculate2(
       {
         fields: [
           {
@@ -25917,7 +26110,7 @@
     const {
       input,
       fieldState: { error }
-    } = useField2(name);
+    } = useField(name);
     return /* @__PURE__ */ (0, import_jsx_runtime5.jsxs)("label", { children: [
       /* @__PURE__ */ (0, import_jsx_runtime5.jsxs)("span", { children: [
         label,
@@ -25929,7 +26122,7 @@
   }
   function App3() {
     const [mul, setMul] = (0, import_react5.useState)(10);
-    const form = useForm2({
+    const form = useForm({
       defaultValues: { first: 0, second: 0 }
     });
     const recalculate = useRecalculate(
@@ -25968,7 +26161,8 @@
     (0, import_react5.useEffect)(() => {
       recalculate.callExternal("multiple", mul);
     }, [mul]);
-    return /* @__PURE__ */ (0, import_jsx_runtime5.jsxs)(provider_default2, { form, children: [
+    recalculate.callRecalculate("");
+    return /* @__PURE__ */ (0, import_jsx_runtime5.jsxs)(provider_default, { form, children: [
       /* @__PURE__ */ (0, import_jsx_runtime5.jsxs)("form", { onSubmit: form.handleSubmit((values) => console.log(values)), children: [
         /* @__PURE__ */ (0, import_jsx_runtime5.jsx)("h1", { children: "Recalculate external" }),
         /* @__PURE__ */ (0, import_jsx_runtime5.jsx)("div", { children: /* @__PURE__ */ (0, import_jsx_runtime5.jsx)(Input3, { name: "first", type: "number", label: "First" }) }),

@@ -1,4 +1,12 @@
-import { useForm, useField, FormProvider, useCommit } from "../../src";
+import React from "react";
+import {
+  useForm,
+  useField,
+  FormProvider,
+  useCommit,
+  useValidate,
+  useError,
+} from "../../src";
 
 interface InputProps {
   name: string;
@@ -26,7 +34,22 @@ function App() {
     defaultValues: { password: "", username: "" },
   });
 
-  const commit = useCommit(form);
+  const { errors, resetErrors, setErrors } = useError(form);
+
+  useValidate(
+    ({ password, username }) => {
+      const errors: any = {};
+
+      errors.password = password.length ? null : "Error";
+      errors.username = username.length ? null : "Error";
+
+      return errors;
+    },
+    [],
+    form
+  );
+
+  console.log(errors);
 
   return (
     <FormProvider form={form}>
@@ -42,9 +65,13 @@ function App() {
         <button type="submit">Login</button>
       </form>
 
-      <button onClick={() => commit([{ path: "username", value: "test" }])}>
-        push
+      <button onClick={() => setErrors({ loading: "random text" })}>
+        set errors
       </button>
+      <button onClick={() => setErrors({ loading: null })}>
+        reset random errors
+      </button>
+      <button onClick={() => resetErrors()}>reset errors</button>
     </FormProvider>
   );
 }
