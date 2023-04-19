@@ -9,6 +9,7 @@ import {
   FormContext,
   FormDefaultValues,
   FormState,
+  InputErrors,
   JoinRecalculateResult,
   RecalculateOptions,
   UseFieldResult,
@@ -52,7 +53,7 @@ function getOnChangeValue<T>(event: unknown): T {
 }
 
 export function useField<
-  T,
+  T = string,
   V extends FormDefaultValues = FormDefaultValues,
   M extends string = string
 >(name: string, form?: FormConstructor<V, M>): UseFieldResult<T> {
@@ -63,10 +64,10 @@ export function useField<
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    const unsubscribeValue = formContext.watch([`values.${name}`], () =>
-      setValue(Path.get(formContext.data.values, name))
-    );
-    const unsubscribeError = formContext.watch(["errors"], () => {
+    const unsubscribeValue = formContext.watch([`values.${name}`], () => {
+      setValue(Path.get(formContext.data.values, name));
+    });
+    const unsubscribeError = formContext.watch([`errors.${name}`], () => {
       setError(formContext.data.errors[name]);
     });
 
@@ -186,15 +187,14 @@ export function useFormState<T extends object, M extends string>(
 
 export function useValidate<T extends FormDefaultValues, M extends string>(
   validator: ValidateCallback<T>,
-  deps: any[] = [],
   form?: FormConstructor<T, M>
 ): void {
   const formContext = useContextOrDefault(form);
 
   useEffect(
     () =>
-      formContext.watch(["values"], async () => {
-        const result = await validator(
+      formContext.watch(["values"], () => {
+        const result = validator(
           formContext.data.values,
           formContext.data.errors
         );
@@ -205,7 +205,7 @@ export function useValidate<T extends FormDefaultValues, M extends string>(
           formContext.setErrors(result);
         }
       }),
-    [formContext].concat(deps)
+    [formContext, validator]
   );
 }
 

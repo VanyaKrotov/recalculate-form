@@ -57,7 +57,7 @@ export interface RecalculateOptions<
 }
 
 export interface ValidateCallback<T extends FormDefaultValues> {
-  (values: T, errors: Errors): InputErrors | null | Promise<InputErrors | null>;
+  (values: T, errors: Errors): InputErrors | null;
 }
 
 export interface JoinRecalculateResult<E> {

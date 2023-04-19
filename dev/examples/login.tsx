@@ -3,7 +3,6 @@ import {
   useForm,
   useField,
   FormProvider,
-  useCommit,
   useValidate,
   useError,
 } from "../../src";
@@ -17,14 +16,14 @@ interface InputProps {
 function Input({ name, type, label }: InputProps) {
   const {
     input,
-    fieldState: { error },
+    fieldState: { error, isTouched },
   } = useField<string>(name);
 
   return (
     <label>
       <span>{label} </span>
       <input {...input} type={type} />
-      {error && <div style={{ color: "tomato" }}>{error}</div>}
+      {error && isTouched && <div style={{ color: "tomato" }}>{error}</div>}
     </label>
   );
 }
@@ -36,18 +35,14 @@ function App() {
 
   const { errors, resetErrors, setErrors } = useError(form);
 
-  useValidate(
-    ({ password, username }) => {
-      const errors: any = {};
+  useValidate(({ password, username }) => {
+    const errors: any = {};
 
-      errors.password = password.length ? null : "Error";
-      errors.username = username.length ? null : "Error";
+    errors.password = password.length ? null : "Error";
+    errors.username = username.length ? null : "Error";
 
-      return errors;
-    },
-    [],
-    form
-  );
+    return errors;
+  }, form);
 
   console.log(errors);
 

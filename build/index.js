@@ -1130,7 +1130,7 @@
             }
             return dispatcher.useContext(Context);
           }
-          function useState4(initialState) {
+          function useState5(initialState) {
             var dispatcher = resolveDispatcher();
             return dispatcher.useState(initialState);
           }
@@ -1142,7 +1142,7 @@
             var dispatcher = resolveDispatcher();
             return dispatcher.useRef(initialValue);
           }
-          function useEffect4(create, deps) {
+          function useEffect5(create, deps) {
             var dispatcher = resolveDispatcher();
             return dispatcher.useEffect(create, deps);
           }
@@ -1924,7 +1924,7 @@
           exports.useContext = useContext3;
           exports.useDebugValue = useDebugValue;
           exports.useDeferredValue = useDeferredValue;
-          exports.useEffect = useEffect4;
+          exports.useEffect = useEffect5;
           exports.useId = useId;
           exports.useImperativeHandle = useImperativeHandle;
           exports.useInsertionEffect = useInsertionEffect;
@@ -1932,7 +1932,7 @@
           exports.useMemo = useMemo;
           exports.useReducer = useReducer;
           exports.useRef = useRef3;
-          exports.useState = useState4;
+          exports.useState = useState5;
           exports.useSyncExternalStore = useSyncExternalStore;
           exports.useTransition = useTransition;
           exports.version = ReactVersion;
@@ -2428,9 +2428,9 @@
           if (typeof __REACT_DEVTOOLS_GLOBAL_HOOK__ !== "undefined" && typeof __REACT_DEVTOOLS_GLOBAL_HOOK__.registerInternalModuleStart === "function") {
             __REACT_DEVTOOLS_GLOBAL_HOOK__.registerInternalModuleStart(new Error());
           }
-          var React2 = require_react();
+          var React3 = require_react();
           var Scheduler = require_scheduler();
-          var ReactSharedInternals = React2.__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED;
+          var ReactSharedInternals = React3.__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED;
           var suppressWarning = false;
           function setSuppressWarning(newSuppressWarning) {
             {
@@ -2479,7 +2479,7 @@
           var HostPortal = 4;
           var HostComponent = 5;
           var HostText = 6;
-          var Fragment2 = 7;
+          var Fragment3 = 7;
           var Mode = 8;
           var ContextConsumer = 9;
           var ContextProvider = 10;
@@ -3635,7 +3635,7 @@
                 return "DehydratedFragment";
               case ForwardRef:
                 return getWrappedName$1(type, type.render, "ForwardRef");
-              case Fragment2:
+              case Fragment3:
                 return "Fragment";
               case HostComponent:
                 return type;
@@ -4035,7 +4035,7 @@
             {
               if (props.value == null) {
                 if (typeof props.children === "object" && props.children !== null) {
-                  React2.Children.forEach(props.children, function(child) {
+                  React3.Children.forEach(props.children, function(child) {
                     if (child == null) {
                       return;
                     }
@@ -12482,7 +12482,7 @@
             }
           }
           var fakeInternalInstance = {};
-          var emptyRefsObject = new React2.Component().refs;
+          var emptyRefsObject = new React3.Component().refs;
           var didWarnAboutStateAssignmentForComponent;
           var didWarnAboutUninitializedState;
           var didWarnAboutGetSnapshotBeforeUpdateWithoutDidUpdate;
@@ -13306,7 +13306,7 @@
               }
             }
             function updateFragment2(returnFiber, current2, fragment, lanes, key) {
-              if (current2 === null || current2.tag !== Fragment2) {
+              if (current2 === null || current2.tag !== Fragment3) {
                 var created = createFiberFromFragment(fragment, returnFiber.mode, lanes, key);
                 created.return = returnFiber;
                 return created;
@@ -13709,7 +13709,7 @@
                 if (child.key === key) {
                   var elementType = element.type;
                   if (elementType === REACT_FRAGMENT_TYPE) {
-                    if (child.tag === Fragment2) {
+                    if (child.tag === Fragment3) {
                       deleteRemainingChildren(returnFiber, child.sibling);
                       var existing = useFiber(child, element.props.children);
                       existing.return = returnFiber;
@@ -17884,7 +17884,7 @@
                 var _resolvedProps2 = workInProgress2.elementType === type ? _unresolvedProps2 : resolveDefaultProps(type, _unresolvedProps2);
                 return updateForwardRef(current2, workInProgress2, type, _resolvedProps2, renderLanes2);
               }
-              case Fragment2:
+              case Fragment3:
                 return updateFragment(current2, workInProgress2, renderLanes2);
               case Mode:
                 return updateMode(current2, workInProgress2, renderLanes2);
@@ -18157,7 +18157,7 @@
               case SimpleMemoComponent:
               case FunctionComponent:
               case ForwardRef:
-              case Fragment2:
+              case Fragment3:
               case Mode:
               case Profiler:
               case ContextConsumer:
@@ -22416,7 +22416,7 @@
             return fiber;
           }
           function createFiberFromFragment(elements, mode, lanes, key) {
-            var fiber = createFiber(Fragment2, elements, key, mode);
+            var fiber = createFiber(Fragment3, elements, key, mode);
             fiber.lanes = lanes;
             return fiber;
           }
@@ -23946,7 +23946,7 @@
       if (true) {
         (function() {
           "use strict";
-          var React2 = require_react();
+          var React3 = require_react();
           var REACT_ELEMENT_TYPE = Symbol.for("react.element");
           var REACT_PORTAL_TYPE = Symbol.for("react.portal");
           var REACT_FRAGMENT_TYPE = Symbol.for("react.fragment");
@@ -23972,7 +23972,7 @@
             }
             return null;
           }
-          var ReactSharedInternals = React2.__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED;
+          var ReactSharedInternals = React3.__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED;
           function error(format) {
             {
               {
@@ -24807,11 +24807,11 @@
               return jsxWithValidation(type, props, key, false);
             }
           }
-          var jsx7 = jsxWithValidationDynamic;
-          var jsxs5 = jsxWithValidationStatic;
+          var jsx8 = jsxWithValidationDynamic;
+          var jsxs6 = jsxWithValidationStatic;
           exports.Fragment = REACT_FRAGMENT_TYPE;
-          exports.jsx = jsx7;
-          exports.jsxs = jsxs5;
+          exports.jsx = jsx8;
+          exports.jsxs = jsxs6;
         })();
       }
     }
@@ -25125,11 +25125,10 @@
     );
     const [error, setError] = (0, import_react2.useState)(null);
     (0, import_react2.useEffect)(() => {
-      const unsubscribeValue = formContext.watch(
-        [`values.${name}`],
-        () => setValue(import_projectx3.Path.get(formContext.data.values, name))
-      );
-      const unsubscribeError = formContext.watch(["errors"], () => {
+      const unsubscribeValue = formContext.watch([`values.${name}`], () => {
+        setValue(import_projectx3.Path.get(formContext.data.values, name));
+      });
+      const unsubscribeError = formContext.watch([`errors.${name}`], () => {
         setError(formContext.data.errors[name]);
       });
       return () => {
@@ -25180,11 +25179,11 @@
     );
     return resultRef.current;
   }
-  function useValidate(validator, deps = [], form) {
+  function useValidate(validator, form) {
     const formContext = useContextOrDefault(form);
     (0, import_react2.useEffect)(
-      () => formContext.watch(["values"], () => __async(this, null, function* () {
-        const result = yield validator(
+      () => formContext.watch(["values"], () => {
+        const result = validator(
           formContext.data.values,
           formContext.data.errors
         );
@@ -25193,8 +25192,8 @@
         } else {
           formContext.setErrors(result);
         }
-      })),
-      [formContext].concat(deps)
+      }),
+      [formContext, validator]
     );
   }
   function useError(form) {
@@ -25228,7 +25227,7 @@
   function Input({ name, type, label }) {
     const {
       input,
-      fieldState: { error }
+      fieldState: { error, isTouched }
     } = useField(name);
     return /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("label", { children: [
       /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("span", { children: [
@@ -25236,7 +25235,7 @@
         " "
       ] }),
       /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("input", __spreadProps(__spreadValues({}, input), { type })),
-      error && /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("div", { style: { color: "tomato" }, children: error })
+      error && isTouched && /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("div", { style: { color: "tomato" }, children: error })
     ] });
   }
   function App() {
@@ -25244,16 +25243,12 @@
       defaultValues: { password: "", username: "" }
     });
     const { errors, resetErrors, setErrors } = useError(form);
-    useValidate(
-      ({ password, username }) => {
-        const errors2 = {};
-        errors2.password = password.length ? null : "Error";
-        errors2.username = username.length ? null : "Error";
-        return errors2;
-      },
-      [],
-      form
-    );
+    useValidate(({ password, username }) => {
+      const errors2 = {};
+      errors2.password = password.length ? null : "Error";
+      errors2.username = username.length ? null : "Error";
+      return errors2;
+    }, form);
     console.log(errors);
     return /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)(provider_default, { form, children: [
       /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("form", { onSubmit: form.handleSubmit((values) => console.log(values)), children: [
@@ -25989,6 +25984,12 @@
     }
     return formContext;
   }
+  function getOnChangeValue2(event) {
+    if (typeof event === "object" && event && "target" in event && event.target && typeof event.target === "object" && "value" in event.target) {
+      return event.target.value;
+    }
+    return event;
+  }
   function useField2(name, form) {
     const formContext = useContextOrDefault2(form);
     const [value, setValue] = (0, import_react3.useState)(
@@ -26012,7 +26013,15 @@
       input: {
         name,
         value: value || "",
-        onChange: ({ target: { value: value2 } }) => formContext.commit([{ path: name, value: value2, changeMode: "native" }])
+        onChange: (event) => {
+          formContext.commit([
+            {
+              path: name,
+              value: getOnChangeValue2(event),
+              changeMode: "native"
+            }
+          ]);
+        }
       },
       change: (value2) => formContext.commit([{ path: name, value: value2 }]),
       fieldState: {
@@ -26161,7 +26170,6 @@
     (0, import_react5.useEffect)(() => {
       recalculate.callExternal("multiple", mul);
     }, [mul]);
-    recalculate.callRecalculate("");
     return /* @__PURE__ */ (0, import_jsx_runtime5.jsxs)(provider_default, { form, children: [
       /* @__PURE__ */ (0, import_jsx_runtime5.jsxs)("form", { onSubmit: form.handleSubmit((values) => console.log(values)), children: [
         /* @__PURE__ */ (0, import_jsx_runtime5.jsx)("h1", { children: "Recalculate external" }),
@@ -26174,16 +26182,136 @@
   }
   var recalculate_external_default = App3;
 
-  // dev/index.tsx
+  // dev/examples/multiple-form.tsx
+  var import_react6 = __toESM(require_react());
   var import_jsx_runtime6 = __toESM(require_jsx_runtime());
+  function Input4({ name, type, label }) {
+    const {
+      input,
+      fieldState: { error }
+    } = useField(name);
+    console.log("field: ", input, error);
+    return /* @__PURE__ */ (0, import_jsx_runtime6.jsxs)("label", { children: [
+      /* @__PURE__ */ (0, import_jsx_runtime6.jsxs)("span", { children: [
+        label,
+        " "
+      ] }),
+      /* @__PURE__ */ (0, import_jsx_runtime6.jsx)("input", __spreadProps(__spreadValues({}, input), { type })),
+      error && /* @__PURE__ */ (0, import_jsx_runtime6.jsx)("div", { style: { color: "tomato" }, children: error })
+    ] });
+  }
+  function SecondForm({ mul }) {
+    const recalculate = useRecalculate({
+      defaultExternal: { multiple: mul },
+      fields: [
+        {
+          path: "first",
+          handler(current, prev, { external }) {
+            return {
+              second: Number(current) * external.multiple
+            };
+          }
+        },
+        {
+          path: "second",
+          handler(current, prev, { external }) {
+            return {
+              first: Number(current) * external.multiple
+            };
+          }
+        },
+        {
+          path: "multiple",
+          handler(current, prev, { lastCalledPath, values }) {
+            const field = lastCalledPath === "second" ? "first" : "second";
+            const valueField = field === "first" ? "second" : "first";
+            return {
+              [field]: Number(values[valueField]) * Number(current)
+            };
+          }
+        }
+      ]
+    });
+    (0, import_react6.useEffect)(() => {
+      recalculate.callExternal("multiple", mul);
+    }, [mul]);
+    return /* @__PURE__ */ (0, import_jsx_runtime6.jsxs)(import_jsx_runtime6.Fragment, { children: [
+      /* @__PURE__ */ (0, import_jsx_runtime6.jsx)("div", { children: /* @__PURE__ */ (0, import_jsx_runtime6.jsx)(Input4, { name: "first", type: "number", label: "First" }) }),
+      /* @__PURE__ */ (0, import_jsx_runtime6.jsx)("div", { children: /* @__PURE__ */ (0, import_jsx_runtime6.jsx)(Input4, { name: "second", type: "number", label: "Second" }) })
+    ] });
+  }
+  function FirstForm({ mul }) {
+    return /* @__PURE__ */ (0, import_jsx_runtime6.jsx)(import_jsx_runtime6.Fragment, { children: /* @__PURE__ */ (0, import_jsx_runtime6.jsx)("div", { children: /* @__PURE__ */ (0, import_jsx_runtime6.jsx)(Input4, { name: "first", type: "number", label: "First" }) }) });
+  }
+  function Form3({ isFirstForm, mul }) {
+    useValidate((values) => {
+      console.log(values);
+      return {};
+    });
+    const FormComponent = isFirstForm ? FirstForm : SecondForm;
+    return /* @__PURE__ */ (0, import_jsx_runtime6.jsx)(FormComponent, { mul });
+  }
+  function App4() {
+    const [isFirstForm, setIsFirstForm] = (0, import_react6.useState)(false);
+    const [mul, setMul] = (0, import_react6.useState)(1);
+    const form = useForm({
+      defaultValues: { first: 0, second: 0 }
+    });
+    return /* @__PURE__ */ (0, import_jsx_runtime6.jsxs)(provider_default, { form, children: [
+      /* @__PURE__ */ (0, import_jsx_runtime6.jsx)("h1", { children: "Multiple form" }),
+      /* @__PURE__ */ (0, import_jsx_runtime6.jsxs)("div", { children: [
+        /* @__PURE__ */ (0, import_jsx_runtime6.jsx)(
+          "button",
+          {
+            onClick: () => {
+              setIsFirstForm(true);
+            },
+            disabled: isFirstForm,
+            children: "pair"
+          }
+        ),
+        /* @__PURE__ */ (0, import_jsx_runtime6.jsx)(
+          "button",
+          {
+            onClick: () => {
+              setIsFirstForm(false);
+            },
+            disabled: !isFirstForm,
+            children: "single"
+          }
+        )
+      ] }),
+      /* @__PURE__ */ (0, import_jsx_runtime6.jsxs)("form", { onSubmit: form.handleSubmit((values) => console.log(values)), children: [
+        /* @__PURE__ */ (0, import_jsx_runtime6.jsx)(Form3, { isFirstForm, mul }),
+        /* @__PURE__ */ (0, import_jsx_runtime6.jsx)("button", { type: "submit", children: "Submit" })
+      ] }),
+      /* @__PURE__ */ (0, import_jsx_runtime6.jsxs)(
+        "button",
+        {
+          onClick: () => {
+            setMul((p) => p + 1);
+          },
+          children: [
+            "mul: ",
+            mul
+          ]
+        }
+      )
+    ] });
+  }
+  var multiple_form_default = App4;
+
+  // dev/index.tsx
+  var import_jsx_runtime7 = __toESM(require_jsx_runtime());
   var container = document.getElementById("root");
   var root = (0, import_client.createRoot)(container);
-  root.render(/* @__PURE__ */ (0, import_jsx_runtime6.jsx)(App4, {}));
-  function App4() {
-    return /* @__PURE__ */ (0, import_jsx_runtime6.jsxs)(import_jsx_runtime6.Fragment, { children: [
-      /* @__PURE__ */ (0, import_jsx_runtime6.jsx)(login_default, {}),
-      /* @__PURE__ */ (0, import_jsx_runtime6.jsx)(recalculate_default, {}),
-      /* @__PURE__ */ (0, import_jsx_runtime6.jsx)(recalculate_external_default, {})
+  root.render(/* @__PURE__ */ (0, import_jsx_runtime7.jsx)(App5, {}));
+  function App5() {
+    return /* @__PURE__ */ (0, import_jsx_runtime7.jsxs)(import_jsx_runtime7.Fragment, { children: [
+      /* @__PURE__ */ (0, import_jsx_runtime7.jsx)(login_default, {}),
+      /* @__PURE__ */ (0, import_jsx_runtime7.jsx)(recalculate_default, {}),
+      /* @__PURE__ */ (0, import_jsx_runtime7.jsx)(recalculate_external_default, {}),
+      /* @__PURE__ */ (0, import_jsx_runtime7.jsx)(multiple_form_default, {})
     ] });
   }
 })();

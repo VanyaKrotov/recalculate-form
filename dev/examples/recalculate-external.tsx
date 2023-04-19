@@ -11,7 +11,7 @@ function Input({ name, type, label }: InputProps) {
   const {
     input,
     fieldState: { error },
-  } = useField(name);
+  } = useField<string>(name);
 
   return (
     <label>
@@ -67,8 +67,6 @@ function App() {
   useEffect(() => {
     recalculate.callExternal("multiple", mul);
   }, [mul]);
-
-  recalculate.callRecalculate("");
 
   return (
     <FormProvider form={form}>
