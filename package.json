@@ -1,8 +1,8 @@
 {
   "name": "recalculate-form",
-  "version": "0.0.12-beta",
+  "version": "0.0.13-beta",
   "description": "",
-  "main": "./dist/index.cjm.js",
+  "main": "./dist/index.cjs.js",
   "module": "./dist/index.esm.js",
   "types": "./dist/index.d.ts",
   "scripts": {

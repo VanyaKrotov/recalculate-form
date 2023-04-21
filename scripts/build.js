@@ -12,7 +12,6 @@ const outdir = path.resolve(root, "dist");
 const common = {
   bundle: true,
   sourcemap: true,
-  format: "esm",
   tsconfig,
   outdir,
   plugins: [nodeExternalsPlugin({ allowList: ["projectx.state"] })],
@@ -25,17 +24,37 @@ async function main() {
   try {
     await esbuild.build({
       entryPoints: {
-        "production.min": entry,
+        "production.esm": entry,
       },
       minify: true,
+      format: "esm",
       ...common,
     });
 
     await esbuild.build({
       entryPoints: {
-        dev: entry,
+        "production.cjs": entry,
+      },
+      minify: true,
+      format: "cjs",
+      ...common,
+    });
+
+    await esbuild.build({
+      entryPoints: {
+        "dev.esm": entry,
       },
       minify: false,
+      format: "esm",
+      ...common,
+    });
+
+    await esbuild.build({
+      entryPoints: {
+        "dev.cjs": entry,
+      },
+      minify: false,
+      format: "cjs",
       ...common,
     });
 

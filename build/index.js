@@ -25997,11 +25997,10 @@
     );
     const [error, setError] = (0, import_react3.useState)(null);
     (0, import_react3.useEffect)(() => {
-      const unsubscribeValue = formContext.watch(
-        [`values.${name}`],
-        () => setValue(import_projectx32.Path.get(formContext.data.values, name))
-      );
-      const unsubscribeError = formContext.watch(["errors"], () => {
+      const unsubscribeValue = formContext.watch([`values.${name}`], () => {
+        setValue(import_projectx32.Path.get(formContext.data.values, name));
+      });
+      const unsubscribeError = formContext.watch([`errors.${name}`], () => {
         setError(formContext.data.errors[name]);
       });
       return () => {
