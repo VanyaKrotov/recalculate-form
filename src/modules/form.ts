@@ -1,32 +1,64 @@
 import { FormEvent } from "react";
-import { PathTree, Path, ObserveState } from "projectx.state";
+import { PathTree, ObserveState } from "projectx.state";
+import set from "lodash/set";
+import get from "lodash/get";
 
-import {
-  ChangeMode,
-  Commit,
-  Details,
-  Errors,
-  FormConstructor,
-  FormConstructorParams,
-  FormData,
-  FormDefaultValues,
-  InputErrors,
-  OnSubmit,
-} from "../shared";
+interface OnSubmit<T> {
+  (FormData: FormData<T>): void | Promise<void>;
+}
 
-class Form<T extends FormDefaultValues, M extends string>
-  extends ObserveState<FormData<T>, Details<T, M>>
-  implements FormConstructor<T, M>
-{
+export type DefaultValues = Record<string, any>;
+
+export type DefaultModes = "native" | "change";
+
+export type ChangeMode<M> = DefaultModes | M;
+
+export interface ConstructorParams<T> {
+  defaultValues: T;
+}
+
+export type InputErrors = Record<string, string | null>;
+
+export type Errors = Record<string, string>;
+
+export interface Commit<M extends string> {
+  path: string;
+  value: unknown;
+  changeMode?: ChangeMode<M>;
+}
+
+export interface FormState {
+  touchedFields: Record<string, boolean>;
+  isSubmitted: boolean;
+  isSubmitting: boolean;
+}
+
+export interface FormData<V> {
+  values: V;
+  state: FormState;
+  errors: Errors;
+}
+
+export interface Details<T, M> {
+  prev: T;
+  curr: T;
+  modes: Map<string, ChangeMode<M>>;
+  values: boolean;
+}
+
+class Form<T extends DefaultValues, M extends string> extends ObserveState<
+  FormData<T>,
+  Details<T, M>
+> {
   public data: FormData<T>;
 
-  constructor(private readonly options: FormConstructorParams<T>) {
+  constructor(private readonly options: ConstructorParams<T>) {
     super();
 
     this.data = {
       values: structuredClone(options.defaultValues),
       state: {
-        touchedFields: new Set(),
+        touchedFields: {},
         isSubmitted: false,
         isSubmitting: false,
       },
@@ -48,7 +80,7 @@ class Form<T extends FormDefaultValues, M extends string>
     for (const { path, value } of changes) {
       changeTree.push(path);
 
-      results.push(Path.set(this.data, path, value));
+      results.push(Boolean(set(this.data, path, value)));
     }
 
     this.emit({
@@ -72,10 +104,10 @@ class Form<T extends FormDefaultValues, M extends string>
       changeTree.push(path);
       modes.set(path, changeMode);
       if (changeMode === "native") {
-        this.data.state.touchedFields.add(path);
+        this.data.state.touchedFields[path] = true;
       }
 
-      results.push(Path.set(this.data.values, path, value));
+      results.push(Boolean(set(this.data.values, path, value)));
     }
 
     changeTree.push("state.touchedFields");
@@ -139,7 +171,7 @@ class Form<T extends FormDefaultValues, M extends string>
 
     if (args.length > 1) {
       return (args as string[]).reduce(
-        (acc: unknown[], p) => acc.concat(Path.get(this.data.values, p)),
+        (acc: unknown[], p) => acc.concat(get(this.data.values, p)),
         []
       );
     }
@@ -147,7 +179,7 @@ class Form<T extends FormDefaultValues, M extends string>
     const [first] = args;
     const type = typeof first;
     if (type === "string") {
-      return Path.get(this.data.values, first as string);
+      return get(this.data.values, first as string);
     }
 
     if (!type || type !== "object") {
@@ -156,13 +188,13 @@ class Form<T extends FormDefaultValues, M extends string>
 
     if (Array.isArray(first)) {
       return first.reduce(
-        (acc: unknown[], p) => acc.concat(Path.get(this.data.values, p)),
+        (acc: unknown[], p) => acc.concat(get(this.data.values, p)),
         []
       );
     }
 
     return Object.keys(first as object).reduce(
-      (acc, p) => Object.assign(acc, { [p]: Path.get(this.data.values, p) }),
+      (acc, p) => Object.assign(acc, { [p]: get(this.data.values, p) }),
       {}
     );
   }
@@ -192,7 +224,7 @@ class Form<T extends FormDefaultValues, M extends string>
     this.change({
       values: structuredClone(this.options.defaultValues),
       state: {
-        touchedFields: new Set(),
+        touchedFields: {},
         isSubmitted: false,
         isSubmitting: false,
       },

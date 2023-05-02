@@ -66,7 +66,7 @@ yarn add recalculate-form
 
 - `change(value: T)` - функция для мутирования значения поля (тип мутации `change`);
 
-### `useWatch<V, R, M>(paths?: string[], form?: FormConstructor<V, M>): UseFieldResult<T>` - хук подписки на отслеживание изменения полей переданных в параметре `paths`;
+### `useWatch<R, V, M>(paths?: string[], form?: FormConstructor<V, M>): UseFieldResult<T>` - хук подписки на отслеживание изменения полей переданных в параметре `paths`;
 
 Типизация:
 
@@ -83,7 +83,7 @@ yarn add recalculate-form
 
 Возвращаемое значение:
 
-- `touchedFields: Set<string>` - пути к измененным значеним полей ввода;
+- `touchedFields: Record<string, boolean>` - пути к измененным значеним полей ввода;
 
 - `isSubmitted: boolean` - указывает на то был ли совершен вызов метода `onSubmit`;
 

@@ -1,15 +1,60 @@
-import { Path, PathTree } from "projectx.state";
+import { PathTree } from "projectx.state";
+import get from "lodash/get";
+import set from "lodash/set";
+import has from "lodash/has";
 
-import {
+import Form, {
+  ChangeMode,
   Commit,
+  DefaultValues,
   Details,
-  FormConstructor,
-  JoinRecalculateResult,
-  RecalculateField,
-  RecalculateObjectValue,
-  RecalculateOptions,
-  RecalculateValue,
-} from "../shared";
+  FormState,
+} from "./form";
+
+type RecalculateObjectValue<M> = {
+  value: unknown;
+  mode?: ChangeMode<M>;
+};
+
+export interface RecalculateOptions<
+  V,
+  E extends DefaultValues,
+  M extends string
+> {
+  fields: RecalculateField<V, E, M>[];
+  defaultExternal?: Partial<E>;
+}
+
+export interface JoinRecalculateResult<E> {
+  callExternal(field: keyof E, value: unknown): void;
+  callRecalculate(field: string, value?: unknown): void;
+  dispose: VoidFunction;
+}
+
+type RecalculateValue<M> =
+  | RecalculateObjectValue<M>
+  | number
+  | string
+  | boolean;
+
+type RecalculateHandlerResult<T, M> = Partial<
+  Record<keyof T, RecalculateValue<M>>
+>;
+
+interface RecalculateField<V, E, M> {
+  path: keyof V | keyof E;
+  watchType?: ChangeMode<M>;
+  handler(
+    current: unknown,
+    prev: unknown,
+    rest: {
+      values: V;
+      state: FormState;
+      external: E;
+      lastCalledPath?: string;
+    }
+  ): RecalculateHandlerResult<V, M> | Promise<RecalculateHandlerResult<V, M>>;
+}
 
 function getRecalculateResult<M>(
   result: RecalculateValue<M>
@@ -26,7 +71,7 @@ function createRecalculate<
   E extends object,
   M extends string
 >(
-  form: FormConstructor<T, M>,
+  form: Form<T, M>,
   { defaultExternal = {}, fields }: RecalculateOptions<T, E, M>
 ): JoinRecalculateResult<E> {
   type Keys = keyof T | keyof E;
@@ -77,8 +122,8 @@ function createRecalculate<
     }
 
     const options = recalculateMap[field];
-    const prev = Path.get(memo, String(field));
-    Path.set(memo, String(field), value);
+    const prev = get(memo, String(field));
+    set(memo, String(field), value);
 
     try {
       await handleResult(value, prev, options);
@@ -96,8 +141,8 @@ function createRecalculate<
 
     try {
       await handleResult(
-        Path.get(detail.curr, field),
-        Path.get(detail.prev, field),
+        get(detail.curr, field),
+        get(detail.prev, field),
         options
       );
     } catch {}
@@ -105,7 +150,7 @@ function createRecalculate<
 
   const entries: [string, PathTree][] = [];
   for (const path in recalculateMap) {
-    if (!Path.has(form.data.values, path)) {
+    if (!has(form.data.values, path)) {
       continue;
     }
 
@@ -133,7 +178,7 @@ function createRecalculate<
       form.commit([
         {
           path,
-          value: value === undefined ? Path.get(form.data.values, path) : value,
+          value: value === undefined ? get(form.data.values, path) : value,
           changeMode: options.watchType || "native",
         },
       ]);

@@ -517,7 +517,7 @@
               }
             }
           }
-          var ReactElement = function(type, key, ref, self, source, owner, props) {
+          var ReactElement2 = function(type, key, ref, self2, source, owner, props) {
             var element = {
               // This tag allows us to uniquely identify this as a React Element
               $$typeof: REACT_ELEMENT_TYPE,
@@ -541,7 +541,7 @@
                 configurable: false,
                 enumerable: false,
                 writable: false,
-                value: self
+                value: self2
               });
               Object.defineProperty(element, "_source", {
                 configurable: false,
@@ -561,7 +561,7 @@
             var props = {};
             var key = null;
             var ref = null;
-            var self = null;
+            var self2 = null;
             var source = null;
             if (config != null) {
               if (hasValidRef(config)) {
@@ -576,7 +576,7 @@
                 }
                 key = "" + config.key;
               }
-              self = config.__self === void 0 ? null : config.__self;
+              self2 = config.__self === void 0 ? null : config.__self;
               source = config.__source === void 0 ? null : config.__source;
               for (propName in config) {
                 if (hasOwnProperty.call(config, propName) && !RESERVED_PROPS.hasOwnProperty(propName)) {
@@ -618,10 +618,10 @@
                 }
               }
             }
-            return ReactElement(type, key, ref, self, source, ReactCurrentOwner.current, props);
+            return ReactElement2(type, key, ref, self2, source, ReactCurrentOwner.current, props);
           }
           function cloneAndReplaceKey(oldElement, newKey) {
-            var newElement = ReactElement(oldElement.type, newKey, oldElement.ref, oldElement._self, oldElement._source, oldElement._owner, oldElement.props);
+            var newElement = ReactElement2(oldElement.type, newKey, oldElement.ref, oldElement._self, oldElement._source, oldElement._owner, oldElement.props);
             return newElement;
           }
           function cloneElement(element, config, children) {
@@ -632,7 +632,7 @@
             var props = assign({}, element.props);
             var key = element.key;
             var ref = element.ref;
-            var self = element._self;
+            var self2 = element._self;
             var source = element._source;
             var owner = element._owner;
             if (config != null) {
@@ -670,7 +670,7 @@
               }
               props.children = childArray;
             }
-            return ReactElement(element.type, key, ref, self, source, owner, props);
+            return ReactElement2(element.type, key, ref, self2, source, owner, props);
           }
           function isValidElement(object) {
             return typeof object === "object" && object !== null && object.$$typeof === REACT_ELEMENT_TYPE;
@@ -1451,9 +1451,9 @@
           }
           function checkPropTypes(typeSpecs, values, location, componentName, element) {
             {
-              var has = Function.call.bind(hasOwnProperty);
+              var has3 = Function.call.bind(hasOwnProperty);
               for (var typeSpecName in typeSpecs) {
-                if (has(typeSpecs, typeSpecName)) {
+                if (has3(typeSpecs, typeSpecName)) {
                   var error$1 = void 0;
                   try {
                     if (typeof typeSpecs[typeSpecName] !== "function") {
@@ -3798,18 +3798,18 @@
             if (node.hasOwnProperty(valueField) || typeof descriptor === "undefined" || typeof descriptor.get !== "function" || typeof descriptor.set !== "function") {
               return;
             }
-            var get2 = descriptor.get, set4 = descriptor.set;
+            var get8 = descriptor.get, set6 = descriptor.set;
             Object.defineProperty(node, valueField, {
               configurable: true,
               get: function() {
-                return get2.call(this);
+                return get8.call(this);
               },
               set: function(value) {
                 {
                   checkFormFieldValueStringCoercion(value);
                 }
                 currentValue = "" + value;
-                set4.call(this, value);
+                set6.call(this, value);
               }
             });
             Object.defineProperty(node, valueField, {
@@ -5714,13 +5714,13 @@
               throw new Error("clearCaughtError was called but no error was captured. This error is likely caused by a bug in React. Please file an issue.");
             }
           }
-          function get(key) {
+          function get7(key) {
             return key._reactInternals;
           }
-          function has(key) {
+          function has3(key) {
             return key._reactInternals !== void 0;
           }
-          function set3(key, value) {
+          function set5(key, value) {
             key._reactInternals = value;
           }
           var NoFlags = (
@@ -5889,7 +5889,7 @@
                 instance._warnedAboutRefsInRender = true;
               }
             }
-            var fiber = get(component);
+            var fiber = get7(component);
             if (!fiber) {
               return false;
             }
@@ -6853,14 +6853,14 @@
           function includesSomeLane(a, b) {
             return (a & b) !== NoLanes;
           }
-          function isSubsetOfLanes(set4, subset) {
-            return (set4 & subset) === subset;
+          function isSubsetOfLanes(set6, subset) {
+            return (set6 & subset) === subset;
           }
           function mergeLanes(a, b) {
             return a | b;
           }
-          function removeLanes(set4, subset) {
-            return set4 & ~subset;
+          function removeLanes(set6, subset) {
+            return set6 & ~subset;
           }
           function intersectLanes(a, b) {
             return a & b;
@@ -8934,12 +8934,12 @@
               // Then we can remove this special list.
               // This is a breaking change that can wait until React 18.
               domEventName === "scroll";
-              var _listeners3 = accumulateSinglePhaseListeners(targetInst, reactName, nativeEvent.type, inCapturePhase, accumulateTargetOnly);
-              if (_listeners3.length > 0) {
+              var _listeners = accumulateSinglePhaseListeners(targetInst, reactName, nativeEvent.type, inCapturePhase, accumulateTargetOnly);
+              if (_listeners.length > 0) {
                 var _event = new SyntheticEventCtor(reactName, reactEventType, null, nativeEvent, nativeEventTarget);
                 dispatchQueue.push({
                   event: _event,
-                  listeners: _listeners3
+                  listeners: _listeners
                 });
               }
             }
@@ -10821,9 +10821,9 @@
           }
           function checkPropTypes(typeSpecs, values, location, componentName, element) {
             {
-              var has2 = Function.call.bind(hasOwnProperty);
+              var has4 = Function.call.bind(hasOwnProperty);
               for (var typeSpecName in typeSpecs) {
-                if (has2(typeSpecs, typeSpecName)) {
+                if (has4(typeSpecs, typeSpecName)) {
                   var error$1 = void 0;
                   try {
                     if (typeof typeSpecs[typeSpecName] !== "function") {
@@ -11639,9 +11639,9 @@
               }
               return maybeStrictRoot;
             };
-            var setToSortedString = function(set4) {
+            var setToSortedString = function(set6) {
               var array = [];
-              set4.forEach(function(value) {
+              set6.forEach(function(value) {
                 array.push(value);
               });
               return array.sort().join(", ");
@@ -12554,7 +12554,7 @@
           var classComponentUpdater = {
             isMounted,
             enqueueSetState: function(inst, payload, callback) {
-              var fiber = get(inst);
+              var fiber = get7(inst);
               var eventTime = requestEventTime();
               var lane = requestUpdateLane(fiber);
               var update = createUpdate(eventTime, lane);
@@ -12575,7 +12575,7 @@
               }
             },
             enqueueReplaceState: function(inst, payload, callback) {
-              var fiber = get(inst);
+              var fiber = get7(inst);
               var eventTime = requestEventTime();
               var lane = requestUpdateLane(fiber);
               var update = createUpdate(eventTime, lane);
@@ -12597,7 +12597,7 @@
               }
             },
             enqueueForceUpdate: function(inst, callback) {
-              var fiber = get(inst);
+              var fiber = get7(inst);
               var eventTime = requestEventTime();
               var lane = requestUpdateLane(fiber);
               var update = createUpdate(eventTime, lane);
@@ -12725,7 +12725,7 @@
           function adoptClassInstance(workInProgress2, instance) {
             instance.updater = classComponentUpdater;
             workInProgress2.stateNode = instance;
-            set3(instance, workInProgress2);
+            set5(instance, workInProgress2);
             {
               instance._reactInternalInstance = fakeInternalInstance;
             }
@@ -22617,7 +22617,7 @@
             if (!parentComponent) {
               return emptyContextObject;
             }
-            var fiber = get(parentComponent);
+            var fiber = get7(parentComponent);
             var parentContext = findCurrentUnmaskedContext(fiber);
             if (fiber.tag === ClassComponent) {
               var Component = fiber.type;
@@ -22629,7 +22629,7 @@
           }
           function findHostInstanceWithWarning(component, methodName) {
             {
-              var fiber = get(component);
+              var fiber = get7(component);
               if (fiber === void 0) {
                 if (typeof component.render === "function") {
                   throw new Error("Unable to find node on an unmounted component.");
@@ -23377,7 +23377,7 @@
             if (!isValidContainerLegacy(containerNode)) {
               throw new Error("Target container is not a DOM element.");
             }
-            if (parentComponent == null || !has(parentComponent)) {
+            if (parentComponent == null || !has3(parentComponent)) {
               throw new Error("parentComponent must be a valid React Component");
             }
             return legacyRenderSubtreeIntoContainer(parentComponent, element, containerNode, false, callback);
@@ -23553,389 +23553,1014 @@
     }
   });
 
-  // node_modules/projectx.state/dist/dev.js
-  var dev_exports = {};
-  __export(dev_exports, {
-    ObserveState: () => ObserveState,
-    Path: () => Path,
-    PathTree: () => PathTree,
-    batch: () => batch,
-    combine: () => combine,
-    default: () => State
-  });
-  function isNull(target) {
-    return target === null;
-  }
-  function isUndefined(target) {
-    return target === void 0;
-  }
-  function isEmptyObject(obj) {
-    for (const _key in obj) {
-      return false;
-    }
-    return true;
-  }
-  function getRecursive(target, path) {
-    if (!path.length) {
-      return target;
-    }
-    if (isNull(target) || isUndefined(target)) {
-      return null;
-    }
-    let next = void 0;
-    const [first, ...rest] = path;
-    if (target instanceof Map) {
-      next = target.get(first);
-    } else if (target instanceof Set) {
-      next = target.size < Number(first) ? void 0 : Array.from(target)[first];
-    } else if (first in target) {
-      next = target[first];
-    }
-    return isUndefined(next) ? null : getRecursive(next, rest);
-  }
-  function set(target, key, value) {
-    if (target instanceof Map) {
-      target.set(key, value);
-      return true;
-    }
-    if (target instanceof Set) {
-      throw new Error(
-        "The `Path.set` function does not support setting in values `Set` by key."
-      );
-    }
-    if (typeof target === "object") {
-      target[key] = value;
-      return true;
-    }
-    return false;
-  }
-  function setRecursive(target, path, value) {
-    if (isNull(target) || isUndefined(target)) {
-      return false;
-    }
-    const [first, ...rest] = path;
-    if (!rest.length) {
-      return set(target, first, value);
-    }
-    const next = getRecursive(target, [first]);
-    if (next) {
-      return setRecursive(next, rest, value);
-    }
-    const [second] = rest;
-    const isNumberKey = !Number.isNaN(Number(second));
-    const nextVal = isNumberKey ? new Array() : {};
-    if (target instanceof Map) {
-      target.set(first, nextVal);
-    } else if (target instanceof Set) {
-      const arr = Array.from(target);
-      arr[first] = nextVal;
-    } else if (typeof target === "object") {
-      target[first] = nextVal;
-    } else {
-      return false;
-    }
-    return setRecursive(nextVal, rest, value);
-  }
-  function hasRecursive(target, path) {
-    if (isNull(target) || isUndefined(target)) {
-      return false;
-    }
-    let next = null;
-    let has = true;
-    const [first, ...rest] = path;
-    if (target instanceof Map) {
-      next = target.get(first);
-      has = target.has(first);
-    } else if (target instanceof Set) {
-      const array = Array.from(target);
-      has = first in array;
-      next = array[first];
-    } else if (first in target) {
-      has = first in target;
-      next = target[first];
-    } else {
-      return false;
-    }
-    if (!has || !rest.length) {
-      return has;
-    }
-    return hasRecursive(next, rest);
-  }
-  function batch(handler) {
-    manager.open();
-    try {
-      handler();
-    } finally {
-      manager.close();
-    }
-  }
-  function combine(states) {
-    return new class extends ObserveState {
-      constructor() {
-        super();
-        this.unlisten = [];
-        const combined = {};
-        for (const key in states) {
-          const state = states[key];
-          combined[key] = state.data;
-          this.unlisten.push(
-            state.listen(
-              (event) => this.emit({
-                detail: event.detail,
-                changeTree: PathTree.pushPrefix(key, event.changeTree)
-              })
-            )
-          );
-        }
-        this.data = combined;
-      }
-      dispose() {
-        this.unlisten.forEach((unlisten) => unlisten());
-        super.dispose();
-      }
-    }();
-  }
-  var __accessCheck, __privateGet, __privateAdd, defaultEqualResolver, _listeners, Observer, Path, PathTreeNode, PathTree, BatchManager, manager, ObserveState, State;
-  var init_dev = __esm({
-    "node_modules/projectx.state/dist/dev.js"() {
-      __accessCheck = (obj, member, msg) => {
-        if (!member.has(obj))
-          throw TypeError("Cannot " + msg);
-      };
-      __privateGet = (obj, member, getter) => {
-        __accessCheck(obj, member, "read from private field");
-        return getter ? getter.call(obj) : member.get(obj);
-      };
-      __privateAdd = (obj, member, value) => {
-        if (member.has(obj))
-          throw TypeError("Cannot add the same private member more than once");
-        member instanceof WeakSet ? member.add(obj) : member.set(obj, value);
-      };
-      defaultEqualResolver = (a, b) => a === b;
-      Observer = class {
-        constructor() {
-          __privateAdd(this, _listeners, /* @__PURE__ */ new Set());
-        }
-        listen(listener) {
-          __privateGet(this, _listeners).add(listener);
-          return () => {
-            __privateGet(this, _listeners).delete(listener);
-          };
-        }
-        emit(event) {
-          for (const listener of __privateGet(this, _listeners)) {
-            if (listener(event)) {
-              return;
-            }
-          }
-        }
-        dispose() {
-          __privateGet(this, _listeners).clear();
-        }
-      };
-      _listeners = /* @__PURE__ */ new WeakMap();
-      Path = class {
-        static isValid(path) {
-          return this.pattern.test(path);
-        }
-        static get(target, path) {
-          if (!path) {
-            return target;
-          }
-          if (!this.isValid(path)) {
-            console.assert(false, `[px.state] Path \`${path}\` is not valid.`);
-            return target;
-          }
-          return getRecursive(target, path.split("."));
-        }
-        static has(target, path) {
-          if (!this.isValid(path)) {
-            console.assert(false, `[px.state] Path \`${path}\` is not valid.`);
-            return false;
-          }
-          return hasRecursive(target, path.split("."));
-        }
-        static set(target, path, value) {
-          if (!path) {
-            return false;
-          }
-          if (!this.isValid(path)) {
-            console.assert(false, `[px.state] Path \`${path}\` is not valid.`);
-            return false;
-          }
-          return setRecursive(target, path.split("."), value);
-        }
-        static toLodashPath(path) {
-          return path.replace(/\.(\d)+/g, "[$1]").replace(/^(\d)+\./gm, "[$1].");
-        }
-        static fromString(path) {
-          return path.split(".");
-        }
-        static toString(path) {
-          return path.join(".");
-        }
-      };
-      Path.pattern = /^([\w\d_-]+(\.{1}[\w\d_-]+)*)+$/;
-      PathTreeNode = class {
-        constructor(path, children = {}) {
-          this.path = path;
-          this.children = children;
-          this.point = false;
-        }
-        get isEmpty() {
-          return isEmptyObject(this.children);
-        }
-      };
-      PathTree = class extends PathTreeNode {
-        constructor(paths = []) {
-          super("");
-          this.createTree(paths);
-        }
-        static pushPrefix(path, node) {
-          const tree = new PathTree();
-          tree.children[path] = new PathTreeNode(path, node.children);
-          return tree;
-        }
-        pushNode(node, [path, ...rest]) {
-          if (path in node.children) {
-            node.children[path].point = true;
-          } else {
-            node.children[path] = new PathTreeNode(path);
-          }
-          if (rest.length) {
-            return this.pushNode(node.children[path], rest);
-          }
-        }
-        createTree(paths) {
-          for (const path of paths) {
-            if (!Path.isValid(path)) {
-              console.assert(false, `[px.state] Path \`${path}\` is not valid!`);
-              continue;
-            }
-            this.pushNode(this, Path.fromString(path));
-          }
-        }
-        push(path) {
-          this.pushNode(this, Path.fromString(path));
-        }
-        testTreeRecursive(watch, change) {
-          if (watch.point || watch.isEmpty && change.isEmpty || change.isEmpty != watch.isEmpty) {
-            return true;
-          }
-          for (const key in watch.children) {
-            if (!(key in change.children)) {
-              continue;
-            }
-            if (this.testTreeRecursive(watch.children[key], change.children[key])) {
-              return true;
-            }
-          }
-          return false;
-        }
-        includes(node) {
-          if (node.isEmpty) {
-            return this.isEmpty;
-          }
-          return this.testTreeRecursive(this, node);
-        }
-      };
-      BatchManager = class {
-        constructor() {
-          this.batches = [];
-        }
-        open() {
-          this.batches.push(/* @__PURE__ */ new Set());
-        }
-        action(handler) {
-          if (!this.batches.length) {
-            return handler();
-          }
-          this.batches[this.batches.length - 1].add(handler);
-        }
-        close() {
-          const batch22 = this.batches.pop();
-          if (!batch22) {
-            return;
-          }
-          batch22.forEach((handler) => handler());
-        }
-      };
-      manager = new BatchManager();
-      ObserveState = class extends Observer {
-        reaction(selectors, action, {
-          resolver = defaultEqualResolver,
-          initCall = false
-        } = {}) {
-          const callSelectors = () => selectors.map((selector) => selector(this.data));
-          const hasSelector = selectors.length > 0;
-          let memo = callSelectors();
-          if (initCall) {
-            action.apply(null, memo);
-          }
-          const handler = () => {
-            if (!hasSelector) {
-              return action.apply(null);
-            }
-            const values = callSelectors();
-            if (values.every((value, index) => resolver(value, memo[index]))) {
-              return;
-            }
-            memo = values;
-            return action.apply(null, memo);
-          };
-          return this.listen(() => manager.action(handler));
-        }
-        watch(paths, action, { initCall = false } = {}) {
-          let tree = paths;
-          if (!(paths instanceof PathTree)) {
-            tree = new PathTree(paths);
-          }
-          if (initCall) {
-            action();
-          }
-          return this.listen(({ changeTree }) => {
-            if (!tree.includes(changeTree)) {
-              return;
-            }
-            return manager.action(action);
-          });
-        }
-      };
-      State = class extends ObserveState {
-        change(value) {
-          const changeTree = new PathTree();
-          for (const key in value) {
-            changeTree.push(key);
-            this.data[key] = value[key];
-          }
-          this.emit({
-            changeTree,
-            detail: {}
-          });
-        }
-        commit(changes) {
-          const changeTree = new PathTree();
-          const results = [];
-          for (const { path, value } of changes) {
-            changeTree.push(path);
-            results.push(Path.set(this.data, path, value));
-          }
-          this.emit({ changeTree, detail: {} });
-          return results;
-        }
-      };
+  // node_modules/lodash/isArray.js
+  var require_isArray = __commonJS({
+    "node_modules/lodash/isArray.js"(exports, module) {
+      var isArray = Array.isArray;
+      module.exports = isArray;
     }
   });
 
-  // node_modules/projectx.state/dist/main.js
-  var require_main = __commonJS({
-    "node_modules/projectx.state/dist/main.js"(exports, module) {
-      "use strict";
-      if (false) {
-        module.exports = null;
-      } else {
-        module.exports = (init_dev(), __toCommonJS(dev_exports));
+  // node_modules/lodash/_freeGlobal.js
+  var require_freeGlobal = __commonJS({
+    "node_modules/lodash/_freeGlobal.js"(exports, module) {
+      var freeGlobal = typeof global == "object" && global && global.Object === Object && global;
+      module.exports = freeGlobal;
+    }
+  });
+
+  // node_modules/lodash/_root.js
+  var require_root = __commonJS({
+    "node_modules/lodash/_root.js"(exports, module) {
+      var freeGlobal = require_freeGlobal();
+      var freeSelf = typeof self == "object" && self && self.Object === Object && self;
+      var root2 = freeGlobal || freeSelf || Function("return this")();
+      module.exports = root2;
+    }
+  });
+
+  // node_modules/lodash/_Symbol.js
+  var require_Symbol = __commonJS({
+    "node_modules/lodash/_Symbol.js"(exports, module) {
+      var root2 = require_root();
+      var Symbol2 = root2.Symbol;
+      module.exports = Symbol2;
+    }
+  });
+
+  // node_modules/lodash/_getRawTag.js
+  var require_getRawTag = __commonJS({
+    "node_modules/lodash/_getRawTag.js"(exports, module) {
+      var Symbol2 = require_Symbol();
+      var objectProto = Object.prototype;
+      var hasOwnProperty = objectProto.hasOwnProperty;
+      var nativeObjectToString = objectProto.toString;
+      var symToStringTag = Symbol2 ? Symbol2.toStringTag : void 0;
+      function getRawTag(value) {
+        var isOwn = hasOwnProperty.call(value, symToStringTag), tag = value[symToStringTag];
+        try {
+          value[symToStringTag] = void 0;
+          var unmasked = true;
+        } catch (e) {
+        }
+        var result = nativeObjectToString.call(value);
+        if (unmasked) {
+          if (isOwn) {
+            value[symToStringTag] = tag;
+          } else {
+            delete value[symToStringTag];
+          }
+        }
+        return result;
       }
+      module.exports = getRawTag;
+    }
+  });
+
+  // node_modules/lodash/_objectToString.js
+  var require_objectToString = __commonJS({
+    "node_modules/lodash/_objectToString.js"(exports, module) {
+      var objectProto = Object.prototype;
+      var nativeObjectToString = objectProto.toString;
+      function objectToString(value) {
+        return nativeObjectToString.call(value);
+      }
+      module.exports = objectToString;
+    }
+  });
+
+  // node_modules/lodash/_baseGetTag.js
+  var require_baseGetTag = __commonJS({
+    "node_modules/lodash/_baseGetTag.js"(exports, module) {
+      var Symbol2 = require_Symbol();
+      var getRawTag = require_getRawTag();
+      var objectToString = require_objectToString();
+      var nullTag = "[object Null]";
+      var undefinedTag = "[object Undefined]";
+      var symToStringTag = Symbol2 ? Symbol2.toStringTag : void 0;
+      function baseGetTag(value) {
+        if (value == null) {
+          return value === void 0 ? undefinedTag : nullTag;
+        }
+        return symToStringTag && symToStringTag in Object(value) ? getRawTag(value) : objectToString(value);
+      }
+      module.exports = baseGetTag;
+    }
+  });
+
+  // node_modules/lodash/isObjectLike.js
+  var require_isObjectLike = __commonJS({
+    "node_modules/lodash/isObjectLike.js"(exports, module) {
+      function isObjectLike(value) {
+        return value != null && typeof value == "object";
+      }
+      module.exports = isObjectLike;
+    }
+  });
+
+  // node_modules/lodash/isSymbol.js
+  var require_isSymbol = __commonJS({
+    "node_modules/lodash/isSymbol.js"(exports, module) {
+      var baseGetTag = require_baseGetTag();
+      var isObjectLike = require_isObjectLike();
+      var symbolTag = "[object Symbol]";
+      function isSymbol(value) {
+        return typeof value == "symbol" || isObjectLike(value) && baseGetTag(value) == symbolTag;
+      }
+      module.exports = isSymbol;
+    }
+  });
+
+  // node_modules/lodash/_isKey.js
+  var require_isKey = __commonJS({
+    "node_modules/lodash/_isKey.js"(exports, module) {
+      var isArray = require_isArray();
+      var isSymbol = require_isSymbol();
+      var reIsDeepProp = /\.|\[(?:[^[\]]*|(["'])(?:(?!\1)[^\\]|\\.)*?\1)\]/;
+      var reIsPlainProp = /^\w*$/;
+      function isKey(value, object) {
+        if (isArray(value)) {
+          return false;
+        }
+        var type = typeof value;
+        if (type == "number" || type == "symbol" || type == "boolean" || value == null || isSymbol(value)) {
+          return true;
+        }
+        return reIsPlainProp.test(value) || !reIsDeepProp.test(value) || object != null && value in Object(object);
+      }
+      module.exports = isKey;
+    }
+  });
+
+  // node_modules/lodash/isObject.js
+  var require_isObject = __commonJS({
+    "node_modules/lodash/isObject.js"(exports, module) {
+      function isObject(value) {
+        var type = typeof value;
+        return value != null && (type == "object" || type == "function");
+      }
+      module.exports = isObject;
+    }
+  });
+
+  // node_modules/lodash/isFunction.js
+  var require_isFunction = __commonJS({
+    "node_modules/lodash/isFunction.js"(exports, module) {
+      var baseGetTag = require_baseGetTag();
+      var isObject = require_isObject();
+      var asyncTag = "[object AsyncFunction]";
+      var funcTag = "[object Function]";
+      var genTag = "[object GeneratorFunction]";
+      var proxyTag = "[object Proxy]";
+      function isFunction(value) {
+        if (!isObject(value)) {
+          return false;
+        }
+        var tag = baseGetTag(value);
+        return tag == funcTag || tag == genTag || tag == asyncTag || tag == proxyTag;
+      }
+      module.exports = isFunction;
+    }
+  });
+
+  // node_modules/lodash/_coreJsData.js
+  var require_coreJsData = __commonJS({
+    "node_modules/lodash/_coreJsData.js"(exports, module) {
+      var root2 = require_root();
+      var coreJsData = root2["__core-js_shared__"];
+      module.exports = coreJsData;
+    }
+  });
+
+  // node_modules/lodash/_isMasked.js
+  var require_isMasked = __commonJS({
+    "node_modules/lodash/_isMasked.js"(exports, module) {
+      var coreJsData = require_coreJsData();
+      var maskSrcKey = function() {
+        var uid = /[^.]+$/.exec(coreJsData && coreJsData.keys && coreJsData.keys.IE_PROTO || "");
+        return uid ? "Symbol(src)_1." + uid : "";
+      }();
+      function isMasked(func) {
+        return !!maskSrcKey && maskSrcKey in func;
+      }
+      module.exports = isMasked;
+    }
+  });
+
+  // node_modules/lodash/_toSource.js
+  var require_toSource = __commonJS({
+    "node_modules/lodash/_toSource.js"(exports, module) {
+      var funcProto = Function.prototype;
+      var funcToString = funcProto.toString;
+      function toSource(func) {
+        if (func != null) {
+          try {
+            return funcToString.call(func);
+          } catch (e) {
+          }
+          try {
+            return func + "";
+          } catch (e) {
+          }
+        }
+        return "";
+      }
+      module.exports = toSource;
+    }
+  });
+
+  // node_modules/lodash/_baseIsNative.js
+  var require_baseIsNative = __commonJS({
+    "node_modules/lodash/_baseIsNative.js"(exports, module) {
+      var isFunction = require_isFunction();
+      var isMasked = require_isMasked();
+      var isObject = require_isObject();
+      var toSource = require_toSource();
+      var reRegExpChar = /[\\^$.*+?()[\]{}|]/g;
+      var reIsHostCtor = /^\[object .+?Constructor\]$/;
+      var funcProto = Function.prototype;
+      var objectProto = Object.prototype;
+      var funcToString = funcProto.toString;
+      var hasOwnProperty = objectProto.hasOwnProperty;
+      var reIsNative = RegExp(
+        "^" + funcToString.call(hasOwnProperty).replace(reRegExpChar, "\\$&").replace(/hasOwnProperty|(function).*?(?=\\\()| for .+?(?=\\\])/g, "$1.*?") + "$"
+      );
+      function baseIsNative(value) {
+        if (!isObject(value) || isMasked(value)) {
+          return false;
+        }
+        var pattern = isFunction(value) ? reIsNative : reIsHostCtor;
+        return pattern.test(toSource(value));
+      }
+      module.exports = baseIsNative;
+    }
+  });
+
+  // node_modules/lodash/_getValue.js
+  var require_getValue = __commonJS({
+    "node_modules/lodash/_getValue.js"(exports, module) {
+      function getValue(object, key) {
+        return object == null ? void 0 : object[key];
+      }
+      module.exports = getValue;
+    }
+  });
+
+  // node_modules/lodash/_getNative.js
+  var require_getNative = __commonJS({
+    "node_modules/lodash/_getNative.js"(exports, module) {
+      var baseIsNative = require_baseIsNative();
+      var getValue = require_getValue();
+      function getNative(object, key) {
+        var value = getValue(object, key);
+        return baseIsNative(value) ? value : void 0;
+      }
+      module.exports = getNative;
+    }
+  });
+
+  // node_modules/lodash/_nativeCreate.js
+  var require_nativeCreate = __commonJS({
+    "node_modules/lodash/_nativeCreate.js"(exports, module) {
+      var getNative = require_getNative();
+      var nativeCreate = getNative(Object, "create");
+      module.exports = nativeCreate;
+    }
+  });
+
+  // node_modules/lodash/_hashClear.js
+  var require_hashClear = __commonJS({
+    "node_modules/lodash/_hashClear.js"(exports, module) {
+      var nativeCreate = require_nativeCreate();
+      function hashClear() {
+        this.__data__ = nativeCreate ? nativeCreate(null) : {};
+        this.size = 0;
+      }
+      module.exports = hashClear;
+    }
+  });
+
+  // node_modules/lodash/_hashDelete.js
+  var require_hashDelete = __commonJS({
+    "node_modules/lodash/_hashDelete.js"(exports, module) {
+      function hashDelete(key) {
+        var result = this.has(key) && delete this.__data__[key];
+        this.size -= result ? 1 : 0;
+        return result;
+      }
+      module.exports = hashDelete;
+    }
+  });
+
+  // node_modules/lodash/_hashGet.js
+  var require_hashGet = __commonJS({
+    "node_modules/lodash/_hashGet.js"(exports, module) {
+      var nativeCreate = require_nativeCreate();
+      var HASH_UNDEFINED = "__lodash_hash_undefined__";
+      var objectProto = Object.prototype;
+      var hasOwnProperty = objectProto.hasOwnProperty;
+      function hashGet(key) {
+        var data = this.__data__;
+        if (nativeCreate) {
+          var result = data[key];
+          return result === HASH_UNDEFINED ? void 0 : result;
+        }
+        return hasOwnProperty.call(data, key) ? data[key] : void 0;
+      }
+      module.exports = hashGet;
+    }
+  });
+
+  // node_modules/lodash/_hashHas.js
+  var require_hashHas = __commonJS({
+    "node_modules/lodash/_hashHas.js"(exports, module) {
+      var nativeCreate = require_nativeCreate();
+      var objectProto = Object.prototype;
+      var hasOwnProperty = objectProto.hasOwnProperty;
+      function hashHas(key) {
+        var data = this.__data__;
+        return nativeCreate ? data[key] !== void 0 : hasOwnProperty.call(data, key);
+      }
+      module.exports = hashHas;
+    }
+  });
+
+  // node_modules/lodash/_hashSet.js
+  var require_hashSet = __commonJS({
+    "node_modules/lodash/_hashSet.js"(exports, module) {
+      var nativeCreate = require_nativeCreate();
+      var HASH_UNDEFINED = "__lodash_hash_undefined__";
+      function hashSet(key, value) {
+        var data = this.__data__;
+        this.size += this.has(key) ? 0 : 1;
+        data[key] = nativeCreate && value === void 0 ? HASH_UNDEFINED : value;
+        return this;
+      }
+      module.exports = hashSet;
+    }
+  });
+
+  // node_modules/lodash/_Hash.js
+  var require_Hash = __commonJS({
+    "node_modules/lodash/_Hash.js"(exports, module) {
+      var hashClear = require_hashClear();
+      var hashDelete = require_hashDelete();
+      var hashGet = require_hashGet();
+      var hashHas = require_hashHas();
+      var hashSet = require_hashSet();
+      function Hash(entries) {
+        var index = -1, length = entries == null ? 0 : entries.length;
+        this.clear();
+        while (++index < length) {
+          var entry = entries[index];
+          this.set(entry[0], entry[1]);
+        }
+      }
+      Hash.prototype.clear = hashClear;
+      Hash.prototype["delete"] = hashDelete;
+      Hash.prototype.get = hashGet;
+      Hash.prototype.has = hashHas;
+      Hash.prototype.set = hashSet;
+      module.exports = Hash;
+    }
+  });
+
+  // node_modules/lodash/_listCacheClear.js
+  var require_listCacheClear = __commonJS({
+    "node_modules/lodash/_listCacheClear.js"(exports, module) {
+      function listCacheClear() {
+        this.__data__ = [];
+        this.size = 0;
+      }
+      module.exports = listCacheClear;
+    }
+  });
+
+  // node_modules/lodash/eq.js
+  var require_eq = __commonJS({
+    "node_modules/lodash/eq.js"(exports, module) {
+      function eq(value, other) {
+        return value === other || value !== value && other !== other;
+      }
+      module.exports = eq;
+    }
+  });
+
+  // node_modules/lodash/_assocIndexOf.js
+  var require_assocIndexOf = __commonJS({
+    "node_modules/lodash/_assocIndexOf.js"(exports, module) {
+      var eq = require_eq();
+      function assocIndexOf(array, key) {
+        var length = array.length;
+        while (length--) {
+          if (eq(array[length][0], key)) {
+            return length;
+          }
+        }
+        return -1;
+      }
+      module.exports = assocIndexOf;
+    }
+  });
+
+  // node_modules/lodash/_listCacheDelete.js
+  var require_listCacheDelete = __commonJS({
+    "node_modules/lodash/_listCacheDelete.js"(exports, module) {
+      var assocIndexOf = require_assocIndexOf();
+      var arrayProto = Array.prototype;
+      var splice = arrayProto.splice;
+      function listCacheDelete(key) {
+        var data = this.__data__, index = assocIndexOf(data, key);
+        if (index < 0) {
+          return false;
+        }
+        var lastIndex = data.length - 1;
+        if (index == lastIndex) {
+          data.pop();
+        } else {
+          splice.call(data, index, 1);
+        }
+        --this.size;
+        return true;
+      }
+      module.exports = listCacheDelete;
+    }
+  });
+
+  // node_modules/lodash/_listCacheGet.js
+  var require_listCacheGet = __commonJS({
+    "node_modules/lodash/_listCacheGet.js"(exports, module) {
+      var assocIndexOf = require_assocIndexOf();
+      function listCacheGet(key) {
+        var data = this.__data__, index = assocIndexOf(data, key);
+        return index < 0 ? void 0 : data[index][1];
+      }
+      module.exports = listCacheGet;
+    }
+  });
+
+  // node_modules/lodash/_listCacheHas.js
+  var require_listCacheHas = __commonJS({
+    "node_modules/lodash/_listCacheHas.js"(exports, module) {
+      var assocIndexOf = require_assocIndexOf();
+      function listCacheHas(key) {
+        return assocIndexOf(this.__data__, key) > -1;
+      }
+      module.exports = listCacheHas;
+    }
+  });
+
+  // node_modules/lodash/_listCacheSet.js
+  var require_listCacheSet = __commonJS({
+    "node_modules/lodash/_listCacheSet.js"(exports, module) {
+      var assocIndexOf = require_assocIndexOf();
+      function listCacheSet(key, value) {
+        var data = this.__data__, index = assocIndexOf(data, key);
+        if (index < 0) {
+          ++this.size;
+          data.push([key, value]);
+        } else {
+          data[index][1] = value;
+        }
+        return this;
+      }
+      module.exports = listCacheSet;
+    }
+  });
+
+  // node_modules/lodash/_ListCache.js
+  var require_ListCache = __commonJS({
+    "node_modules/lodash/_ListCache.js"(exports, module) {
+      var listCacheClear = require_listCacheClear();
+      var listCacheDelete = require_listCacheDelete();
+      var listCacheGet = require_listCacheGet();
+      var listCacheHas = require_listCacheHas();
+      var listCacheSet = require_listCacheSet();
+      function ListCache(entries) {
+        var index = -1, length = entries == null ? 0 : entries.length;
+        this.clear();
+        while (++index < length) {
+          var entry = entries[index];
+          this.set(entry[0], entry[1]);
+        }
+      }
+      ListCache.prototype.clear = listCacheClear;
+      ListCache.prototype["delete"] = listCacheDelete;
+      ListCache.prototype.get = listCacheGet;
+      ListCache.prototype.has = listCacheHas;
+      ListCache.prototype.set = listCacheSet;
+      module.exports = ListCache;
+    }
+  });
+
+  // node_modules/lodash/_Map.js
+  var require_Map = __commonJS({
+    "node_modules/lodash/_Map.js"(exports, module) {
+      var getNative = require_getNative();
+      var root2 = require_root();
+      var Map2 = getNative(root2, "Map");
+      module.exports = Map2;
+    }
+  });
+
+  // node_modules/lodash/_mapCacheClear.js
+  var require_mapCacheClear = __commonJS({
+    "node_modules/lodash/_mapCacheClear.js"(exports, module) {
+      var Hash = require_Hash();
+      var ListCache = require_ListCache();
+      var Map2 = require_Map();
+      function mapCacheClear() {
+        this.size = 0;
+        this.__data__ = {
+          "hash": new Hash(),
+          "map": new (Map2 || ListCache)(),
+          "string": new Hash()
+        };
+      }
+      module.exports = mapCacheClear;
+    }
+  });
+
+  // node_modules/lodash/_isKeyable.js
+  var require_isKeyable = __commonJS({
+    "node_modules/lodash/_isKeyable.js"(exports, module) {
+      function isKeyable(value) {
+        var type = typeof value;
+        return type == "string" || type == "number" || type == "symbol" || type == "boolean" ? value !== "__proto__" : value === null;
+      }
+      module.exports = isKeyable;
+    }
+  });
+
+  // node_modules/lodash/_getMapData.js
+  var require_getMapData = __commonJS({
+    "node_modules/lodash/_getMapData.js"(exports, module) {
+      var isKeyable = require_isKeyable();
+      function getMapData(map, key) {
+        var data = map.__data__;
+        return isKeyable(key) ? data[typeof key == "string" ? "string" : "hash"] : data.map;
+      }
+      module.exports = getMapData;
+    }
+  });
+
+  // node_modules/lodash/_mapCacheDelete.js
+  var require_mapCacheDelete = __commonJS({
+    "node_modules/lodash/_mapCacheDelete.js"(exports, module) {
+      var getMapData = require_getMapData();
+      function mapCacheDelete(key) {
+        var result = getMapData(this, key)["delete"](key);
+        this.size -= result ? 1 : 0;
+        return result;
+      }
+      module.exports = mapCacheDelete;
+    }
+  });
+
+  // node_modules/lodash/_mapCacheGet.js
+  var require_mapCacheGet = __commonJS({
+    "node_modules/lodash/_mapCacheGet.js"(exports, module) {
+      var getMapData = require_getMapData();
+      function mapCacheGet(key) {
+        return getMapData(this, key).get(key);
+      }
+      module.exports = mapCacheGet;
+    }
+  });
+
+  // node_modules/lodash/_mapCacheHas.js
+  var require_mapCacheHas = __commonJS({
+    "node_modules/lodash/_mapCacheHas.js"(exports, module) {
+      var getMapData = require_getMapData();
+      function mapCacheHas(key) {
+        return getMapData(this, key).has(key);
+      }
+      module.exports = mapCacheHas;
+    }
+  });
+
+  // node_modules/lodash/_mapCacheSet.js
+  var require_mapCacheSet = __commonJS({
+    "node_modules/lodash/_mapCacheSet.js"(exports, module) {
+      var getMapData = require_getMapData();
+      function mapCacheSet(key, value) {
+        var data = getMapData(this, key), size = data.size;
+        data.set(key, value);
+        this.size += data.size == size ? 0 : 1;
+        return this;
+      }
+      module.exports = mapCacheSet;
+    }
+  });
+
+  // node_modules/lodash/_MapCache.js
+  var require_MapCache = __commonJS({
+    "node_modules/lodash/_MapCache.js"(exports, module) {
+      var mapCacheClear = require_mapCacheClear();
+      var mapCacheDelete = require_mapCacheDelete();
+      var mapCacheGet = require_mapCacheGet();
+      var mapCacheHas = require_mapCacheHas();
+      var mapCacheSet = require_mapCacheSet();
+      function MapCache(entries) {
+        var index = -1, length = entries == null ? 0 : entries.length;
+        this.clear();
+        while (++index < length) {
+          var entry = entries[index];
+          this.set(entry[0], entry[1]);
+        }
+      }
+      MapCache.prototype.clear = mapCacheClear;
+      MapCache.prototype["delete"] = mapCacheDelete;
+      MapCache.prototype.get = mapCacheGet;
+      MapCache.prototype.has = mapCacheHas;
+      MapCache.prototype.set = mapCacheSet;
+      module.exports = MapCache;
+    }
+  });
+
+  // node_modules/lodash/memoize.js
+  var require_memoize = __commonJS({
+    "node_modules/lodash/memoize.js"(exports, module) {
+      var MapCache = require_MapCache();
+      var FUNC_ERROR_TEXT = "Expected a function";
+      function memoize(func, resolver) {
+        if (typeof func != "function" || resolver != null && typeof resolver != "function") {
+          throw new TypeError(FUNC_ERROR_TEXT);
+        }
+        var memoized = function() {
+          var args = arguments, key = resolver ? resolver.apply(this, args) : args[0], cache = memoized.cache;
+          if (cache.has(key)) {
+            return cache.get(key);
+          }
+          var result = func.apply(this, args);
+          memoized.cache = cache.set(key, result) || cache;
+          return result;
+        };
+        memoized.cache = new (memoize.Cache || MapCache)();
+        return memoized;
+      }
+      memoize.Cache = MapCache;
+      module.exports = memoize;
+    }
+  });
+
+  // node_modules/lodash/_memoizeCapped.js
+  var require_memoizeCapped = __commonJS({
+    "node_modules/lodash/_memoizeCapped.js"(exports, module) {
+      var memoize = require_memoize();
+      var MAX_MEMOIZE_SIZE = 500;
+      function memoizeCapped(func) {
+        var result = memoize(func, function(key) {
+          if (cache.size === MAX_MEMOIZE_SIZE) {
+            cache.clear();
+          }
+          return key;
+        });
+        var cache = result.cache;
+        return result;
+      }
+      module.exports = memoizeCapped;
+    }
+  });
+
+  // node_modules/lodash/_stringToPath.js
+  var require_stringToPath = __commonJS({
+    "node_modules/lodash/_stringToPath.js"(exports, module) {
+      var memoizeCapped = require_memoizeCapped();
+      var rePropName = /[^.[\]]+|\[(?:(-?\d+(?:\.\d+)?)|(["'])((?:(?!\2)[^\\]|\\.)*?)\2)\]|(?=(?:\.|\[\])(?:\.|\[\]|$))/g;
+      var reEscapeChar = /\\(\\)?/g;
+      var stringToPath = memoizeCapped(function(string) {
+        var result = [];
+        if (string.charCodeAt(0) === 46) {
+          result.push("");
+        }
+        string.replace(rePropName, function(match, number, quote, subString) {
+          result.push(quote ? subString.replace(reEscapeChar, "$1") : number || match);
+        });
+        return result;
+      });
+      module.exports = stringToPath;
+    }
+  });
+
+  // node_modules/lodash/_arrayMap.js
+  var require_arrayMap = __commonJS({
+    "node_modules/lodash/_arrayMap.js"(exports, module) {
+      function arrayMap(array, iteratee) {
+        var index = -1, length = array == null ? 0 : array.length, result = Array(length);
+        while (++index < length) {
+          result[index] = iteratee(array[index], index, array);
+        }
+        return result;
+      }
+      module.exports = arrayMap;
+    }
+  });
+
+  // node_modules/lodash/_baseToString.js
+  var require_baseToString = __commonJS({
+    "node_modules/lodash/_baseToString.js"(exports, module) {
+      var Symbol2 = require_Symbol();
+      var arrayMap = require_arrayMap();
+      var isArray = require_isArray();
+      var isSymbol = require_isSymbol();
+      var INFINITY = 1 / 0;
+      var symbolProto = Symbol2 ? Symbol2.prototype : void 0;
+      var symbolToString = symbolProto ? symbolProto.toString : void 0;
+      function baseToString(value) {
+        if (typeof value == "string") {
+          return value;
+        }
+        if (isArray(value)) {
+          return arrayMap(value, baseToString) + "";
+        }
+        if (isSymbol(value)) {
+          return symbolToString ? symbolToString.call(value) : "";
+        }
+        var result = value + "";
+        return result == "0" && 1 / value == -INFINITY ? "-0" : result;
+      }
+      module.exports = baseToString;
+    }
+  });
+
+  // node_modules/lodash/toString.js
+  var require_toString = __commonJS({
+    "node_modules/lodash/toString.js"(exports, module) {
+      var baseToString = require_baseToString();
+      function toString(value) {
+        return value == null ? "" : baseToString(value);
+      }
+      module.exports = toString;
+    }
+  });
+
+  // node_modules/lodash/_castPath.js
+  var require_castPath = __commonJS({
+    "node_modules/lodash/_castPath.js"(exports, module) {
+      var isArray = require_isArray();
+      var isKey = require_isKey();
+      var stringToPath = require_stringToPath();
+      var toString = require_toString();
+      function castPath(value, object) {
+        if (isArray(value)) {
+          return value;
+        }
+        return isKey(value, object) ? [value] : stringToPath(toString(value));
+      }
+      module.exports = castPath;
+    }
+  });
+
+  // node_modules/lodash/_toKey.js
+  var require_toKey = __commonJS({
+    "node_modules/lodash/_toKey.js"(exports, module) {
+      var isSymbol = require_isSymbol();
+      var INFINITY = 1 / 0;
+      function toKey(value) {
+        if (typeof value == "string" || isSymbol(value)) {
+          return value;
+        }
+        var result = value + "";
+        return result == "0" && 1 / value == -INFINITY ? "-0" : result;
+      }
+      module.exports = toKey;
+    }
+  });
+
+  // node_modules/lodash/_baseGet.js
+  var require_baseGet = __commonJS({
+    "node_modules/lodash/_baseGet.js"(exports, module) {
+      var castPath = require_castPath();
+      var toKey = require_toKey();
+      function baseGet(object, path) {
+        path = castPath(path, object);
+        var index = 0, length = path.length;
+        while (object != null && index < length) {
+          object = object[toKey(path[index++])];
+        }
+        return index && index == length ? object : void 0;
+      }
+      module.exports = baseGet;
+    }
+  });
+
+  // node_modules/lodash/get.js
+  var require_get = __commonJS({
+    "node_modules/lodash/get.js"(exports, module) {
+      var baseGet = require_baseGet();
+      function get7(object, path, defaultValue) {
+        var result = object == null ? void 0 : baseGet(object, path);
+        return result === void 0 ? defaultValue : result;
+      }
+      module.exports = get7;
+    }
+  });
+
+  // node_modules/lodash/_defineProperty.js
+  var require_defineProperty = __commonJS({
+    "node_modules/lodash/_defineProperty.js"(exports, module) {
+      var getNative = require_getNative();
+      var defineProperty = function() {
+        try {
+          var func = getNative(Object, "defineProperty");
+          func({}, "", {});
+          return func;
+        } catch (e) {
+        }
+      }();
+      module.exports = defineProperty;
+    }
+  });
+
+  // node_modules/lodash/_baseAssignValue.js
+  var require_baseAssignValue = __commonJS({
+    "node_modules/lodash/_baseAssignValue.js"(exports, module) {
+      var defineProperty = require_defineProperty();
+      function baseAssignValue(object, key, value) {
+        if (key == "__proto__" && defineProperty) {
+          defineProperty(object, key, {
+            "configurable": true,
+            "enumerable": true,
+            "value": value,
+            "writable": true
+          });
+        } else {
+          object[key] = value;
+        }
+      }
+      module.exports = baseAssignValue;
+    }
+  });
+
+  // node_modules/lodash/_assignValue.js
+  var require_assignValue = __commonJS({
+    "node_modules/lodash/_assignValue.js"(exports, module) {
+      var baseAssignValue = require_baseAssignValue();
+      var eq = require_eq();
+      var objectProto = Object.prototype;
+      var hasOwnProperty = objectProto.hasOwnProperty;
+      function assignValue(object, key, value) {
+        var objValue = object[key];
+        if (!(hasOwnProperty.call(object, key) && eq(objValue, value)) || value === void 0 && !(key in object)) {
+          baseAssignValue(object, key, value);
+        }
+      }
+      module.exports = assignValue;
+    }
+  });
+
+  // node_modules/lodash/_isIndex.js
+  var require_isIndex = __commonJS({
+    "node_modules/lodash/_isIndex.js"(exports, module) {
+      var MAX_SAFE_INTEGER = 9007199254740991;
+      var reIsUint = /^(?:0|[1-9]\d*)$/;
+      function isIndex(value, length) {
+        var type = typeof value;
+        length = length == null ? MAX_SAFE_INTEGER : length;
+        return !!length && (type == "number" || type != "symbol" && reIsUint.test(value)) && (value > -1 && value % 1 == 0 && value < length);
+      }
+      module.exports = isIndex;
+    }
+  });
+
+  // node_modules/lodash/_baseSet.js
+  var require_baseSet = __commonJS({
+    "node_modules/lodash/_baseSet.js"(exports, module) {
+      var assignValue = require_assignValue();
+      var castPath = require_castPath();
+      var isIndex = require_isIndex();
+      var isObject = require_isObject();
+      var toKey = require_toKey();
+      function baseSet(object, path, value, customizer) {
+        if (!isObject(object)) {
+          return object;
+        }
+        path = castPath(path, object);
+        var index = -1, length = path.length, lastIndex = length - 1, nested = object;
+        while (nested != null && ++index < length) {
+          var key = toKey(path[index]), newValue = value;
+          if (key === "__proto__" || key === "constructor" || key === "prototype") {
+            return object;
+          }
+          if (index != lastIndex) {
+            var objValue = nested[key];
+            newValue = customizer ? customizer(objValue, key, nested) : void 0;
+            if (newValue === void 0) {
+              newValue = isObject(objValue) ? objValue : isIndex(path[index + 1]) ? [] : {};
+            }
+          }
+          assignValue(nested, key, newValue);
+          nested = nested[key];
+        }
+        return object;
+      }
+      module.exports = baseSet;
+    }
+  });
+
+  // node_modules/lodash/set.js
+  var require_set = __commonJS({
+    "node_modules/lodash/set.js"(exports, module) {
+      var baseSet = require_baseSet();
+      function set5(object, path, value) {
+        return object == null ? object : baseSet(object, path, value);
+      }
+      module.exports = set5;
+    }
+  });
+
+  // node_modules/lodash/_baseHas.js
+  var require_baseHas = __commonJS({
+    "node_modules/lodash/_baseHas.js"(exports, module) {
+      var objectProto = Object.prototype;
+      var hasOwnProperty = objectProto.hasOwnProperty;
+      function baseHas(object, key) {
+        return object != null && hasOwnProperty.call(object, key);
+      }
+      module.exports = baseHas;
+    }
+  });
+
+  // node_modules/lodash/_baseIsArguments.js
+  var require_baseIsArguments = __commonJS({
+    "node_modules/lodash/_baseIsArguments.js"(exports, module) {
+      var baseGetTag = require_baseGetTag();
+      var isObjectLike = require_isObjectLike();
+      var argsTag = "[object Arguments]";
+      function baseIsArguments(value) {
+        return isObjectLike(value) && baseGetTag(value) == argsTag;
+      }
+      module.exports = baseIsArguments;
+    }
+  });
+
+  // node_modules/lodash/isArguments.js
+  var require_isArguments = __commonJS({
+    "node_modules/lodash/isArguments.js"(exports, module) {
+      var baseIsArguments = require_baseIsArguments();
+      var isObjectLike = require_isObjectLike();
+      var objectProto = Object.prototype;
+      var hasOwnProperty = objectProto.hasOwnProperty;
+      var propertyIsEnumerable = objectProto.propertyIsEnumerable;
+      var isArguments = baseIsArguments(function() {
+        return arguments;
+      }()) ? baseIsArguments : function(value) {
+        return isObjectLike(value) && hasOwnProperty.call(value, "callee") && !propertyIsEnumerable.call(value, "callee");
+      };
+      module.exports = isArguments;
+    }
+  });
+
+  // node_modules/lodash/isLength.js
+  var require_isLength = __commonJS({
+    "node_modules/lodash/isLength.js"(exports, module) {
+      var MAX_SAFE_INTEGER = 9007199254740991;
+      function isLength(value) {
+        return typeof value == "number" && value > -1 && value % 1 == 0 && value <= MAX_SAFE_INTEGER;
+      }
+      module.exports = isLength;
+    }
+  });
+
+  // node_modules/lodash/_hasPath.js
+  var require_hasPath = __commonJS({
+    "node_modules/lodash/_hasPath.js"(exports, module) {
+      var castPath = require_castPath();
+      var isArguments = require_isArguments();
+      var isArray = require_isArray();
+      var isIndex = require_isIndex();
+      var isLength = require_isLength();
+      var toKey = require_toKey();
+      function hasPath(object, path, hasFunc) {
+        path = castPath(path, object);
+        var index = -1, length = path.length, result = false;
+        while (++index < length) {
+          var key = toKey(path[index]);
+          if (!(result = object != null && hasFunc(object, key))) {
+            break;
+          }
+          object = object[key];
+        }
+        if (result || ++index != length) {
+          return result;
+        }
+        length = object == null ? 0 : object.length;
+        return !!length && isLength(length) && isIndex(key, length) && (isArray(object) || isArguments(object));
+      }
+      module.exports = hasPath;
+    }
+  });
+
+  // node_modules/lodash/has.js
+  var require_has = __commonJS({
+    "node_modules/lodash/has.js"(exports, module) {
+      var baseHas = require_baseHas();
+      var hasPath = require_hasPath();
+      function has3(object, path) {
+        return object != null && hasPath(object, path, baseHas);
+      }
+      module.exports = has3;
     }
   });
 
@@ -24360,9 +24985,9 @@
           }
           function checkPropTypes(typeSpecs, values, location, componentName, element) {
             {
-              var has = Function.call.bind(hasOwnProperty);
+              var has3 = Function.call.bind(hasOwnProperty);
               for (var typeSpecName in typeSpecs) {
-                if (has(typeSpecs, typeSpecName)) {
+                if (has3(typeSpecs, typeSpecName)) {
                   var error$1 = void 0;
                   try {
                     if (typeof typeSpecs[typeSpecName] !== "function") {
@@ -24456,9 +25081,9 @@
             }
             return config.key !== void 0;
           }
-          function warnIfStringRefCannotBeAutoConverted(config, self) {
+          function warnIfStringRefCannotBeAutoConverted(config, self2) {
             {
-              if (typeof config.ref === "string" && ReactCurrentOwner.current && self && ReactCurrentOwner.current.stateNode !== self) {
+              if (typeof config.ref === "string" && ReactCurrentOwner.current && self2 && ReactCurrentOwner.current.stateNode !== self2) {
                 var componentName = getComponentNameFromType(ReactCurrentOwner.current.type);
                 if (!didWarnAboutStringRefs[componentName]) {
                   error('Component "%s" contains the string ref "%s". Support for string refs will be removed in a future major release. This case cannot be automatically converted to an arrow function. We ask you to manually fix this case by using useRef() or createRef() instead. Learn more about using refs safely here: https://reactjs.org/link/strict-mode-string-ref', getComponentNameFromType(ReactCurrentOwner.current.type), config.ref);
@@ -24497,7 +25122,7 @@
               });
             }
           }
-          var ReactElement = function(type, key, ref, self, source, owner, props) {
+          var ReactElement2 = function(type, key, ref, self2, source, owner, props) {
             var element = {
               // This tag allows us to uniquely identify this as a React Element
               $$typeof: REACT_ELEMENT_TYPE,
@@ -24521,7 +25146,7 @@
                 configurable: false,
                 enumerable: false,
                 writable: false,
-                value: self
+                value: self2
               });
               Object.defineProperty(element, "_source", {
                 configurable: false,
@@ -24536,7 +25161,7 @@
             }
             return element;
           };
-          function jsxDEV(type, config, maybeKey, source, self) {
+          function jsxDEV(type, config, maybeKey, source, self2) {
             {
               var propName;
               var props = {};
@@ -24556,7 +25181,7 @@
               }
               if (hasValidRef(config)) {
                 ref = config.ref;
-                warnIfStringRefCannotBeAutoConverted(config, self);
+                warnIfStringRefCannotBeAutoConverted(config, self2);
               }
               for (propName in config) {
                 if (hasOwnProperty.call(config, propName) && !RESERVED_PROPS.hasOwnProperty(propName)) {
@@ -24580,7 +25205,7 @@
                   defineRefPropWarningGetter(props, displayName);
                 }
               }
-              return ReactElement(type, key, ref, self, source, ReactCurrentOwner.current, props);
+              return ReactElement2(type, key, ref, self2, source, ReactCurrentOwner.current, props);
             }
           }
           var ReactCurrentOwner$1 = ReactSharedInternals.ReactCurrentOwner;
@@ -24739,7 +25364,7 @@
               }
             }
           }
-          function jsxWithValidation(type, props, key, isStaticChildren, source, self) {
+          function jsxWithValidation(type, props, key, isStaticChildren, source, self2) {
             {
               var validType = isValidElementType(type);
               if (!validType) {
@@ -24766,7 +25391,7 @@
                 }
                 error("React.jsx: type is invalid -- expected a string (for built-in components) or a class/function (for composite components) but got: %s.%s", typeString, info);
               }
-              var element = jsxDEV(type, props, key, source, self);
+              var element = jsxDEV(type, props, key, source, self2);
               if (element == null) {
                 return element;
               }
@@ -24829,627 +25454,44 @@
     }
   });
 
-  // dev/index.tsx
-  var import_client = __toESM(require_client());
-
-  // src/modules/hooks.ts
-  var import_react2 = __toESM(require_react());
-  var import_projectx3 = __toESM(require_main());
-
-  // src/modules/form.ts
-  var import_projectx = __toESM(require_main());
-  var Form = class extends import_projectx.ObserveState {
-    constructor(options) {
-      super();
-      this.options = options;
-      this.handleSubmit = (onSubmit) => (event) => __async(this, null, function* () {
-        event == null ? void 0 : event.preventDefault();
-        this.baseCommit([
-          { path: "state.isSubmitted", value: true },
-          { path: "state.isSubmitting", value: true }
-        ]);
-        try {
-          yield onSubmit(this.data);
-        } catch (error) {
-          console.error(error);
-        } finally {
-          this.baseCommit([{ path: "state.isSubmitting", value: false }]);
-        }
-      });
-      this.data = {
-        values: structuredClone(options.defaultValues),
-        state: {
-          touchedFields: /* @__PURE__ */ new Set(),
-          isSubmitted: false,
-          isSubmitting: false
-        },
-        errors: {}
-      };
-    }
-    get formState() {
-      return this.data.state;
-    }
-    baseCommit(changes) {
-      if (!changes.length) {
-        return [];
-      }
-      const changeTree = new import_projectx.PathTree();
-      const results = [];
-      for (const { path, value } of changes) {
-        changeTree.push(path);
-        results.push(import_projectx.Path.set(this.data, path, value));
-      }
-      this.emit({
-        changeTree,
-        detail: { prev: {}, curr: {}, modes: /* @__PURE__ */ new Map(), values: false }
-      });
-      return results;
-    }
-    commit(changes) {
-      if (!changes.length) {
-        return [];
-      }
-      const changeTree = new import_projectx.PathTree();
-      const prev = structuredClone(this.data.values);
-      const results = [];
-      const modes = /* @__PURE__ */ new Map();
-      for (const { path, value, changeMode = "change" } of changes) {
-        changeTree.push(path);
-        modes.set(path, changeMode);
-        if (changeMode === "native") {
-          this.data.state.touchedFields.add(path);
-        }
-        results.push(import_projectx.Path.set(this.data.values, path, value));
-      }
-      changeTree.push("state.touchedFields");
-      this.emit({
-        changeTree: import_projectx.PathTree.pushPrefix("values", changeTree),
-        detail: { prev, curr: this.data.values, modes, values: true }
-      });
-      return results;
-    }
-    change(values) {
-      const changeTree = new import_projectx.PathTree();
-      for (const key in values) {
-        changeTree.push(key);
-        this.data[key] = values[key];
-      }
-      this.emit({
-        changeTree,
-        detail: { curr: {}, prev: {}, modes: /* @__PURE__ */ new Map(), values: false }
-      });
-    }
-    setErrors(errors) {
-      this.change({
-        errors: Object.entries(errors).reduce((acc, [key, error]) => {
-          if (error) {
-            acc[key] = error;
-          } else {
-            delete acc[key];
-          }
-          return acc;
-        }, this.data.errors)
-      });
-    }
-    resetErrors(...paths) {
-      const errors = this.data.errors;
-      for (const path of paths) {
-        delete errors[path];
-      }
-      this.change({ errors: paths.length ? errors : {} });
-    }
-    getValues(...args) {
-      if (!args.length) {
-        return this.data.values;
-      }
-      if (args.length > 1) {
-        return args.reduce(
-          (acc, p) => acc.concat(import_projectx.Path.get(this.data.values, p)),
-          []
-        );
-      }
-      const [first] = args;
-      const type = typeof first;
-      if (type === "string") {
-        return import_projectx.Path.get(this.data.values, first);
-      }
-      if (!type || type !== "object") {
-        throw new Error("Invalid format argument of `getValues` method.");
-      }
-      if (Array.isArray(first)) {
-        return first.reduce(
-          (acc, p) => acc.concat(import_projectx.Path.get(this.data.values, p)),
-          []
-        );
-      }
-      return Object.keys(first).reduce(
-        (acc, p) => Object.assign(acc, { [p]: import_projectx.Path.get(this.data.values, p) }),
-        {}
-      );
-    }
-    reset() {
-      this.change({
-        values: structuredClone(this.options.defaultValues),
-        state: {
-          touchedFields: /* @__PURE__ */ new Set(),
-          isSubmitted: false,
-          isSubmitting: false
-        },
-        errors: {}
-      });
-    }
-  };
-  var form_default = Form;
-
-  // src/shared/constants.ts
-  var import_react = __toESM(require_react());
-  var FormContext = (0, import_react.createContext)(
-    {}
-  );
-
-  // src/modules/recalculate.ts
-  var import_projectx2 = __toESM(require_main());
-  function getRecalculateResult(result) {
-    if (result && typeof result === "object") {
-      return result;
-    }
-    return { value: result, mode: "change" };
-  }
-  function createRecalculate(form, { defaultExternal = {}, fields }) {
-    const recalculateMap = fields.reduce(
-      (acc, item) => Object.assign(acc, { [item.path]: item }),
-      {}
-    );
-    let memo = structuredClone(defaultExternal);
-    let lastCalledPath;
-    const workPromises = /* @__PURE__ */ new Map();
-    function handleResult(_0, _1, _2) {
-      return __async(this, arguments, function* (current, prev, { handler, path }) {
-        const handleResult2 = handler(current, prev, {
-          external: memo,
-          state: form.data.state,
-          values: form.data.values,
-          lastCalledPath
-        });
-        let result;
-        if (handleResult2 instanceof Promise) {
-          workPromises.set(String(path), handleResult2);
-          result = yield handleResult2;
-          if (workPromises.get(String(path)) !== handleResult2) {
-            return;
-          }
-        } else {
-          result = handleResult2;
-        }
-        const commits = [];
-        for (const path2 in result) {
-          const { value, mode = "change" } = getRecalculateResult(result[path2]);
-          commits.push({ path: path2, value, changeMode: mode });
-        }
-        form.commit(commits);
-      });
-    }
-    function callExternal(field, value) {
-      return __async(this, null, function* () {
-        if (!(field in recalculateMap)) {
-          return;
-        }
-        const options = recalculateMap[field];
-        const prev = import_projectx2.Path.get(memo, String(field));
-        import_projectx2.Path.set(memo, String(field), value);
-        try {
-          yield handleResult(value, prev, options);
-        } catch (e) {
-        }
-      });
-    }
-    function callRecalculate(field, detail) {
-      return __async(this, null, function* () {
-        const options = recalculateMap[field];
-        const { watchType = "native" } = options;
-        if (watchType !== (detail.modes.get(field) || "change")) {
-          return;
-        }
-        lastCalledPath = field;
-        try {
-          yield handleResult(
-            import_projectx2.Path.get(detail.curr, field),
-            import_projectx2.Path.get(detail.prev, field),
-            options
-          );
-        } catch (e) {
-        }
-      });
-    }
-    const entries = [];
-    for (const path in recalculateMap) {
-      if (!import_projectx2.Path.has(form.data.values, path)) {
-        continue;
-      }
-      entries.push([path, new import_projectx2.PathTree([`values.${path}`])]);
-    }
-    const unsubscribe = form.listen(({ changeTree, detail }) => {
-      const entry = detail.values && entries.find(([, tree]) => tree.includes(changeTree));
-      if (!entry) {
-        return;
-      }
-      callRecalculate(entry[0], detail);
-    });
-    return {
-      callExternal: (path, value) => callExternal(path, value),
-      callRecalculate: (path, value) => {
-        const options = recalculateMap[path];
-        if (!options) {
-          return;
-        }
-        form.commit([
-          {
-            path,
-            value: value === void 0 ? import_projectx2.Path.get(form.data.values, path) : value,
-            changeMode: options.watchType || "native"
-          }
-        ]);
-      },
-      dispose: () => {
-        unsubscribe();
-        memo = structuredClone(defaultExternal);
-        lastCalledPath = void 0;
-        workPromises.clear();
-      }
-    };
-  }
-
-  // src/modules/hooks.ts
-  function useFormContext() {
-    return (0, import_react2.useContext)(FormContext);
-  }
-  function useContextOrDefault(form) {
-    const formContext = form || useFormContext();
-    if (!formContext) {
-      throw new Error(
-        "An error occurred while retrieving the form context. Check for context or pass it as an argument."
-      );
-    }
-    return formContext;
-  }
-  function getOnChangeValue(event) {
-    if (typeof event === "object" && event && "target" in event && event.target && typeof event.target === "object" && "value" in event.target) {
-      return event.target.value;
-    }
-    return event;
-  }
-  function useField(name, form) {
-    const formContext = useContextOrDefault(form);
-    const [value, setValue] = (0, import_react2.useState)(
-      () => import_projectx3.Path.get(formContext.data.values, name)
-    );
-    const [error, setError] = (0, import_react2.useState)(null);
-    (0, import_react2.useEffect)(() => {
-      const unsubscribeValue = formContext.watch([`values.${name}`], () => {
-        setValue(import_projectx3.Path.get(formContext.data.values, name));
-      });
-      const unsubscribeError = formContext.watch([`errors.${name}`], () => {
-        setError(formContext.data.errors[name]);
-      });
-      return () => {
-        unsubscribeValue();
-        unsubscribeError();
-      };
-    }, [formContext, name]);
-    return {
-      input: {
-        name,
-        value: value || "",
-        onChange: (event) => {
-          formContext.commit([
-            {
-              path: name,
-              value: getOnChangeValue(event),
-              changeMode: "native"
-            }
-          ]);
-        }
-      },
-      change: (value2) => formContext.commit([{ path: name, value: value2 }]),
-      fieldState: {
-        isTouched: formContext.data.state.touchedFields.has(name),
-        error
-      }
-    };
-  }
-  function useForm(options) {
-    const formApiRef = (0, import_react2.useRef)(null);
-    if (!formApiRef.current) {
-      formApiRef.current = new form_default(options);
-    }
-    return formApiRef.current;
-  }
-  function useRecalculate(schema, form) {
-    const formContext = useContextOrDefault(form);
-    const resultRef = (0, import_react2.useRef)(null);
-    if (!resultRef.current) {
-      resultRef.current = createRecalculate(formContext, schema);
-    }
-    (0, import_react2.useEffect)(
-      () => () => {
-        var _a;
-        (_a = resultRef.current) == null ? void 0 : _a.dispose();
-      },
-      []
-    );
-    return resultRef.current;
-  }
-  function useValidate(validator, form) {
-    const formContext = useContextOrDefault(form);
-    (0, import_react2.useEffect)(
-      () => formContext.watch(["values"], () => {
-        const result = validator(
-          formContext.data.values,
-          formContext.data.errors
-        );
-        if (result === null) {
-          formContext.resetErrors();
-        } else {
-          formContext.setErrors(result);
-        }
-      }),
-      [formContext, validator]
-    );
-  }
-  function useError(form) {
-    const formContext = useContextOrDefault(form);
-    const [errors, setErrors] = (0, import_react2.useState)(() => formContext.data.errors);
-    (0, import_react2.useEffect)(
-      () => formContext.watch(["errors"], () => {
-        setErrors(__spreadValues({}, formContext.data.errors));
-      }),
-      [formContext]
-    );
-    return {
-      errors,
-      setErrors: formContext.setErrors.bind(formContext),
-      resetErrors: formContext.resetErrors.bind(formContext)
-    };
-  }
-
-  // src/modules/provider.tsx
-  var import_jsx_runtime = __toESM(require_jsx_runtime());
-  function FormProvider({
-    form,
-    children
-  }) {
-    return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(FormContext.Provider, { value: form, children });
-  }
-  var provider_default = FormProvider;
-
-  // dev/examples/login.tsx
-  var import_jsx_runtime2 = __toESM(require_jsx_runtime());
-  function Input({ name, type, label }) {
-    const {
-      input,
-      fieldState: { error, isTouched }
-    } = useField(name);
-    return /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("label", { children: [
-      /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("span", { children: [
-        label,
-        " "
-      ] }),
-      /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("input", __spreadProps(__spreadValues({}, input), { type })),
-      error && isTouched && /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("div", { style: { color: "tomato" }, children: error })
-    ] });
-  }
-  function App() {
-    const form = useForm({
-      defaultValues: { password: "", username: "" }
-    });
-    const { errors, resetErrors, setErrors } = useError(form);
-    useValidate(({ password, username }) => {
-      const errors2 = {};
-      errors2.password = password.length ? null : "Error";
-      errors2.username = username.length ? null : "Error";
-      return errors2;
-    }, form);
-    console.log(errors);
-    return /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)(provider_default, { form, children: [
-      /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("form", { onSubmit: form.handleSubmit((values) => console.log(values)), children: [
-        /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("h1", { children: "Login" }),
-        /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("div", { children: /* @__PURE__ */ (0, import_jsx_runtime2.jsx)(Input, { name: "username", type: "text", label: "Username" }) }),
-        /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("div", { children: /* @__PURE__ */ (0, import_jsx_runtime2.jsx)(Input, { name: "password", type: "password", label: "password" }) }),
-        /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("button", { type: "submit", children: "Login" })
-      ] }),
-      /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("button", { onClick: () => setErrors({ loading: "random text" }), children: "set errors" }),
-      /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("button", { onClick: () => setErrors({ loading: null }), children: "reset random errors" }),
-      /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("button", { onClick: () => resetErrors(), children: "reset errors" })
-    ] });
-  }
-  var login_default = App;
-
-  // dist/dev.js
-  var import_react3 = __toESM(require_react());
-  var import_react4 = __toESM(require_react());
-  var import_jsx_runtime3 = __toESM(require_jsx_runtime());
-  var __create2 = Object.create;
-  var __defProp2 = Object.defineProperty;
-  var __getOwnPropDesc2 = Object.getOwnPropertyDescriptor;
-  var __getOwnPropNames2 = Object.getOwnPropertyNames;
-  var __getProtoOf2 = Object.getPrototypeOf;
-  var __hasOwnProp2 = Object.prototype.hasOwnProperty;
-  var __esm2 = (fn, res) => function __init() {
-    return fn && (res = (0, fn[__getOwnPropNames2(fn)[0]])(fn = 0)), res;
-  };
-  var __commonJS2 = (cb, mod) => function __require() {
-    return mod || (0, cb[__getOwnPropNames2(cb)[0]])((mod = { exports: {} }).exports, mod), mod.exports;
-  };
-  var __export2 = (target, all) => {
-    for (var name in all)
-      __defProp2(target, name, { get: all[name], enumerable: true });
-  };
-  var __copyProps2 = (to, from, except, desc) => {
-    if (from && typeof from === "object" || typeof from === "function") {
-      for (let key of __getOwnPropNames2(from))
-        if (!__hasOwnProp2.call(to, key) && key !== except)
-          __defProp2(to, key, { get: () => from[key], enumerable: !(desc = __getOwnPropDesc2(from, key)) || desc.enumerable });
-    }
-    return to;
-  };
-  var __toESM2 = (mod, isNodeMode, target) => (target = mod != null ? __create2(__getProtoOf2(mod)) : {}, __copyProps2(
-    // If the importer is in node compatibility mode or this is not an ESM
-    // file that has been converted to a CommonJS file using a Babel-
-    // compatible transform (i.e. "__esModule" has not been set), then set
-    // "default" to the CommonJS "module.exports" for node compatibility.
-    isNodeMode || !mod || !mod.__esModule ? __defProp2(target, "default", { value: mod, enumerable: true }) : target,
-    mod
-  ));
-  var __toCommonJS2 = (mod) => __copyProps2(__defProp2({}, "__esModule", { value: true }), mod);
-  var __async2 = (__this, __arguments, generator) => {
-    return new Promise((resolve, reject) => {
-      var fulfilled = (value) => {
-        try {
-          step(generator.next(value));
-        } catch (e) {
-          reject(e);
-        }
-      };
-      var rejected = (value) => {
-        try {
-          step(generator.throw(value));
-        } catch (e) {
-          reject(e);
-        }
-      };
-      var step = (x) => x.done ? resolve(x.value) : Promise.resolve(x.value).then(fulfilled, rejected);
-      step((generator = generator.apply(__this, __arguments)).next());
-    });
-  };
-  var dev_exports2 = {};
-  __export2(dev_exports2, {
-    ObserveState: () => ObserveState3,
-    Path: () => Path5,
-    PathTree: () => PathTree4,
-    batch: () => batch2,
-    combine: () => combine2,
-    default: () => State2
+  // dist/dev.esm.js
+  var dev_esm_exports = {};
+  __export(dev_esm_exports, {
+    Form: () => form_default,
+    FormProvider: () => provider_default,
+    createRecalculate: () => createRecalculate,
+    useCommit: () => useCommit,
+    useError: () => useError,
+    useField: () => useField,
+    useForm: () => useForm,
+    useFormContext: () => useFormContext,
+    useFormState: () => useFormState,
+    useRecalculate: () => useRecalculate,
+    useValidate: () => useValidate,
+    useWatch: () => useWatch
   });
-  function isNull2(target) {
-    return target === null;
-  }
-  function isUndefined2(target) {
-    return target === void 0;
-  }
-  function isEmptyObject2(obj) {
-    for (const _key in obj) {
-      return false;
-    }
-    return true;
-  }
-  function getRecursive2(target, path) {
-    if (!path.length) {
-      return target;
-    }
-    if (isNull2(target) || isUndefined2(target)) {
-      return null;
-    }
-    let next = void 0;
-    const [first, ...rest] = path;
-    if (target instanceof Map) {
-      next = target.get(first);
-    } else if (target instanceof Set) {
-      next = target.size < Number(first) ? void 0 : Array.from(target)[first];
-    } else if (first in target) {
-      next = target[first];
-    }
-    return isUndefined2(next) ? null : getRecursive2(next, rest);
-  }
-  function set2(target, key, value) {
-    if (target instanceof Map) {
-      target.set(key, value);
-      return true;
-    }
-    if (target instanceof Set) {
-      throw new Error(
-        "The `Path.set` function does not support setting in values `Set` by key."
-      );
-    }
-    if (typeof target === "object") {
-      target[key] = value;
-      return true;
-    }
-    return false;
-  }
-  function setRecursive2(target, path, value) {
-    if (isNull2(target) || isUndefined2(target)) {
-      return false;
-    }
-    const [first, ...rest] = path;
-    if (!rest.length) {
-      return set2(target, first, value);
-    }
-    const next = getRecursive2(target, [first]);
-    if (next) {
-      return setRecursive2(next, rest, value);
-    }
-    const [second] = rest;
-    const isNumberKey = !Number.isNaN(Number(second));
-    const nextVal = isNumberKey ? new Array() : {};
-    if (target instanceof Map) {
-      target.set(first, nextVal);
-    } else if (target instanceof Set) {
-      const arr = Array.from(target);
-      arr[first] = nextVal;
-    } else if (typeof target === "object") {
-      target[first] = nextVal;
-    } else {
-      return false;
-    }
-    return setRecursive2(nextVal, rest, value);
-  }
-  function hasRecursive2(target, path) {
-    if (isNull2(target) || isUndefined2(target)) {
-      return false;
-    }
-    let next = null;
-    let has = true;
-    const [first, ...rest] = path;
-    if (target instanceof Map) {
-      next = target.get(first);
-      has = target.has(first);
-    } else if (target instanceof Set) {
-      const array = Array.from(target);
-      has = first in array;
-      next = array[first];
-    } else if (first in target) {
-      has = first in target;
-      next = target[first];
-    } else {
-      return false;
-    }
-    if (!has || !rest.length) {
-      return has;
-    }
-    return hasRecursive2(next, rest);
-  }
-  function batch2(handler) {
-    manager2.open();
+  function batch(handler) {
+    manager.open();
     try {
       handler();
     } finally {
-      manager2.close();
+      manager.close();
     }
   }
-  function combine2(states) {
-    return new class extends ObserveState3 {
+  function combine(states) {
+    return new class extends ObserveState {
       constructor() {
         super();
-        this.unlisten = [];
+        this.unsubscribe = [];
         const combined = {};
         for (const key in states) {
           const state = states[key];
           combined[key] = state.data;
-          this.unlisten.push(
+          this.unsubscribe.push(
             state.listen(
               (event) => this.emit({
                 detail: event.detail,
-                changeTree: PathTree4.pushPrefix(key, event.changeTree)
+                changeTree: PathTree.pushPrefix(key, event.changeTree)
               })
             )
           );
@@ -25457,419 +25499,18 @@
         this.data = combined;
       }
       dispose() {
-        this.unlisten.forEach((unlisten) => unlisten());
+        this.unsubscribe.forEach((callback) => callback());
         super.dispose();
       }
     }();
   }
-  var __accessCheck2;
-  var __privateGet2;
-  var __privateAdd2;
-  var defaultEqualResolver2;
-  var _listeners2;
-  var Observer2;
-  var Path5;
-  var PathTreeNode2;
-  var PathTree4;
-  var BatchManager2;
-  var manager2;
-  var ObserveState3;
-  var State2;
-  var init_dev2 = __esm2({
-    "node_modules/projectx.state/dist/dev.js"() {
-      __accessCheck2 = (obj, member, msg) => {
-        if (!member.has(obj))
-          throw TypeError("Cannot " + msg);
-      };
-      __privateGet2 = (obj, member, getter) => {
-        __accessCheck2(obj, member, "read from private field");
-        return getter ? getter.call(obj) : member.get(obj);
-      };
-      __privateAdd2 = (obj, member, value) => {
-        if (member.has(obj))
-          throw TypeError("Cannot add the same private member more than once");
-        member instanceof WeakSet ? member.add(obj) : member.set(obj, value);
-      };
-      defaultEqualResolver2 = (a, b) => a === b;
-      Observer2 = class {
-        constructor() {
-          __privateAdd2(this, _listeners2, /* @__PURE__ */ new Set());
-        }
-        listen(listener) {
-          __privateGet2(this, _listeners2).add(listener);
-          return () => {
-            __privateGet2(this, _listeners2).delete(listener);
-          };
-        }
-        emit(event) {
-          for (const listener of __privateGet2(this, _listeners2)) {
-            if (listener(event)) {
-              return;
-            }
-          }
-        }
-        dispose() {
-          __privateGet2(this, _listeners2).clear();
-        }
-      };
-      _listeners2 = /* @__PURE__ */ new WeakMap();
-      Path5 = class {
-        static isValid(path) {
-          return this.pattern.test(path);
-        }
-        static get(target, path) {
-          if (!path) {
-            return target;
-          }
-          if (!this.isValid(path)) {
-            console.assert(false, `[px.state] Path \`${path}\` is not valid.`);
-            return target;
-          }
-          return getRecursive2(target, path.split("."));
-        }
-        static has(target, path) {
-          if (!this.isValid(path)) {
-            console.assert(false, `[px.state] Path \`${path}\` is not valid.`);
-            return false;
-          }
-          return hasRecursive2(target, path.split("."));
-        }
-        static set(target, path, value) {
-          if (!path) {
-            return false;
-          }
-          if (!this.isValid(path)) {
-            console.assert(false, `[px.state] Path \`${path}\` is not valid.`);
-            return false;
-          }
-          return setRecursive2(target, path.split("."), value);
-        }
-        static toLodashPath(path) {
-          return path.replace(/\.(\d)+/g, "[$1]").replace(/^(\d)+\./gm, "[$1].");
-        }
-        static fromString(path) {
-          return path.split(".");
-        }
-        static toString(path) {
-          return path.join(".");
-        }
-      };
-      Path5.pattern = /^([\w\d_-]+(\.{1}[\w\d_-]+)*)+$/;
-      PathTreeNode2 = class {
-        constructor(path, children = {}) {
-          this.path = path;
-          this.children = children;
-          this.point = false;
-        }
-        get isEmpty() {
-          return isEmptyObject2(this.children);
-        }
-      };
-      PathTree4 = class extends PathTreeNode2 {
-        constructor(paths = []) {
-          super("");
-          this.createTree(paths);
-        }
-        static pushPrefix(path, node) {
-          const tree = new PathTree4();
-          tree.children[path] = new PathTreeNode2(path, node.children);
-          return tree;
-        }
-        pushNode(node, [path, ...rest]) {
-          if (path in node.children) {
-            node.children[path].point = true;
-          } else {
-            node.children[path] = new PathTreeNode2(path);
-          }
-          if (rest.length) {
-            return this.pushNode(node.children[path], rest);
-          }
-        }
-        createTree(paths) {
-          for (const path of paths) {
-            if (!Path5.isValid(path)) {
-              console.assert(false, `[px.state] Path \`${path}\` is not valid!`);
-              continue;
-            }
-            this.pushNode(this, Path5.fromString(path));
-          }
-        }
-        push(path) {
-          this.pushNode(this, Path5.fromString(path));
-        }
-        testTreeRecursive(watch, change) {
-          if (watch.point || watch.isEmpty && change.isEmpty || change.isEmpty != watch.isEmpty) {
-            return true;
-          }
-          for (const key in watch.children) {
-            if (!(key in change.children)) {
-              continue;
-            }
-            if (this.testTreeRecursive(watch.children[key], change.children[key])) {
-              return true;
-            }
-          }
-          return false;
-        }
-        includes(node) {
-          if (node.isEmpty) {
-            return this.isEmpty;
-          }
-          return this.testTreeRecursive(this, node);
-        }
-      };
-      BatchManager2 = class {
-        constructor() {
-          this.batches = [];
-        }
-        open() {
-          this.batches.push(/* @__PURE__ */ new Set());
-        }
-        action(handler) {
-          if (!this.batches.length) {
-            return handler();
-          }
-          this.batches[this.batches.length - 1].add(handler);
-        }
-        close() {
-          const batch22 = this.batches.pop();
-          if (!batch22) {
-            return;
-          }
-          batch22.forEach((handler) => handler());
-        }
-      };
-      manager2 = new BatchManager2();
-      ObserveState3 = class extends Observer2 {
-        reaction(selectors, action, {
-          resolver = defaultEqualResolver2,
-          initCall = false
-        } = {}) {
-          const callSelectors = () => selectors.map((selector) => selector(this.data));
-          const hasSelector = selectors.length > 0;
-          let memo = callSelectors();
-          if (initCall) {
-            action.apply(null, memo);
-          }
-          const handler = () => {
-            if (!hasSelector) {
-              return action.apply(null);
-            }
-            const values = callSelectors();
-            if (values.every((value, index) => resolver(value, memo[index]))) {
-              return;
-            }
-            memo = values;
-            return action.apply(null, memo);
-          };
-          return this.listen(() => manager2.action(handler));
-        }
-        watch(paths, action, { initCall = false } = {}) {
-          let tree = paths;
-          if (!(paths instanceof PathTree4)) {
-            tree = new PathTree4(paths);
-          }
-          if (initCall) {
-            action();
-          }
-          return this.listen(({ changeTree }) => {
-            if (!tree.includes(changeTree)) {
-              return;
-            }
-            return manager2.action(action);
-          });
-        }
-      };
-      State2 = class extends ObserveState3 {
-        change(value) {
-          const changeTree = new PathTree4();
-          for (const key in value) {
-            changeTree.push(key);
-            this.data[key] = value[key];
-          }
-          this.emit({
-            changeTree,
-            detail: {}
-          });
-        }
-        commit(changes) {
-          const changeTree = new PathTree4();
-          const results = [];
-          for (const { path, value } of changes) {
-            changeTree.push(path);
-            results.push(Path5.set(this.data, path, value));
-          }
-          this.emit({ changeTree, detail: {} });
-          return results;
-        }
-      };
-    }
-  });
-  var require_main2 = __commonJS2({
-    "node_modules/projectx.state/dist/main.js"(exports, module) {
-      "use strict";
-      if (false) {
-        module.exports = null;
-      } else {
-        module.exports = (init_dev2(), __toCommonJS2(dev_exports2));
-      }
-    }
-  });
-  var import_projectx32 = __toESM2(require_main2());
-  var import_projectx4 = __toESM2(require_main2());
-  var Form2 = class extends import_projectx4.ObserveState {
-    constructor(options) {
-      super();
-      this.options = options;
-      this.handleSubmit = (onSubmit) => (event) => __async2(this, null, function* () {
-        event == null ? void 0 : event.preventDefault();
-        this.baseCommit([
-          { path: "state.isSubmitted", value: true },
-          { path: "state.isSubmitting", value: true }
-        ]);
-        try {
-          yield onSubmit(this.data);
-        } catch (error) {
-          console.error(error);
-        } finally {
-          this.baseCommit([{ path: "state.isSubmitting", value: false }]);
-        }
-      });
-      this.data = {
-        values: structuredClone(options.defaultValues),
-        state: {
-          touchedFields: /* @__PURE__ */ new Set(),
-          isSubmitted: false,
-          isSubmitting: false
-        },
-        errors: {}
-      };
-    }
-    get formState() {
-      return this.data.state;
-    }
-    baseCommit(changes) {
-      if (!changes.length) {
-        return [];
-      }
-      const changeTree = new import_projectx4.PathTree();
-      const results = [];
-      for (const { path, value } of changes) {
-        changeTree.push(path);
-        results.push(import_projectx4.Path.set(this.data, path, value));
-      }
-      this.emit({
-        changeTree,
-        detail: { prev: {}, curr: {}, modes: /* @__PURE__ */ new Map(), values: false }
-      });
-      return results;
-    }
-    commit(changes) {
-      if (!changes.length) {
-        return [];
-      }
-      const changeTree = new import_projectx4.PathTree();
-      const prev = structuredClone(this.data.values);
-      const results = [];
-      const modes = /* @__PURE__ */ new Map();
-      for (const { path, value, changeMode = "change" } of changes) {
-        changeTree.push(path);
-        modes.set(path, changeMode);
-        if (changeMode === "native") {
-          this.data.state.touchedFields.add(path);
-        }
-        results.push(import_projectx4.Path.set(this.data.values, path, value));
-      }
-      changeTree.push("state.touchedFields");
-      this.emit({
-        changeTree: import_projectx4.PathTree.pushPrefix("values", changeTree),
-        detail: { prev, curr: this.data.values, modes, values: true }
-      });
-      return results;
-    }
-    change(values) {
-      const changeTree = new import_projectx4.PathTree();
-      for (const key in values) {
-        changeTree.push(key);
-        this.data[key] = values[key];
-      }
-      this.emit({
-        changeTree,
-        detail: { curr: {}, prev: {}, modes: /* @__PURE__ */ new Map(), values: false }
-      });
-    }
-    setErrors(errors) {
-      this.change({
-        errors: Object.entries(errors).reduce((acc, [key, error]) => {
-          if (error) {
-            acc[key] = error;
-          } else {
-            delete acc[key];
-          }
-          return acc;
-        }, this.data.errors)
-      });
-    }
-    resetErrors(...paths) {
-      const errors = this.data.errors;
-      for (const path of paths) {
-        delete errors[path];
-      }
-      this.change({ errors: paths.length ? errors : {} });
-    }
-    getValues(...args) {
-      if (!args.length) {
-        return this.data.values;
-      }
-      if (args.length > 1) {
-        return args.reduce(
-          (acc, p) => acc.concat(import_projectx4.Path.get(this.data.values, p)),
-          []
-        );
-      }
-      const [first] = args;
-      const type = typeof first;
-      if (type === "string") {
-        return import_projectx4.Path.get(this.data.values, first);
-      }
-      if (!type || type !== "object") {
-        throw new Error("Invalid format argument of `getValues` method.");
-      }
-      if (Array.isArray(first)) {
-        return first.reduce(
-          (acc, p) => acc.concat(import_projectx4.Path.get(this.data.values, p)),
-          []
-        );
-      }
-      return Object.keys(first).reduce(
-        (acc, p) => Object.assign(acc, { [p]: import_projectx4.Path.get(this.data.values, p) }),
-        {}
-      );
-    }
-    reset() {
-      this.change({
-        values: structuredClone(this.options.defaultValues),
-        state: {
-          touchedFields: /* @__PURE__ */ new Set(),
-          isSubmitted: false,
-          isSubmitting: false
-        },
-        errors: {}
-      });
-    }
-  };
-  var form_default2 = Form2;
-  var FormContext2 = (0, import_react4.createContext)(
-    {}
-  );
-  var import_projectx22 = __toESM2(require_main2());
-  function getRecalculateResult2(result) {
+  function getRecalculateResult(result) {
     if (result && typeof result === "object") {
       return result;
     }
     return { value: result, mode: "change" };
   }
-  function createRecalculate2(form, { defaultExternal = {}, fields }) {
+  function createRecalculate(form, { defaultExternal = {}, fields }) {
     const recalculateMap = fields.reduce(
       (acc, item) => Object.assign(acc, { [item.path]: item }),
       {}
@@ -25897,7 +25538,7 @@
         }
         const commits = [];
         for (const path2 in result) {
-          const { value, mode = "change" } = getRecalculateResult2(result[path2]);
+          const { value, mode = "change" } = getRecalculateResult(result[path2]);
           commits.push({ path: path2, value, changeMode: mode });
         }
         form.commit(commits);
@@ -25909,8 +25550,8 @@
           return;
         }
         const options = recalculateMap[field];
-        const prev = import_projectx22.Path.get(memo, String(field));
-        import_projectx22.Path.set(memo, String(field), value);
+        const prev = (0, import_get3.default)(memo, String(field));
+        (0, import_set2.default)(memo, String(field), value);
         try {
           yield handleResult(value, prev, options);
         } catch (e) {
@@ -25927,8 +25568,8 @@
         lastCalledPath = field;
         try {
           yield handleResult(
-            import_projectx22.Path.get(detail.curr, field),
-            import_projectx22.Path.get(detail.prev, field),
+            (0, import_get3.default)(detail.curr, field),
+            (0, import_get3.default)(detail.prev, field),
             options
           );
         } catch (e) {
@@ -25937,10 +25578,10 @@
     }
     const entries = [];
     for (const path in recalculateMap) {
-      if (!import_projectx22.Path.has(form.data.values, path)) {
+      if (!(0, import_has.default)(form.data.values, path)) {
         continue;
       }
-      entries.push([path, new import_projectx22.PathTree([`values.${path}`])]);
+      entries.push([path, new import_projectx2.PathTree([`values.${path}`])]);
     }
     const unsubscribe = form.listen(({ changeTree, detail }) => {
       const entry = detail.values && entries.find(([, tree]) => tree.includes(changeTree));
@@ -25959,7 +25600,7 @@
         form.commit([
           {
             path,
-            value: value === void 0 ? import_projectx22.Path.get(form.data.values, path) : value,
+            value: value === void 0 ? (0, import_get3.default)(form.data.values, path) : value,
             changeMode: options.watchType || "native"
           }
         ]);
@@ -25972,8 +25613,3435 @@
       }
     };
   }
+  function FormProvider({
+    form,
+    children
+  }) {
+    return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(FormContext.Provider, { value: form, children });
+  }
+  function useFormContext() {
+    return (0, import_react.useContext)(FormContext);
+  }
+  function useContextOrDefault(form) {
+    const formContext = form || useFormContext();
+    if (!formContext) {
+      throw new Error(
+        "An error occurred while retrieving the form context. Check for context or pass it as an argument."
+      );
+    }
+    return formContext;
+  }
+  function getOnChangeValue(event) {
+    if (typeof event === "object" && event && "target" in event && event.target && typeof event.target === "object" && "value" in event.target) {
+      return event.target.value;
+    }
+    return event;
+  }
+  function useField(name, form) {
+    const formContext = useContextOrDefault(form);
+    const [value, setValue] = (0, import_react.useState)(
+      () => (0, import_get.default)(formContext.data.values, name)
+    );
+    const [error, setError] = (0, import_react.useState)(null);
+    (0, import_react.useEffect)(() => {
+      const unsubscribeValue = formContext.on([`values.${name}`], () => {
+        setValue((0, import_get.default)(formContext.data.values, name));
+      });
+      const unsubscribeError = formContext.on([`errors.${name}`], () => {
+        setError(formContext.data.errors[name]);
+      });
+      return () => {
+        unsubscribeValue();
+        unsubscribeError();
+      };
+    }, [formContext, name]);
+    return {
+      input: {
+        name,
+        value: value || "",
+        onChange: (event) => {
+          formContext.commit([
+            {
+              path: name,
+              value: getOnChangeValue(event),
+              changeMode: "native"
+            }
+          ]);
+        }
+      },
+      change: (value2) => formContext.commit([{ path: name, value: value2 }]),
+      fieldState: {
+        isTouched: name in formContext.data.state.touchedFields,
+        error
+      }
+    };
+  }
+  function useWatch(paths, form) {
+    const formContext = useContextOrDefault(form);
+    const [values, setValues] = (0, import_react.useState)(
+      () => formContext.getValues(paths)
+    );
+    const watchPath = Array.isArray(paths) ? paths.map((path) => `values.${path}`) : [`values${paths ? `.${paths}` : ""}`];
+    (0, import_react.useEffect)(
+      () => formContext.on(
+        watchPath,
+        () => setValues(formContext.getValues(paths))
+      ),
+      watchPath
+    );
+    return values;
+  }
+  function useForm(options) {
+    const formApiRef = (0, import_react.useRef)(null);
+    if (!formApiRef.current) {
+      formApiRef.current = new form_default(options);
+    }
+    return formApiRef.current;
+  }
+  function useRecalculate(schema, form) {
+    const formContext = useContextOrDefault(form);
+    const resultRef = (0, import_react.useRef)(null);
+    if (!resultRef.current) {
+      resultRef.current = createRecalculate(formContext, schema);
+    }
+    (0, import_react.useEffect)(
+      () => () => {
+        var _a;
+        (_a = resultRef.current) == null ? void 0 : _a.dispose();
+      },
+      []
+    );
+    return resultRef.current;
+  }
+  function useFormState(form) {
+    const formContext = useContextOrDefault(form);
+    const [state, setState] = (0, import_react.useState)(() => formContext.data.state);
+    (0, import_react.useEffect)(
+      () => formContext.on(["state"], () => setState(__spreadValues2({}, formContext.data.state))),
+      [formContext]
+    );
+    return state;
+  }
+  function useValidate(validator, form) {
+    const formContext = useContextOrDefault(form);
+    (0, import_react.useEffect)(
+      () => formContext.on(["values"], () => {
+        const result = validator(
+          formContext.data.values,
+          formContext.data.errors
+        );
+        if (result === null) {
+          formContext.resetErrors();
+        } else {
+          formContext.setErrors(result);
+        }
+      }),
+      [formContext, validator]
+    );
+  }
+  function useError(form) {
+    const formContext = useContextOrDefault(form);
+    const [errors, setErrors] = (0, import_react.useState)(() => formContext.data.errors);
+    (0, import_react.useEffect)(
+      () => formContext.on(["errors"], () => {
+        setErrors(__spreadValues2({}, formContext.data.errors));
+      }),
+      [formContext]
+    );
+    return {
+      errors,
+      setErrors: formContext.setErrors.bind(formContext),
+      resetErrors: formContext.resetErrors.bind(formContext)
+    };
+  }
+  function useCommit(form) {
+    const formContext = useContextOrDefault(form);
+    return formContext.commit.bind(formContext);
+  }
+  var import_react, import_get, import_set, import_get2, import_get3, import_set2, import_has, import_react2, import_jsx_runtime, __create2, __defProp2, __getOwnPropDesc2, __getOwnPropNames2, __getOwnPropSymbols2, __getProtoOf2, __hasOwnProp2, __propIsEnum2, __defNormalProp2, __spreadValues2, __esm2, __commonJS2, __export2, __copyProps2, __toESM2, __toCommonJS2, __async2, dev_esm_exports2, __create22, __defProp22, __getOwnPropDesc22, __getOwnPropNames22, __getProtoOf22, __hasOwnProp22, __commonJS22, __copyProps22, __toESM22, require_freeGlobal2, require_root2, require_Symbol2, require_getRawTag2, require_objectToString2, require_baseGetTag2, require_isObject2, require_isFunction2, require_coreJsData2, require_isMasked2, require_toSource2, require_baseIsNative2, require_getValue2, require_getNative2, require_defineProperty2, require_baseAssignValue2, require_eq2, require_assignValue2, require_isArray2, require_isObjectLike2, require_isSymbol2, require_isKey2, require_nativeCreate2, require_hashClear2, require_hashDelete2, require_hashGet2, require_hashHas2, require_hashSet2, require_Hash2, require_listCacheClear2, require_assocIndexOf2, require_listCacheDelete2, require_listCacheGet2, require_listCacheHas2, require_listCacheSet2, require_ListCache2, require_Map2, require_mapCacheClear2, require_isKeyable2, require_getMapData2, require_mapCacheDelete2, require_mapCacheGet2, require_mapCacheHas2, require_mapCacheSet2, require_MapCache2, require_memoize2, require_memoizeCapped2, require_stringToPath2, require_arrayMap2, require_baseToString2, require_toString2, require_castPath2, require_isIndex2, require_toKey2, require_baseSet2, require_set2, require_copyArray, require_toPath, require_isPrototype, require_overArg, require_nativeKeys, require_baseKeys, require_DataView, require_Promise, require_Set, require_WeakMap, require_getTag, require_baseIsArguments2, require_isArguments2, require_isLength2, require_isArrayLike, require_stubFalse, require_isBuffer, require_baseIsTypedArray, require_baseUnary, require_nodeUtil, require_isTypedArray, require_isEmpty, import_set3, Observer, import_toPath, import_isEmpty, PathTreeNode, PathTree, BatchManager, manager, defaultEqualResolver, ObserveState, State, init_dev_esm2, require_index_esm, import_projectx, Form, form_default, import_projectx2, FormContext, provider_default;
+  var init_dev_esm = __esm({
+    "dist/dev.esm.js"() {
+      "use strict";
+      import_react = __toESM(require_react());
+      import_get = __toESM(require_get());
+      import_set = __toESM(require_set());
+      import_get2 = __toESM(require_get());
+      import_get3 = __toESM(require_get());
+      import_set2 = __toESM(require_set());
+      import_has = __toESM(require_has());
+      import_react2 = __toESM(require_react());
+      import_jsx_runtime = __toESM(require_jsx_runtime());
+      __create2 = Object.create;
+      __defProp2 = Object.defineProperty;
+      __getOwnPropDesc2 = Object.getOwnPropertyDescriptor;
+      __getOwnPropNames2 = Object.getOwnPropertyNames;
+      __getOwnPropSymbols2 = Object.getOwnPropertySymbols;
+      __getProtoOf2 = Object.getPrototypeOf;
+      __hasOwnProp2 = Object.prototype.hasOwnProperty;
+      __propIsEnum2 = Object.prototype.propertyIsEnumerable;
+      __defNormalProp2 = (obj, key, value) => key in obj ? __defProp2(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
+      __spreadValues2 = (a, b) => {
+        for (var prop in b || (b = {}))
+          if (__hasOwnProp2.call(b, prop))
+            __defNormalProp2(a, prop, b[prop]);
+        if (__getOwnPropSymbols2)
+          for (var prop of __getOwnPropSymbols2(b)) {
+            if (__propIsEnum2.call(b, prop))
+              __defNormalProp2(a, prop, b[prop]);
+          }
+        return a;
+      };
+      __esm2 = (fn, res) => function __init() {
+        return fn && (res = (0, fn[__getOwnPropNames2(fn)[0]])(fn = 0)), res;
+      };
+      __commonJS2 = (cb, mod) => function __require() {
+        return mod || (0, cb[__getOwnPropNames2(cb)[0]])((mod = { exports: {} }).exports, mod), mod.exports;
+      };
+      __export2 = (target, all) => {
+        for (var name in all)
+          __defProp2(target, name, { get: all[name], enumerable: true });
+      };
+      __copyProps2 = (to, from, except, desc) => {
+        if (from && typeof from === "object" || typeof from === "function") {
+          for (let key of __getOwnPropNames2(from))
+            if (!__hasOwnProp2.call(to, key) && key !== except)
+              __defProp2(to, key, { get: () => from[key], enumerable: !(desc = __getOwnPropDesc2(from, key)) || desc.enumerable });
+        }
+        return to;
+      };
+      __toESM2 = (mod, isNodeMode, target) => (target = mod != null ? __create2(__getProtoOf2(mod)) : {}, __copyProps2(
+        // If the importer is in node compatibility mode or this is not an ESM
+        // file that has been converted to a CommonJS file using a Babel-
+        // compatible transform (i.e. "__esModule" has not been set), then set
+        // "default" to the CommonJS "module.exports" for node compatibility.
+        isNodeMode || !mod || !mod.__esModule ? __defProp2(target, "default", { value: mod, enumerable: true }) : target,
+        mod
+      ));
+      __toCommonJS2 = (mod) => __copyProps2(__defProp2({}, "__esModule", { value: true }), mod);
+      __async2 = (__this, __arguments, generator) => {
+        return new Promise((resolve, reject) => {
+          var fulfilled = (value) => {
+            try {
+              step(generator.next(value));
+            } catch (e) {
+              reject(e);
+            }
+          };
+          var rejected = (value) => {
+            try {
+              step(generator.throw(value));
+            } catch (e) {
+              reject(e);
+            }
+          };
+          var step = (x) => x.done ? resolve(x.value) : Promise.resolve(x.value).then(fulfilled, rejected);
+          step((generator = generator.apply(__this, __arguments)).next());
+        });
+      };
+      dev_esm_exports2 = {};
+      __export2(dev_esm_exports2, {
+        ObserveState: () => ObserveState,
+        PathTree: () => PathTree,
+        batch: () => batch,
+        combine: () => combine,
+        default: () => State
+      });
+      init_dev_esm2 = __esm2({
+        "node_modules/projectx.state/dist/dev.esm.js"() {
+          __create22 = Object.create;
+          __defProp22 = Object.defineProperty;
+          __getOwnPropDesc22 = Object.getOwnPropertyDescriptor;
+          __getOwnPropNames22 = Object.getOwnPropertyNames;
+          __getProtoOf22 = Object.getPrototypeOf;
+          __hasOwnProp22 = Object.prototype.hasOwnProperty;
+          __commonJS22 = (cb, mod) => function __require() {
+            return mod || (0, cb[__getOwnPropNames22(cb)[0]])((mod = { exports: {} }).exports, mod), mod.exports;
+          };
+          __copyProps22 = (to, from, except, desc) => {
+            if (from && typeof from === "object" || typeof from === "function") {
+              for (let key of __getOwnPropNames22(from))
+                if (!__hasOwnProp22.call(to, key) && key !== except)
+                  __defProp22(to, key, { get: () => from[key], enumerable: !(desc = __getOwnPropDesc22(from, key)) || desc.enumerable });
+            }
+            return to;
+          };
+          __toESM22 = (mod, isNodeMode, target) => (target = mod != null ? __create22(__getProtoOf22(mod)) : {}, __copyProps22(
+            // If the importer is in node compatibility mode or this is not an ESM
+            // file that has been converted to a CommonJS file using a Babel-
+            // compatible transform (i.e. "__esModule" has not been set), then set
+            // "default" to the CommonJS "module.exports" for node compatibility.
+            isNodeMode || !mod || !mod.__esModule ? __defProp22(target, "default", { value: mod, enumerable: true }) : target,
+            mod
+          ));
+          require_freeGlobal2 = __commonJS22({
+            "packages/state/node_modules/lodash/_freeGlobal.js"(exports, module) {
+              var freeGlobal = typeof global == "object" && global && global.Object === Object && global;
+              module.exports = freeGlobal;
+            }
+          });
+          require_root2 = __commonJS22({
+            "packages/state/node_modules/lodash/_root.js"(exports, module) {
+              var freeGlobal = require_freeGlobal2();
+              var freeSelf = typeof self == "object" && self && self.Object === Object && self;
+              var root2 = freeGlobal || freeSelf || Function("return this")();
+              module.exports = root2;
+            }
+          });
+          require_Symbol2 = __commonJS22({
+            "packages/state/node_modules/lodash/_Symbol.js"(exports, module) {
+              var root2 = require_root2();
+              var Symbol2 = root2.Symbol;
+              module.exports = Symbol2;
+            }
+          });
+          require_getRawTag2 = __commonJS22({
+            "packages/state/node_modules/lodash/_getRawTag.js"(exports, module) {
+              var Symbol2 = require_Symbol2();
+              var objectProto = Object.prototype;
+              var hasOwnProperty = objectProto.hasOwnProperty;
+              var nativeObjectToString = objectProto.toString;
+              var symToStringTag = Symbol2 ? Symbol2.toStringTag : void 0;
+              function getRawTag(value) {
+                var isOwn = hasOwnProperty.call(value, symToStringTag), tag = value[symToStringTag];
+                try {
+                  value[symToStringTag] = void 0;
+                  var unmasked = true;
+                } catch (e) {
+                }
+                var result = nativeObjectToString.call(value);
+                if (unmasked) {
+                  if (isOwn) {
+                    value[symToStringTag] = tag;
+                  } else {
+                    delete value[symToStringTag];
+                  }
+                }
+                return result;
+              }
+              module.exports = getRawTag;
+            }
+          });
+          require_objectToString2 = __commonJS22({
+            "packages/state/node_modules/lodash/_objectToString.js"(exports, module) {
+              var objectProto = Object.prototype;
+              var nativeObjectToString = objectProto.toString;
+              function objectToString(value) {
+                return nativeObjectToString.call(value);
+              }
+              module.exports = objectToString;
+            }
+          });
+          require_baseGetTag2 = __commonJS22({
+            "packages/state/node_modules/lodash/_baseGetTag.js"(exports, module) {
+              var Symbol2 = require_Symbol2();
+              var getRawTag = require_getRawTag2();
+              var objectToString = require_objectToString2();
+              var nullTag = "[object Null]";
+              var undefinedTag = "[object Undefined]";
+              var symToStringTag = Symbol2 ? Symbol2.toStringTag : void 0;
+              function baseGetTag(value) {
+                if (value == null) {
+                  return value === void 0 ? undefinedTag : nullTag;
+                }
+                return symToStringTag && symToStringTag in Object(value) ? getRawTag(value) : objectToString(value);
+              }
+              module.exports = baseGetTag;
+            }
+          });
+          require_isObject2 = __commonJS22({
+            "packages/state/node_modules/lodash/isObject.js"(exports, module) {
+              function isObject(value) {
+                var type = typeof value;
+                return value != null && (type == "object" || type == "function");
+              }
+              module.exports = isObject;
+            }
+          });
+          require_isFunction2 = __commonJS22({
+            "packages/state/node_modules/lodash/isFunction.js"(exports, module) {
+              var baseGetTag = require_baseGetTag2();
+              var isObject = require_isObject2();
+              var asyncTag = "[object AsyncFunction]";
+              var funcTag = "[object Function]";
+              var genTag = "[object GeneratorFunction]";
+              var proxyTag = "[object Proxy]";
+              function isFunction(value) {
+                if (!isObject(value)) {
+                  return false;
+                }
+                var tag = baseGetTag(value);
+                return tag == funcTag || tag == genTag || tag == asyncTag || tag == proxyTag;
+              }
+              module.exports = isFunction;
+            }
+          });
+          require_coreJsData2 = __commonJS22({
+            "packages/state/node_modules/lodash/_coreJsData.js"(exports, module) {
+              var root2 = require_root2();
+              var coreJsData = root2["__core-js_shared__"];
+              module.exports = coreJsData;
+            }
+          });
+          require_isMasked2 = __commonJS22({
+            "packages/state/node_modules/lodash/_isMasked.js"(exports, module) {
+              var coreJsData = require_coreJsData2();
+              var maskSrcKey = function() {
+                var uid = /[^.]+$/.exec(coreJsData && coreJsData.keys && coreJsData.keys.IE_PROTO || "");
+                return uid ? "Symbol(src)_1." + uid : "";
+              }();
+              function isMasked(func) {
+                return !!maskSrcKey && maskSrcKey in func;
+              }
+              module.exports = isMasked;
+            }
+          });
+          require_toSource2 = __commonJS22({
+            "packages/state/node_modules/lodash/_toSource.js"(exports, module) {
+              var funcProto = Function.prototype;
+              var funcToString = funcProto.toString;
+              function toSource(func) {
+                if (func != null) {
+                  try {
+                    return funcToString.call(func);
+                  } catch (e) {
+                  }
+                  try {
+                    return func + "";
+                  } catch (e) {
+                  }
+                }
+                return "";
+              }
+              module.exports = toSource;
+            }
+          });
+          require_baseIsNative2 = __commonJS22({
+            "packages/state/node_modules/lodash/_baseIsNative.js"(exports, module) {
+              var isFunction = require_isFunction2();
+              var isMasked = require_isMasked2();
+              var isObject = require_isObject2();
+              var toSource = require_toSource2();
+              var reRegExpChar = /[\\^$.*+?()[\]{}|]/g;
+              var reIsHostCtor = /^\[object .+?Constructor\]$/;
+              var funcProto = Function.prototype;
+              var objectProto = Object.prototype;
+              var funcToString = funcProto.toString;
+              var hasOwnProperty = objectProto.hasOwnProperty;
+              var reIsNative = RegExp(
+                "^" + funcToString.call(hasOwnProperty).replace(reRegExpChar, "\\$&").replace(/hasOwnProperty|(function).*?(?=\\\()| for .+?(?=\\\])/g, "$1.*?") + "$"
+              );
+              function baseIsNative(value) {
+                if (!isObject(value) || isMasked(value)) {
+                  return false;
+                }
+                var pattern = isFunction(value) ? reIsNative : reIsHostCtor;
+                return pattern.test(toSource(value));
+              }
+              module.exports = baseIsNative;
+            }
+          });
+          require_getValue2 = __commonJS22({
+            "packages/state/node_modules/lodash/_getValue.js"(exports, module) {
+              function getValue(object, key) {
+                return object == null ? void 0 : object[key];
+              }
+              module.exports = getValue;
+            }
+          });
+          require_getNative2 = __commonJS22({
+            "packages/state/node_modules/lodash/_getNative.js"(exports, module) {
+              var baseIsNative = require_baseIsNative2();
+              var getValue = require_getValue2();
+              function getNative(object, key) {
+                var value = getValue(object, key);
+                return baseIsNative(value) ? value : void 0;
+              }
+              module.exports = getNative;
+            }
+          });
+          require_defineProperty2 = __commonJS22({
+            "packages/state/node_modules/lodash/_defineProperty.js"(exports, module) {
+              var getNative = require_getNative2();
+              var defineProperty = function() {
+                try {
+                  var func = getNative(Object, "defineProperty");
+                  func({}, "", {});
+                  return func;
+                } catch (e) {
+                }
+              }();
+              module.exports = defineProperty;
+            }
+          });
+          require_baseAssignValue2 = __commonJS22({
+            "packages/state/node_modules/lodash/_baseAssignValue.js"(exports, module) {
+              var defineProperty = require_defineProperty2();
+              function baseAssignValue(object, key, value) {
+                if (key == "__proto__" && defineProperty) {
+                  defineProperty(object, key, {
+                    "configurable": true,
+                    "enumerable": true,
+                    "value": value,
+                    "writable": true
+                  });
+                } else {
+                  object[key] = value;
+                }
+              }
+              module.exports = baseAssignValue;
+            }
+          });
+          require_eq2 = __commonJS22({
+            "packages/state/node_modules/lodash/eq.js"(exports, module) {
+              function eq(value, other) {
+                return value === other || value !== value && other !== other;
+              }
+              module.exports = eq;
+            }
+          });
+          require_assignValue2 = __commonJS22({
+            "packages/state/node_modules/lodash/_assignValue.js"(exports, module) {
+              var baseAssignValue = require_baseAssignValue2();
+              var eq = require_eq2();
+              var objectProto = Object.prototype;
+              var hasOwnProperty = objectProto.hasOwnProperty;
+              function assignValue(object, key, value) {
+                var objValue = object[key];
+                if (!(hasOwnProperty.call(object, key) && eq(objValue, value)) || value === void 0 && !(key in object)) {
+                  baseAssignValue(object, key, value);
+                }
+              }
+              module.exports = assignValue;
+            }
+          });
+          require_isArray2 = __commonJS22({
+            "packages/state/node_modules/lodash/isArray.js"(exports, module) {
+              var isArray = Array.isArray;
+              module.exports = isArray;
+            }
+          });
+          require_isObjectLike2 = __commonJS22({
+            "packages/state/node_modules/lodash/isObjectLike.js"(exports, module) {
+              function isObjectLike(value) {
+                return value != null && typeof value == "object";
+              }
+              module.exports = isObjectLike;
+            }
+          });
+          require_isSymbol2 = __commonJS22({
+            "packages/state/node_modules/lodash/isSymbol.js"(exports, module) {
+              var baseGetTag = require_baseGetTag2();
+              var isObjectLike = require_isObjectLike2();
+              var symbolTag = "[object Symbol]";
+              function isSymbol(value) {
+                return typeof value == "symbol" || isObjectLike(value) && baseGetTag(value) == symbolTag;
+              }
+              module.exports = isSymbol;
+            }
+          });
+          require_isKey2 = __commonJS22({
+            "packages/state/node_modules/lodash/_isKey.js"(exports, module) {
+              var isArray = require_isArray2();
+              var isSymbol = require_isSymbol2();
+              var reIsDeepProp = /\.|\[(?:[^[\]]*|(["'])(?:(?!\1)[^\\]|\\.)*?\1)\]/;
+              var reIsPlainProp = /^\w*$/;
+              function isKey(value, object) {
+                if (isArray(value)) {
+                  return false;
+                }
+                var type = typeof value;
+                if (type == "number" || type == "symbol" || type == "boolean" || value == null || isSymbol(value)) {
+                  return true;
+                }
+                return reIsPlainProp.test(value) || !reIsDeepProp.test(value) || object != null && value in Object(object);
+              }
+              module.exports = isKey;
+            }
+          });
+          require_nativeCreate2 = __commonJS22({
+            "packages/state/node_modules/lodash/_nativeCreate.js"(exports, module) {
+              var getNative = require_getNative2();
+              var nativeCreate = getNative(Object, "create");
+              module.exports = nativeCreate;
+            }
+          });
+          require_hashClear2 = __commonJS22({
+            "packages/state/node_modules/lodash/_hashClear.js"(exports, module) {
+              var nativeCreate = require_nativeCreate2();
+              function hashClear() {
+                this.__data__ = nativeCreate ? nativeCreate(null) : {};
+                this.size = 0;
+              }
+              module.exports = hashClear;
+            }
+          });
+          require_hashDelete2 = __commonJS22({
+            "packages/state/node_modules/lodash/_hashDelete.js"(exports, module) {
+              function hashDelete(key) {
+                var result = this.has(key) && delete this.__data__[key];
+                this.size -= result ? 1 : 0;
+                return result;
+              }
+              module.exports = hashDelete;
+            }
+          });
+          require_hashGet2 = __commonJS22({
+            "packages/state/node_modules/lodash/_hashGet.js"(exports, module) {
+              var nativeCreate = require_nativeCreate2();
+              var HASH_UNDEFINED = "__lodash_hash_undefined__";
+              var objectProto = Object.prototype;
+              var hasOwnProperty = objectProto.hasOwnProperty;
+              function hashGet(key) {
+                var data = this.__data__;
+                if (nativeCreate) {
+                  var result = data[key];
+                  return result === HASH_UNDEFINED ? void 0 : result;
+                }
+                return hasOwnProperty.call(data, key) ? data[key] : void 0;
+              }
+              module.exports = hashGet;
+            }
+          });
+          require_hashHas2 = __commonJS22({
+            "packages/state/node_modules/lodash/_hashHas.js"(exports, module) {
+              var nativeCreate = require_nativeCreate2();
+              var objectProto = Object.prototype;
+              var hasOwnProperty = objectProto.hasOwnProperty;
+              function hashHas(key) {
+                var data = this.__data__;
+                return nativeCreate ? data[key] !== void 0 : hasOwnProperty.call(data, key);
+              }
+              module.exports = hashHas;
+            }
+          });
+          require_hashSet2 = __commonJS22({
+            "packages/state/node_modules/lodash/_hashSet.js"(exports, module) {
+              var nativeCreate = require_nativeCreate2();
+              var HASH_UNDEFINED = "__lodash_hash_undefined__";
+              function hashSet(key, value) {
+                var data = this.__data__;
+                this.size += this.has(key) ? 0 : 1;
+                data[key] = nativeCreate && value === void 0 ? HASH_UNDEFINED : value;
+                return this;
+              }
+              module.exports = hashSet;
+            }
+          });
+          require_Hash2 = __commonJS22({
+            "packages/state/node_modules/lodash/_Hash.js"(exports, module) {
+              var hashClear = require_hashClear2();
+              var hashDelete = require_hashDelete2();
+              var hashGet = require_hashGet2();
+              var hashHas = require_hashHas2();
+              var hashSet = require_hashSet2();
+              function Hash(entries) {
+                var index = -1, length = entries == null ? 0 : entries.length;
+                this.clear();
+                while (++index < length) {
+                  var entry = entries[index];
+                  this.set(entry[0], entry[1]);
+                }
+              }
+              Hash.prototype.clear = hashClear;
+              Hash.prototype["delete"] = hashDelete;
+              Hash.prototype.get = hashGet;
+              Hash.prototype.has = hashHas;
+              Hash.prototype.set = hashSet;
+              module.exports = Hash;
+            }
+          });
+          require_listCacheClear2 = __commonJS22({
+            "packages/state/node_modules/lodash/_listCacheClear.js"(exports, module) {
+              function listCacheClear() {
+                this.__data__ = [];
+                this.size = 0;
+              }
+              module.exports = listCacheClear;
+            }
+          });
+          require_assocIndexOf2 = __commonJS22({
+            "packages/state/node_modules/lodash/_assocIndexOf.js"(exports, module) {
+              var eq = require_eq2();
+              function assocIndexOf(array, key) {
+                var length = array.length;
+                while (length--) {
+                  if (eq(array[length][0], key)) {
+                    return length;
+                  }
+                }
+                return -1;
+              }
+              module.exports = assocIndexOf;
+            }
+          });
+          require_listCacheDelete2 = __commonJS22({
+            "packages/state/node_modules/lodash/_listCacheDelete.js"(exports, module) {
+              var assocIndexOf = require_assocIndexOf2();
+              var arrayProto = Array.prototype;
+              var splice = arrayProto.splice;
+              function listCacheDelete(key) {
+                var data = this.__data__, index = assocIndexOf(data, key);
+                if (index < 0) {
+                  return false;
+                }
+                var lastIndex = data.length - 1;
+                if (index == lastIndex) {
+                  data.pop();
+                } else {
+                  splice.call(data, index, 1);
+                }
+                --this.size;
+                return true;
+              }
+              module.exports = listCacheDelete;
+            }
+          });
+          require_listCacheGet2 = __commonJS22({
+            "packages/state/node_modules/lodash/_listCacheGet.js"(exports, module) {
+              var assocIndexOf = require_assocIndexOf2();
+              function listCacheGet(key) {
+                var data = this.__data__, index = assocIndexOf(data, key);
+                return index < 0 ? void 0 : data[index][1];
+              }
+              module.exports = listCacheGet;
+            }
+          });
+          require_listCacheHas2 = __commonJS22({
+            "packages/state/node_modules/lodash/_listCacheHas.js"(exports, module) {
+              var assocIndexOf = require_assocIndexOf2();
+              function listCacheHas(key) {
+                return assocIndexOf(this.__data__, key) > -1;
+              }
+              module.exports = listCacheHas;
+            }
+          });
+          require_listCacheSet2 = __commonJS22({
+            "packages/state/node_modules/lodash/_listCacheSet.js"(exports, module) {
+              var assocIndexOf = require_assocIndexOf2();
+              function listCacheSet(key, value) {
+                var data = this.__data__, index = assocIndexOf(data, key);
+                if (index < 0) {
+                  ++this.size;
+                  data.push([key, value]);
+                } else {
+                  data[index][1] = value;
+                }
+                return this;
+              }
+              module.exports = listCacheSet;
+            }
+          });
+          require_ListCache2 = __commonJS22({
+            "packages/state/node_modules/lodash/_ListCache.js"(exports, module) {
+              var listCacheClear = require_listCacheClear2();
+              var listCacheDelete = require_listCacheDelete2();
+              var listCacheGet = require_listCacheGet2();
+              var listCacheHas = require_listCacheHas2();
+              var listCacheSet = require_listCacheSet2();
+              function ListCache(entries) {
+                var index = -1, length = entries == null ? 0 : entries.length;
+                this.clear();
+                while (++index < length) {
+                  var entry = entries[index];
+                  this.set(entry[0], entry[1]);
+                }
+              }
+              ListCache.prototype.clear = listCacheClear;
+              ListCache.prototype["delete"] = listCacheDelete;
+              ListCache.prototype.get = listCacheGet;
+              ListCache.prototype.has = listCacheHas;
+              ListCache.prototype.set = listCacheSet;
+              module.exports = ListCache;
+            }
+          });
+          require_Map2 = __commonJS22({
+            "packages/state/node_modules/lodash/_Map.js"(exports, module) {
+              var getNative = require_getNative2();
+              var root2 = require_root2();
+              var Map2 = getNative(root2, "Map");
+              module.exports = Map2;
+            }
+          });
+          require_mapCacheClear2 = __commonJS22({
+            "packages/state/node_modules/lodash/_mapCacheClear.js"(exports, module) {
+              var Hash = require_Hash2();
+              var ListCache = require_ListCache2();
+              var Map2 = require_Map2();
+              function mapCacheClear() {
+                this.size = 0;
+                this.__data__ = {
+                  "hash": new Hash(),
+                  "map": new (Map2 || ListCache)(),
+                  "string": new Hash()
+                };
+              }
+              module.exports = mapCacheClear;
+            }
+          });
+          require_isKeyable2 = __commonJS22({
+            "packages/state/node_modules/lodash/_isKeyable.js"(exports, module) {
+              function isKeyable(value) {
+                var type = typeof value;
+                return type == "string" || type == "number" || type == "symbol" || type == "boolean" ? value !== "__proto__" : value === null;
+              }
+              module.exports = isKeyable;
+            }
+          });
+          require_getMapData2 = __commonJS22({
+            "packages/state/node_modules/lodash/_getMapData.js"(exports, module) {
+              var isKeyable = require_isKeyable2();
+              function getMapData(map, key) {
+                var data = map.__data__;
+                return isKeyable(key) ? data[typeof key == "string" ? "string" : "hash"] : data.map;
+              }
+              module.exports = getMapData;
+            }
+          });
+          require_mapCacheDelete2 = __commonJS22({
+            "packages/state/node_modules/lodash/_mapCacheDelete.js"(exports, module) {
+              var getMapData = require_getMapData2();
+              function mapCacheDelete(key) {
+                var result = getMapData(this, key)["delete"](key);
+                this.size -= result ? 1 : 0;
+                return result;
+              }
+              module.exports = mapCacheDelete;
+            }
+          });
+          require_mapCacheGet2 = __commonJS22({
+            "packages/state/node_modules/lodash/_mapCacheGet.js"(exports, module) {
+              var getMapData = require_getMapData2();
+              function mapCacheGet(key) {
+                return getMapData(this, key).get(key);
+              }
+              module.exports = mapCacheGet;
+            }
+          });
+          require_mapCacheHas2 = __commonJS22({
+            "packages/state/node_modules/lodash/_mapCacheHas.js"(exports, module) {
+              var getMapData = require_getMapData2();
+              function mapCacheHas(key) {
+                return getMapData(this, key).has(key);
+              }
+              module.exports = mapCacheHas;
+            }
+          });
+          require_mapCacheSet2 = __commonJS22({
+            "packages/state/node_modules/lodash/_mapCacheSet.js"(exports, module) {
+              var getMapData = require_getMapData2();
+              function mapCacheSet(key, value) {
+                var data = getMapData(this, key), size = data.size;
+                data.set(key, value);
+                this.size += data.size == size ? 0 : 1;
+                return this;
+              }
+              module.exports = mapCacheSet;
+            }
+          });
+          require_MapCache2 = __commonJS22({
+            "packages/state/node_modules/lodash/_MapCache.js"(exports, module) {
+              var mapCacheClear = require_mapCacheClear2();
+              var mapCacheDelete = require_mapCacheDelete2();
+              var mapCacheGet = require_mapCacheGet2();
+              var mapCacheHas = require_mapCacheHas2();
+              var mapCacheSet = require_mapCacheSet2();
+              function MapCache(entries) {
+                var index = -1, length = entries == null ? 0 : entries.length;
+                this.clear();
+                while (++index < length) {
+                  var entry = entries[index];
+                  this.set(entry[0], entry[1]);
+                }
+              }
+              MapCache.prototype.clear = mapCacheClear;
+              MapCache.prototype["delete"] = mapCacheDelete;
+              MapCache.prototype.get = mapCacheGet;
+              MapCache.prototype.has = mapCacheHas;
+              MapCache.prototype.set = mapCacheSet;
+              module.exports = MapCache;
+            }
+          });
+          require_memoize2 = __commonJS22({
+            "packages/state/node_modules/lodash/memoize.js"(exports, module) {
+              var MapCache = require_MapCache2();
+              var FUNC_ERROR_TEXT = "Expected a function";
+              function memoize(func, resolver) {
+                if (typeof func != "function" || resolver != null && typeof resolver != "function") {
+                  throw new TypeError(FUNC_ERROR_TEXT);
+                }
+                var memoized = function() {
+                  var args = arguments, key = resolver ? resolver.apply(this, args) : args[0], cache = memoized.cache;
+                  if (cache.has(key)) {
+                    return cache.get(key);
+                  }
+                  var result = func.apply(this, args);
+                  memoized.cache = cache.set(key, result) || cache;
+                  return result;
+                };
+                memoized.cache = new (memoize.Cache || MapCache)();
+                return memoized;
+              }
+              memoize.Cache = MapCache;
+              module.exports = memoize;
+            }
+          });
+          require_memoizeCapped2 = __commonJS22({
+            "packages/state/node_modules/lodash/_memoizeCapped.js"(exports, module) {
+              var memoize = require_memoize2();
+              var MAX_MEMOIZE_SIZE = 500;
+              function memoizeCapped(func) {
+                var result = memoize(func, function(key) {
+                  if (cache.size === MAX_MEMOIZE_SIZE) {
+                    cache.clear();
+                  }
+                  return key;
+                });
+                var cache = result.cache;
+                return result;
+              }
+              module.exports = memoizeCapped;
+            }
+          });
+          require_stringToPath2 = __commonJS22({
+            "packages/state/node_modules/lodash/_stringToPath.js"(exports, module) {
+              var memoizeCapped = require_memoizeCapped2();
+              var rePropName = /[^.[\]]+|\[(?:(-?\d+(?:\.\d+)?)|(["'])((?:(?!\2)[^\\]|\\.)*?)\2)\]|(?=(?:\.|\[\])(?:\.|\[\]|$))/g;
+              var reEscapeChar = /\\(\\)?/g;
+              var stringToPath = memoizeCapped(function(string) {
+                var result = [];
+                if (string.charCodeAt(0) === 46) {
+                  result.push("");
+                }
+                string.replace(rePropName, function(match, number, quote, subString) {
+                  result.push(quote ? subString.replace(reEscapeChar, "$1") : number || match);
+                });
+                return result;
+              });
+              module.exports = stringToPath;
+            }
+          });
+          require_arrayMap2 = __commonJS22({
+            "packages/state/node_modules/lodash/_arrayMap.js"(exports, module) {
+              function arrayMap(array, iteratee) {
+                var index = -1, length = array == null ? 0 : array.length, result = Array(length);
+                while (++index < length) {
+                  result[index] = iteratee(array[index], index, array);
+                }
+                return result;
+              }
+              module.exports = arrayMap;
+            }
+          });
+          require_baseToString2 = __commonJS22({
+            "packages/state/node_modules/lodash/_baseToString.js"(exports, module) {
+              var Symbol2 = require_Symbol2();
+              var arrayMap = require_arrayMap2();
+              var isArray = require_isArray2();
+              var isSymbol = require_isSymbol2();
+              var INFINITY = 1 / 0;
+              var symbolProto = Symbol2 ? Symbol2.prototype : void 0;
+              var symbolToString = symbolProto ? symbolProto.toString : void 0;
+              function baseToString(value) {
+                if (typeof value == "string") {
+                  return value;
+                }
+                if (isArray(value)) {
+                  return arrayMap(value, baseToString) + "";
+                }
+                if (isSymbol(value)) {
+                  return symbolToString ? symbolToString.call(value) : "";
+                }
+                var result = value + "";
+                return result == "0" && 1 / value == -INFINITY ? "-0" : result;
+              }
+              module.exports = baseToString;
+            }
+          });
+          require_toString2 = __commonJS22({
+            "packages/state/node_modules/lodash/toString.js"(exports, module) {
+              var baseToString = require_baseToString2();
+              function toString(value) {
+                return value == null ? "" : baseToString(value);
+              }
+              module.exports = toString;
+            }
+          });
+          require_castPath2 = __commonJS22({
+            "packages/state/node_modules/lodash/_castPath.js"(exports, module) {
+              var isArray = require_isArray2();
+              var isKey = require_isKey2();
+              var stringToPath = require_stringToPath2();
+              var toString = require_toString2();
+              function castPath(value, object) {
+                if (isArray(value)) {
+                  return value;
+                }
+                return isKey(value, object) ? [value] : stringToPath(toString(value));
+              }
+              module.exports = castPath;
+            }
+          });
+          require_isIndex2 = __commonJS22({
+            "packages/state/node_modules/lodash/_isIndex.js"(exports, module) {
+              var MAX_SAFE_INTEGER = 9007199254740991;
+              var reIsUint = /^(?:0|[1-9]\d*)$/;
+              function isIndex(value, length) {
+                var type = typeof value;
+                length = length == null ? MAX_SAFE_INTEGER : length;
+                return !!length && (type == "number" || type != "symbol" && reIsUint.test(value)) && (value > -1 && value % 1 == 0 && value < length);
+              }
+              module.exports = isIndex;
+            }
+          });
+          require_toKey2 = __commonJS22({
+            "packages/state/node_modules/lodash/_toKey.js"(exports, module) {
+              var isSymbol = require_isSymbol2();
+              var INFINITY = 1 / 0;
+              function toKey(value) {
+                if (typeof value == "string" || isSymbol(value)) {
+                  return value;
+                }
+                var result = value + "";
+                return result == "0" && 1 / value == -INFINITY ? "-0" : result;
+              }
+              module.exports = toKey;
+            }
+          });
+          require_baseSet2 = __commonJS22({
+            "packages/state/node_modules/lodash/_baseSet.js"(exports, module) {
+              var assignValue = require_assignValue2();
+              var castPath = require_castPath2();
+              var isIndex = require_isIndex2();
+              var isObject = require_isObject2();
+              var toKey = require_toKey2();
+              function baseSet(object, path, value, customizer) {
+                if (!isObject(object)) {
+                  return object;
+                }
+                path = castPath(path, object);
+                var index = -1, length = path.length, lastIndex = length - 1, nested = object;
+                while (nested != null && ++index < length) {
+                  var key = toKey(path[index]), newValue = value;
+                  if (key === "__proto__" || key === "constructor" || key === "prototype") {
+                    return object;
+                  }
+                  if (index != lastIndex) {
+                    var objValue = nested[key];
+                    newValue = customizer ? customizer(objValue, key, nested) : void 0;
+                    if (newValue === void 0) {
+                      newValue = isObject(objValue) ? objValue : isIndex(path[index + 1]) ? [] : {};
+                    }
+                  }
+                  assignValue(nested, key, newValue);
+                  nested = nested[key];
+                }
+                return object;
+              }
+              module.exports = baseSet;
+            }
+          });
+          require_set2 = __commonJS22({
+            "packages/state/node_modules/lodash/set.js"(exports, module) {
+              var baseSet = require_baseSet2();
+              function set22(object, path, value) {
+                return object == null ? object : baseSet(object, path, value);
+              }
+              module.exports = set22;
+            }
+          });
+          require_copyArray = __commonJS22({
+            "packages/state/node_modules/lodash/_copyArray.js"(exports, module) {
+              function copyArray(source, array) {
+                var index = -1, length = source.length;
+                array || (array = Array(length));
+                while (++index < length) {
+                  array[index] = source[index];
+                }
+                return array;
+              }
+              module.exports = copyArray;
+            }
+          });
+          require_toPath = __commonJS22({
+            "packages/state/node_modules/lodash/toPath.js"(exports, module) {
+              var arrayMap = require_arrayMap2();
+              var copyArray = require_copyArray();
+              var isArray = require_isArray2();
+              var isSymbol = require_isSymbol2();
+              var stringToPath = require_stringToPath2();
+              var toKey = require_toKey2();
+              var toString = require_toString2();
+              function toPath2(value) {
+                if (isArray(value)) {
+                  return arrayMap(value, toKey);
+                }
+                return isSymbol(value) ? [value] : copyArray(stringToPath(toString(value)));
+              }
+              module.exports = toPath2;
+            }
+          });
+          require_isPrototype = __commonJS22({
+            "packages/state/node_modules/lodash/_isPrototype.js"(exports, module) {
+              var objectProto = Object.prototype;
+              function isPrototype(value) {
+                var Ctor = value && value.constructor, proto = typeof Ctor == "function" && Ctor.prototype || objectProto;
+                return value === proto;
+              }
+              module.exports = isPrototype;
+            }
+          });
+          require_overArg = __commonJS22({
+            "packages/state/node_modules/lodash/_overArg.js"(exports, module) {
+              function overArg(func, transform) {
+                return function(arg) {
+                  return func(transform(arg));
+                };
+              }
+              module.exports = overArg;
+            }
+          });
+          require_nativeKeys = __commonJS22({
+            "packages/state/node_modules/lodash/_nativeKeys.js"(exports, module) {
+              var overArg = require_overArg();
+              var nativeKeys = overArg(Object.keys, Object);
+              module.exports = nativeKeys;
+            }
+          });
+          require_baseKeys = __commonJS22({
+            "packages/state/node_modules/lodash/_baseKeys.js"(exports, module) {
+              var isPrototype = require_isPrototype();
+              var nativeKeys = require_nativeKeys();
+              var objectProto = Object.prototype;
+              var hasOwnProperty = objectProto.hasOwnProperty;
+              function baseKeys(object) {
+                if (!isPrototype(object)) {
+                  return nativeKeys(object);
+                }
+                var result = [];
+                for (var key in Object(object)) {
+                  if (hasOwnProperty.call(object, key) && key != "constructor") {
+                    result.push(key);
+                  }
+                }
+                return result;
+              }
+              module.exports = baseKeys;
+            }
+          });
+          require_DataView = __commonJS22({
+            "packages/state/node_modules/lodash/_DataView.js"(exports, module) {
+              var getNative = require_getNative2();
+              var root2 = require_root2();
+              var DataView = getNative(root2, "DataView");
+              module.exports = DataView;
+            }
+          });
+          require_Promise = __commonJS22({
+            "packages/state/node_modules/lodash/_Promise.js"(exports, module) {
+              var getNative = require_getNative2();
+              var root2 = require_root2();
+              var Promise2 = getNative(root2, "Promise");
+              module.exports = Promise2;
+            }
+          });
+          require_Set = __commonJS22({
+            "packages/state/node_modules/lodash/_Set.js"(exports, module) {
+              var getNative = require_getNative2();
+              var root2 = require_root2();
+              var Set2 = getNative(root2, "Set");
+              module.exports = Set2;
+            }
+          });
+          require_WeakMap = __commonJS22({
+            "packages/state/node_modules/lodash/_WeakMap.js"(exports, module) {
+              var getNative = require_getNative2();
+              var root2 = require_root2();
+              var WeakMap2 = getNative(root2, "WeakMap");
+              module.exports = WeakMap2;
+            }
+          });
+          require_getTag = __commonJS22({
+            "packages/state/node_modules/lodash/_getTag.js"(exports, module) {
+              var DataView = require_DataView();
+              var Map2 = require_Map2();
+              var Promise2 = require_Promise();
+              var Set2 = require_Set();
+              var WeakMap2 = require_WeakMap();
+              var baseGetTag = require_baseGetTag2();
+              var toSource = require_toSource2();
+              var mapTag = "[object Map]";
+              var objectTag = "[object Object]";
+              var promiseTag = "[object Promise]";
+              var setTag = "[object Set]";
+              var weakMapTag = "[object WeakMap]";
+              var dataViewTag = "[object DataView]";
+              var dataViewCtorString = toSource(DataView);
+              var mapCtorString = toSource(Map2);
+              var promiseCtorString = toSource(Promise2);
+              var setCtorString = toSource(Set2);
+              var weakMapCtorString = toSource(WeakMap2);
+              var getTag = baseGetTag;
+              if (DataView && getTag(new DataView(new ArrayBuffer(1))) != dataViewTag || Map2 && getTag(new Map2()) != mapTag || Promise2 && getTag(Promise2.resolve()) != promiseTag || Set2 && getTag(new Set2()) != setTag || WeakMap2 && getTag(new WeakMap2()) != weakMapTag) {
+                getTag = function(value) {
+                  var result = baseGetTag(value), Ctor = result == objectTag ? value.constructor : void 0, ctorString = Ctor ? toSource(Ctor) : "";
+                  if (ctorString) {
+                    switch (ctorString) {
+                      case dataViewCtorString:
+                        return dataViewTag;
+                      case mapCtorString:
+                        return mapTag;
+                      case promiseCtorString:
+                        return promiseTag;
+                      case setCtorString:
+                        return setTag;
+                      case weakMapCtorString:
+                        return weakMapTag;
+                    }
+                  }
+                  return result;
+                };
+              }
+              module.exports = getTag;
+            }
+          });
+          require_baseIsArguments2 = __commonJS22({
+            "packages/state/node_modules/lodash/_baseIsArguments.js"(exports, module) {
+              var baseGetTag = require_baseGetTag2();
+              var isObjectLike = require_isObjectLike2();
+              var argsTag = "[object Arguments]";
+              function baseIsArguments(value) {
+                return isObjectLike(value) && baseGetTag(value) == argsTag;
+              }
+              module.exports = baseIsArguments;
+            }
+          });
+          require_isArguments2 = __commonJS22({
+            "packages/state/node_modules/lodash/isArguments.js"(exports, module) {
+              var baseIsArguments = require_baseIsArguments2();
+              var isObjectLike = require_isObjectLike2();
+              var objectProto = Object.prototype;
+              var hasOwnProperty = objectProto.hasOwnProperty;
+              var propertyIsEnumerable = objectProto.propertyIsEnumerable;
+              var isArguments = baseIsArguments(function() {
+                return arguments;
+              }()) ? baseIsArguments : function(value) {
+                return isObjectLike(value) && hasOwnProperty.call(value, "callee") && !propertyIsEnumerable.call(value, "callee");
+              };
+              module.exports = isArguments;
+            }
+          });
+          require_isLength2 = __commonJS22({
+            "packages/state/node_modules/lodash/isLength.js"(exports, module) {
+              var MAX_SAFE_INTEGER = 9007199254740991;
+              function isLength(value) {
+                return typeof value == "number" && value > -1 && value % 1 == 0 && value <= MAX_SAFE_INTEGER;
+              }
+              module.exports = isLength;
+            }
+          });
+          require_isArrayLike = __commonJS22({
+            "packages/state/node_modules/lodash/isArrayLike.js"(exports, module) {
+              var isFunction = require_isFunction2();
+              var isLength = require_isLength2();
+              function isArrayLike(value) {
+                return value != null && isLength(value.length) && !isFunction(value);
+              }
+              module.exports = isArrayLike;
+            }
+          });
+          require_stubFalse = __commonJS22({
+            "packages/state/node_modules/lodash/stubFalse.js"(exports, module) {
+              function stubFalse() {
+                return false;
+              }
+              module.exports = stubFalse;
+            }
+          });
+          require_isBuffer = __commonJS22({
+            "packages/state/node_modules/lodash/isBuffer.js"(exports, module) {
+              var root2 = require_root2();
+              var stubFalse = require_stubFalse();
+              var freeExports = typeof exports == "object" && exports && !exports.nodeType && exports;
+              var freeModule = freeExports && typeof module == "object" && module && !module.nodeType && module;
+              var moduleExports = freeModule && freeModule.exports === freeExports;
+              var Buffer2 = moduleExports ? root2.Buffer : void 0;
+              var nativeIsBuffer = Buffer2 ? Buffer2.isBuffer : void 0;
+              var isBuffer = nativeIsBuffer || stubFalse;
+              module.exports = isBuffer;
+            }
+          });
+          require_baseIsTypedArray = __commonJS22({
+            "packages/state/node_modules/lodash/_baseIsTypedArray.js"(exports, module) {
+              var baseGetTag = require_baseGetTag2();
+              var isLength = require_isLength2();
+              var isObjectLike = require_isObjectLike2();
+              var argsTag = "[object Arguments]";
+              var arrayTag = "[object Array]";
+              var boolTag = "[object Boolean]";
+              var dateTag = "[object Date]";
+              var errorTag = "[object Error]";
+              var funcTag = "[object Function]";
+              var mapTag = "[object Map]";
+              var numberTag = "[object Number]";
+              var objectTag = "[object Object]";
+              var regexpTag = "[object RegExp]";
+              var setTag = "[object Set]";
+              var stringTag = "[object String]";
+              var weakMapTag = "[object WeakMap]";
+              var arrayBufferTag = "[object ArrayBuffer]";
+              var dataViewTag = "[object DataView]";
+              var float32Tag = "[object Float32Array]";
+              var float64Tag = "[object Float64Array]";
+              var int8Tag = "[object Int8Array]";
+              var int16Tag = "[object Int16Array]";
+              var int32Tag = "[object Int32Array]";
+              var uint8Tag = "[object Uint8Array]";
+              var uint8ClampedTag = "[object Uint8ClampedArray]";
+              var uint16Tag = "[object Uint16Array]";
+              var uint32Tag = "[object Uint32Array]";
+              var typedArrayTags = {};
+              typedArrayTags[float32Tag] = typedArrayTags[float64Tag] = typedArrayTags[int8Tag] = typedArrayTags[int16Tag] = typedArrayTags[int32Tag] = typedArrayTags[uint8Tag] = typedArrayTags[uint8ClampedTag] = typedArrayTags[uint16Tag] = typedArrayTags[uint32Tag] = true;
+              typedArrayTags[argsTag] = typedArrayTags[arrayTag] = typedArrayTags[arrayBufferTag] = typedArrayTags[boolTag] = typedArrayTags[dataViewTag] = typedArrayTags[dateTag] = typedArrayTags[errorTag] = typedArrayTags[funcTag] = typedArrayTags[mapTag] = typedArrayTags[numberTag] = typedArrayTags[objectTag] = typedArrayTags[regexpTag] = typedArrayTags[setTag] = typedArrayTags[stringTag] = typedArrayTags[weakMapTag] = false;
+              function baseIsTypedArray(value) {
+                return isObjectLike(value) && isLength(value.length) && !!typedArrayTags[baseGetTag(value)];
+              }
+              module.exports = baseIsTypedArray;
+            }
+          });
+          require_baseUnary = __commonJS22({
+            "packages/state/node_modules/lodash/_baseUnary.js"(exports, module) {
+              function baseUnary(func) {
+                return function(value) {
+                  return func(value);
+                };
+              }
+              module.exports = baseUnary;
+            }
+          });
+          require_nodeUtil = __commonJS22({
+            "packages/state/node_modules/lodash/_nodeUtil.js"(exports, module) {
+              var freeGlobal = require_freeGlobal2();
+              var freeExports = typeof exports == "object" && exports && !exports.nodeType && exports;
+              var freeModule = freeExports && typeof module == "object" && module && !module.nodeType && module;
+              var moduleExports = freeModule && freeModule.exports === freeExports;
+              var freeProcess = moduleExports && freeGlobal.process;
+              var nodeUtil = function() {
+                try {
+                  var types = freeModule && freeModule.require && freeModule.require("util").types;
+                  if (types) {
+                    return types;
+                  }
+                  return freeProcess && freeProcess.binding && freeProcess.binding("util");
+                } catch (e) {
+                }
+              }();
+              module.exports = nodeUtil;
+            }
+          });
+          require_isTypedArray = __commonJS22({
+            "packages/state/node_modules/lodash/isTypedArray.js"(exports, module) {
+              var baseIsTypedArray = require_baseIsTypedArray();
+              var baseUnary = require_baseUnary();
+              var nodeUtil = require_nodeUtil();
+              var nodeIsTypedArray = nodeUtil && nodeUtil.isTypedArray;
+              var isTypedArray = nodeIsTypedArray ? baseUnary(nodeIsTypedArray) : baseIsTypedArray;
+              module.exports = isTypedArray;
+            }
+          });
+          require_isEmpty = __commonJS22({
+            "packages/state/node_modules/lodash/isEmpty.js"(exports, module) {
+              var baseKeys = require_baseKeys();
+              var getTag = require_getTag();
+              var isArguments = require_isArguments2();
+              var isArray = require_isArray2();
+              var isArrayLike = require_isArrayLike();
+              var isBuffer = require_isBuffer();
+              var isPrototype = require_isPrototype();
+              var isTypedArray = require_isTypedArray();
+              var mapTag = "[object Map]";
+              var setTag = "[object Set]";
+              var objectProto = Object.prototype;
+              var hasOwnProperty = objectProto.hasOwnProperty;
+              function isEmpty2(value) {
+                if (value == null) {
+                  return true;
+                }
+                if (isArrayLike(value) && (isArray(value) || typeof value == "string" || typeof value.splice == "function" || isBuffer(value) || isTypedArray(value) || isArguments(value))) {
+                  return !value.length;
+                }
+                var tag = getTag(value);
+                if (tag == mapTag || tag == setTag) {
+                  return !value.size;
+                }
+                if (isPrototype(value)) {
+                  return !baseKeys(value).length;
+                }
+                for (var key in value) {
+                  if (hasOwnProperty.call(value, key)) {
+                    return false;
+                  }
+                }
+                return true;
+              }
+              module.exports = isEmpty2;
+            }
+          });
+          import_set3 = __toESM22(require_set2());
+          Observer = class {
+            constructor() {
+              this.listeners = /* @__PURE__ */ new Set();
+            }
+            listen(listener) {
+              this.listeners.add(listener);
+              return () => {
+                this.listeners.delete(listener);
+              };
+            }
+            emit(event) {
+              for (const listener of this.listeners) {
+                if (listener(event)) {
+                  return;
+                }
+              }
+            }
+            dispose() {
+              this.listeners.clear();
+            }
+          };
+          import_toPath = __toESM22(require_toPath());
+          import_isEmpty = __toESM22(require_isEmpty());
+          PathTreeNode = class {
+            constructor(path, children = {}) {
+              this.path = path;
+              this.children = children;
+              this.point = false;
+            }
+            get isEmpty() {
+              return (0, import_isEmpty.default)(this.children);
+            }
+          };
+          PathTree = class extends PathTreeNode {
+            constructor(paths = []) {
+              super("");
+              this.createTree(paths);
+            }
+            static pushPrefix(path, node) {
+              const tree = new PathTree();
+              tree.children[path] = new PathTreeNode(path, node.children);
+              return tree;
+            }
+            pushNode(node, [path, ...rest]) {
+              if (path in node.children) {
+                node.children[path].point = true;
+              } else {
+                node.children[path] = new PathTreeNode(path);
+              }
+              if (rest.length) {
+                return this.pushNode(node.children[path], rest);
+              }
+            }
+            createTree(paths) {
+              for (const path of paths) {
+                this.pushNode(this, (0, import_toPath.default)(path));
+              }
+            }
+            push(path) {
+              this.pushNode(this, (0, import_toPath.default)(path));
+            }
+            includesRecursive(watch, change) {
+              if (watch.point || watch.isEmpty && change.isEmpty || change.isEmpty != watch.isEmpty) {
+                return true;
+              }
+              for (const key in watch.children) {
+                if (!(key in change.children)) {
+                  continue;
+                }
+                if (this.includesRecursive(watch.children[key], change.children[key])) {
+                  return true;
+                }
+              }
+              return false;
+            }
+            includes(node) {
+              if (node.isEmpty) {
+                return this.isEmpty;
+              }
+              return this.includesRecursive(this, node);
+            }
+          };
+          BatchManager = class {
+            constructor() {
+              this.batches = [];
+            }
+            open() {
+              this.batches.push(/* @__PURE__ */ new Set());
+            }
+            action(handler) {
+              if (!this.batches.length) {
+                return handler();
+              }
+              this.batches[this.batches.length - 1].add(handler);
+            }
+            close() {
+              const batch22 = this.batches.pop();
+              if (!batch22) {
+                return;
+              }
+              batch22.forEach((handler) => handler());
+            }
+          };
+          manager = new BatchManager();
+          defaultEqualResolver = (a, b) => a === b;
+          ObserveState = class extends Observer {
+            reaction(selectors, action, {
+              resolver = defaultEqualResolver,
+              initCall = false
+            } = {}) {
+              const callSelectors = () => selectors.map((selector) => selector(this.data));
+              const hasSelector = selectors.length > 0;
+              let memo = callSelectors();
+              if (initCall) {
+                action.apply(null, memo);
+              }
+              const handler = () => {
+                if (!hasSelector) {
+                  return action.apply(null);
+                }
+                const values = callSelectors();
+                if (values.every((value, index) => resolver(value, memo[index]))) {
+                  return;
+                }
+                memo = values;
+                return action.apply(null, memo);
+              };
+              return this.listen(() => manager.action(handler));
+            }
+            on(paths, action, { initCall = false } = {}) {
+              let tree = paths;
+              if (!(paths instanceof PathTree)) {
+                tree = new PathTree(paths);
+              }
+              if (initCall) {
+                action();
+              }
+              return this.listen(({ changeTree }) => {
+                if (!tree.includes(changeTree)) {
+                  return;
+                }
+                return manager.action(action);
+              });
+            }
+            once(paths, action) {
+              const unsubscribe = this.on(paths, () => {
+                action();
+                unsubscribe();
+              });
+              return unsubscribe;
+            }
+          };
+          State = class extends ObserveState {
+            change(value) {
+              const changeTree = new PathTree();
+              for (const key in value) {
+                changeTree.push(key);
+                this.data[key] = value[key];
+              }
+              this.emit({
+                changeTree,
+                detail: {}
+              });
+            }
+            commit(changes) {
+              const changeTree = new PathTree();
+              const results = [];
+              for (const { path, value } of changes) {
+                changeTree.push(path);
+                results.push(Boolean((0, import_set3.default)(this.data, path, value)));
+              }
+              this.emit({ changeTree, detail: {} });
+              return results;
+            }
+          };
+        }
+      });
+      require_index_esm = __commonJS2({
+        "node_modules/projectx.state/dist/index.esm.js"(exports, module) {
+          "use strict";
+          if (false) {
+            module.exports = null;
+          } else {
+            module.exports = (init_dev_esm2(), __toCommonJS2(dev_esm_exports2));
+          }
+        }
+      });
+      import_projectx = __toESM2(require_index_esm());
+      Form = class extends import_projectx.ObserveState {
+        constructor(options) {
+          super();
+          this.options = options;
+          this.handleSubmit = (onSubmit) => (event) => __async2(this, null, function* () {
+            event == null ? void 0 : event.preventDefault();
+            this.baseCommit([
+              { path: "state.isSubmitted", value: true },
+              { path: "state.isSubmitting", value: true }
+            ]);
+            try {
+              yield onSubmit(this.data);
+            } catch (error) {
+              console.error(error);
+            } finally {
+              this.baseCommit([{ path: "state.isSubmitting", value: false }]);
+            }
+          });
+          this.data = {
+            values: structuredClone(options.defaultValues),
+            state: {
+              touchedFields: {},
+              isSubmitted: false,
+              isSubmitting: false
+            },
+            errors: {}
+          };
+        }
+        get formState() {
+          return this.data.state;
+        }
+        baseCommit(changes) {
+          if (!changes.length) {
+            return [];
+          }
+          const changeTree = new import_projectx.PathTree();
+          const results = [];
+          for (const { path, value } of changes) {
+            changeTree.push(path);
+            results.push(Boolean((0, import_set.default)(this.data, path, value)));
+          }
+          this.emit({
+            changeTree,
+            detail: { prev: {}, curr: {}, modes: /* @__PURE__ */ new Map(), values: false }
+          });
+          return results;
+        }
+        commit(changes) {
+          if (!changes.length) {
+            return [];
+          }
+          const changeTree = new import_projectx.PathTree();
+          const prev = structuredClone(this.data.values);
+          const results = [];
+          const modes = /* @__PURE__ */ new Map();
+          for (const { path, value, changeMode = "change" } of changes) {
+            changeTree.push(path);
+            modes.set(path, changeMode);
+            if (changeMode === "native") {
+              this.data.state.touchedFields[path] = true;
+            }
+            results.push(Boolean((0, import_set.default)(this.data.values, path, value)));
+          }
+          changeTree.push("state.touchedFields");
+          this.emit({
+            changeTree: import_projectx.PathTree.pushPrefix("values", changeTree),
+            detail: { prev, curr: this.data.values, modes, values: true }
+          });
+          return results;
+        }
+        change(values) {
+          const changeTree = new import_projectx.PathTree();
+          for (const key in values) {
+            changeTree.push(key);
+            this.data[key] = values[key];
+          }
+          this.emit({
+            changeTree,
+            detail: { curr: {}, prev: {}, modes: /* @__PURE__ */ new Map(), values: false }
+          });
+        }
+        setErrors(errors) {
+          this.change({
+            errors: Object.entries(errors).reduce((acc, [key, error]) => {
+              if (error) {
+                acc[key] = error;
+              } else {
+                delete acc[key];
+              }
+              return acc;
+            }, this.data.errors)
+          });
+        }
+        resetErrors(...paths) {
+          const errors = this.data.errors;
+          for (const path of paths) {
+            delete errors[path];
+          }
+          this.change({ errors: paths.length ? errors : {} });
+        }
+        getValues(...args) {
+          if (!args.length) {
+            return this.data.values;
+          }
+          if (args.length > 1) {
+            return args.reduce(
+              (acc, p) => acc.concat((0, import_get2.default)(this.data.values, p)),
+              []
+            );
+          }
+          const [first] = args;
+          const type = typeof first;
+          if (type === "string") {
+            return (0, import_get2.default)(this.data.values, first);
+          }
+          if (!type || type !== "object") {
+            throw new Error("Invalid format argument of `getValues` method.");
+          }
+          if (Array.isArray(first)) {
+            return first.reduce(
+              (acc, p) => acc.concat((0, import_get2.default)(this.data.values, p)),
+              []
+            );
+          }
+          return Object.keys(first).reduce(
+            (acc, p) => Object.assign(acc, { [p]: (0, import_get2.default)(this.data.values, p) }),
+            {}
+          );
+        }
+        reset() {
+          this.change({
+            values: structuredClone(this.options.defaultValues),
+            state: {
+              touchedFields: {},
+              isSubmitted: false,
+              isSubmitting: false
+            },
+            errors: {}
+          });
+        }
+      };
+      form_default = Form;
+      import_projectx2 = __toESM2(require_index_esm());
+      FormContext = (0, import_react2.createContext)({});
+      provider_default = FormProvider;
+    }
+  });
+
+  // dist/index.esm.js
+  var require_index_esm2 = __commonJS({
+    "dist/index.esm.js"(exports, module) {
+      "use strict";
+      if (false) {
+        module.exports = null;
+      } else {
+        module.exports = (init_dev_esm(), __toCommonJS(dev_esm_exports));
+      }
+    }
+  });
+
+  // node_modules/projectx.state/dist/dev.esm.js
+  var dev_esm_exports3 = {};
+  __export(dev_esm_exports3, {
+    ObserveState: () => ObserveState2,
+    PathTree: () => PathTree2,
+    batch: () => batch2,
+    combine: () => combine2,
+    default: () => State2
+  });
+  function batch2(handler) {
+    manager2.open();
+    try {
+      handler();
+    } finally {
+      manager2.close();
+    }
+  }
+  function combine2(states) {
+    return new class extends ObserveState2 {
+      constructor() {
+        super();
+        this.unsubscribe = [];
+        const combined = {};
+        for (const key in states) {
+          const state = states[key];
+          combined[key] = state.data;
+          this.unsubscribe.push(
+            state.listen(
+              (event) => this.emit({
+                detail: event.detail,
+                changeTree: PathTree2.pushPrefix(key, event.changeTree)
+              })
+            )
+          );
+        }
+        this.data = combined;
+      }
+      dispose() {
+        this.unsubscribe.forEach((callback) => callback());
+        super.dispose();
+      }
+    }();
+  }
+  var __create3, __defProp3, __getOwnPropDesc3, __getOwnPropNames3, __getProtoOf3, __hasOwnProp3, __commonJS3, __copyProps3, __toESM3, require_freeGlobal3, require_root3, require_Symbol3, require_getRawTag3, require_objectToString3, require_baseGetTag3, require_isObject3, require_isFunction3, require_coreJsData3, require_isMasked3, require_toSource3, require_baseIsNative3, require_getValue3, require_getNative3, require_defineProperty3, require_baseAssignValue3, require_eq3, require_assignValue3, require_isArray3, require_isObjectLike3, require_isSymbol3, require_isKey3, require_nativeCreate3, require_hashClear3, require_hashDelete3, require_hashGet3, require_hashHas3, require_hashSet3, require_Hash3, require_listCacheClear3, require_assocIndexOf3, require_listCacheDelete3, require_listCacheGet3, require_listCacheHas3, require_listCacheSet3, require_ListCache3, require_Map3, require_mapCacheClear3, require_isKeyable3, require_getMapData3, require_mapCacheDelete3, require_mapCacheGet3, require_mapCacheHas3, require_mapCacheSet3, require_MapCache3, require_memoize3, require_memoizeCapped3, require_stringToPath3, require_arrayMap3, require_baseToString3, require_toString3, require_castPath3, require_isIndex3, require_toKey3, require_baseSet3, require_set3, require_copyArray2, require_toPath2, require_isPrototype2, require_overArg2, require_nativeKeys2, require_baseKeys2, require_DataView2, require_Promise2, require_Set2, require_WeakMap2, require_getTag2, require_baseIsArguments3, require_isArguments3, require_isLength3, require_isArrayLike2, require_stubFalse2, require_isBuffer2, require_baseIsTypedArray2, require_baseUnary2, require_nodeUtil2, require_isTypedArray2, require_isEmpty2, import_set4, Observer2, import_toPath2, import_isEmpty2, PathTreeNode2, PathTree2, BatchManager2, manager2, defaultEqualResolver2, ObserveState2, State2;
+  var init_dev_esm3 = __esm({
+    "node_modules/projectx.state/dist/dev.esm.js"() {
+      __create3 = Object.create;
+      __defProp3 = Object.defineProperty;
+      __getOwnPropDesc3 = Object.getOwnPropertyDescriptor;
+      __getOwnPropNames3 = Object.getOwnPropertyNames;
+      __getProtoOf3 = Object.getPrototypeOf;
+      __hasOwnProp3 = Object.prototype.hasOwnProperty;
+      __commonJS3 = (cb, mod) => function __require() {
+        return mod || (0, cb[__getOwnPropNames3(cb)[0]])((mod = { exports: {} }).exports, mod), mod.exports;
+      };
+      __copyProps3 = (to, from, except, desc) => {
+        if (from && typeof from === "object" || typeof from === "function") {
+          for (let key of __getOwnPropNames3(from))
+            if (!__hasOwnProp3.call(to, key) && key !== except)
+              __defProp3(to, key, { get: () => from[key], enumerable: !(desc = __getOwnPropDesc3(from, key)) || desc.enumerable });
+        }
+        return to;
+      };
+      __toESM3 = (mod, isNodeMode, target) => (target = mod != null ? __create3(__getProtoOf3(mod)) : {}, __copyProps3(
+        // If the importer is in node compatibility mode or this is not an ESM
+        // file that has been converted to a CommonJS file using a Babel-
+        // compatible transform (i.e. "__esModule" has not been set), then set
+        // "default" to the CommonJS "module.exports" for node compatibility.
+        isNodeMode || !mod || !mod.__esModule ? __defProp3(target, "default", { value: mod, enumerable: true }) : target,
+        mod
+      ));
+      require_freeGlobal3 = __commonJS3({
+        "packages/state/node_modules/lodash/_freeGlobal.js"(exports, module) {
+          var freeGlobal = typeof global == "object" && global && global.Object === Object && global;
+          module.exports = freeGlobal;
+        }
+      });
+      require_root3 = __commonJS3({
+        "packages/state/node_modules/lodash/_root.js"(exports, module) {
+          var freeGlobal = require_freeGlobal3();
+          var freeSelf = typeof self == "object" && self && self.Object === Object && self;
+          var root2 = freeGlobal || freeSelf || Function("return this")();
+          module.exports = root2;
+        }
+      });
+      require_Symbol3 = __commonJS3({
+        "packages/state/node_modules/lodash/_Symbol.js"(exports, module) {
+          var root2 = require_root3();
+          var Symbol2 = root2.Symbol;
+          module.exports = Symbol2;
+        }
+      });
+      require_getRawTag3 = __commonJS3({
+        "packages/state/node_modules/lodash/_getRawTag.js"(exports, module) {
+          var Symbol2 = require_Symbol3();
+          var objectProto = Object.prototype;
+          var hasOwnProperty = objectProto.hasOwnProperty;
+          var nativeObjectToString = objectProto.toString;
+          var symToStringTag = Symbol2 ? Symbol2.toStringTag : void 0;
+          function getRawTag(value) {
+            var isOwn = hasOwnProperty.call(value, symToStringTag), tag = value[symToStringTag];
+            try {
+              value[symToStringTag] = void 0;
+              var unmasked = true;
+            } catch (e) {
+            }
+            var result = nativeObjectToString.call(value);
+            if (unmasked) {
+              if (isOwn) {
+                value[symToStringTag] = tag;
+              } else {
+                delete value[symToStringTag];
+              }
+            }
+            return result;
+          }
+          module.exports = getRawTag;
+        }
+      });
+      require_objectToString3 = __commonJS3({
+        "packages/state/node_modules/lodash/_objectToString.js"(exports, module) {
+          var objectProto = Object.prototype;
+          var nativeObjectToString = objectProto.toString;
+          function objectToString(value) {
+            return nativeObjectToString.call(value);
+          }
+          module.exports = objectToString;
+        }
+      });
+      require_baseGetTag3 = __commonJS3({
+        "packages/state/node_modules/lodash/_baseGetTag.js"(exports, module) {
+          var Symbol2 = require_Symbol3();
+          var getRawTag = require_getRawTag3();
+          var objectToString = require_objectToString3();
+          var nullTag = "[object Null]";
+          var undefinedTag = "[object Undefined]";
+          var symToStringTag = Symbol2 ? Symbol2.toStringTag : void 0;
+          function baseGetTag(value) {
+            if (value == null) {
+              return value === void 0 ? undefinedTag : nullTag;
+            }
+            return symToStringTag && symToStringTag in Object(value) ? getRawTag(value) : objectToString(value);
+          }
+          module.exports = baseGetTag;
+        }
+      });
+      require_isObject3 = __commonJS3({
+        "packages/state/node_modules/lodash/isObject.js"(exports, module) {
+          function isObject(value) {
+            var type = typeof value;
+            return value != null && (type == "object" || type == "function");
+          }
+          module.exports = isObject;
+        }
+      });
+      require_isFunction3 = __commonJS3({
+        "packages/state/node_modules/lodash/isFunction.js"(exports, module) {
+          var baseGetTag = require_baseGetTag3();
+          var isObject = require_isObject3();
+          var asyncTag = "[object AsyncFunction]";
+          var funcTag = "[object Function]";
+          var genTag = "[object GeneratorFunction]";
+          var proxyTag = "[object Proxy]";
+          function isFunction(value) {
+            if (!isObject(value)) {
+              return false;
+            }
+            var tag = baseGetTag(value);
+            return tag == funcTag || tag == genTag || tag == asyncTag || tag == proxyTag;
+          }
+          module.exports = isFunction;
+        }
+      });
+      require_coreJsData3 = __commonJS3({
+        "packages/state/node_modules/lodash/_coreJsData.js"(exports, module) {
+          var root2 = require_root3();
+          var coreJsData = root2["__core-js_shared__"];
+          module.exports = coreJsData;
+        }
+      });
+      require_isMasked3 = __commonJS3({
+        "packages/state/node_modules/lodash/_isMasked.js"(exports, module) {
+          var coreJsData = require_coreJsData3();
+          var maskSrcKey = function() {
+            var uid = /[^.]+$/.exec(coreJsData && coreJsData.keys && coreJsData.keys.IE_PROTO || "");
+            return uid ? "Symbol(src)_1." + uid : "";
+          }();
+          function isMasked(func) {
+            return !!maskSrcKey && maskSrcKey in func;
+          }
+          module.exports = isMasked;
+        }
+      });
+      require_toSource3 = __commonJS3({
+        "packages/state/node_modules/lodash/_toSource.js"(exports, module) {
+          var funcProto = Function.prototype;
+          var funcToString = funcProto.toString;
+          function toSource(func) {
+            if (func != null) {
+              try {
+                return funcToString.call(func);
+              } catch (e) {
+              }
+              try {
+                return func + "";
+              } catch (e) {
+              }
+            }
+            return "";
+          }
+          module.exports = toSource;
+        }
+      });
+      require_baseIsNative3 = __commonJS3({
+        "packages/state/node_modules/lodash/_baseIsNative.js"(exports, module) {
+          var isFunction = require_isFunction3();
+          var isMasked = require_isMasked3();
+          var isObject = require_isObject3();
+          var toSource = require_toSource3();
+          var reRegExpChar = /[\\^$.*+?()[\]{}|]/g;
+          var reIsHostCtor = /^\[object .+?Constructor\]$/;
+          var funcProto = Function.prototype;
+          var objectProto = Object.prototype;
+          var funcToString = funcProto.toString;
+          var hasOwnProperty = objectProto.hasOwnProperty;
+          var reIsNative = RegExp(
+            "^" + funcToString.call(hasOwnProperty).replace(reRegExpChar, "\\$&").replace(/hasOwnProperty|(function).*?(?=\\\()| for .+?(?=\\\])/g, "$1.*?") + "$"
+          );
+          function baseIsNative(value) {
+            if (!isObject(value) || isMasked(value)) {
+              return false;
+            }
+            var pattern = isFunction(value) ? reIsNative : reIsHostCtor;
+            return pattern.test(toSource(value));
+          }
+          module.exports = baseIsNative;
+        }
+      });
+      require_getValue3 = __commonJS3({
+        "packages/state/node_modules/lodash/_getValue.js"(exports, module) {
+          function getValue(object, key) {
+            return object == null ? void 0 : object[key];
+          }
+          module.exports = getValue;
+        }
+      });
+      require_getNative3 = __commonJS3({
+        "packages/state/node_modules/lodash/_getNative.js"(exports, module) {
+          var baseIsNative = require_baseIsNative3();
+          var getValue = require_getValue3();
+          function getNative(object, key) {
+            var value = getValue(object, key);
+            return baseIsNative(value) ? value : void 0;
+          }
+          module.exports = getNative;
+        }
+      });
+      require_defineProperty3 = __commonJS3({
+        "packages/state/node_modules/lodash/_defineProperty.js"(exports, module) {
+          var getNative = require_getNative3();
+          var defineProperty = function() {
+            try {
+              var func = getNative(Object, "defineProperty");
+              func({}, "", {});
+              return func;
+            } catch (e) {
+            }
+          }();
+          module.exports = defineProperty;
+        }
+      });
+      require_baseAssignValue3 = __commonJS3({
+        "packages/state/node_modules/lodash/_baseAssignValue.js"(exports, module) {
+          var defineProperty = require_defineProperty3();
+          function baseAssignValue(object, key, value) {
+            if (key == "__proto__" && defineProperty) {
+              defineProperty(object, key, {
+                "configurable": true,
+                "enumerable": true,
+                "value": value,
+                "writable": true
+              });
+            } else {
+              object[key] = value;
+            }
+          }
+          module.exports = baseAssignValue;
+        }
+      });
+      require_eq3 = __commonJS3({
+        "packages/state/node_modules/lodash/eq.js"(exports, module) {
+          function eq(value, other) {
+            return value === other || value !== value && other !== other;
+          }
+          module.exports = eq;
+        }
+      });
+      require_assignValue3 = __commonJS3({
+        "packages/state/node_modules/lodash/_assignValue.js"(exports, module) {
+          var baseAssignValue = require_baseAssignValue3();
+          var eq = require_eq3();
+          var objectProto = Object.prototype;
+          var hasOwnProperty = objectProto.hasOwnProperty;
+          function assignValue(object, key, value) {
+            var objValue = object[key];
+            if (!(hasOwnProperty.call(object, key) && eq(objValue, value)) || value === void 0 && !(key in object)) {
+              baseAssignValue(object, key, value);
+            }
+          }
+          module.exports = assignValue;
+        }
+      });
+      require_isArray3 = __commonJS3({
+        "packages/state/node_modules/lodash/isArray.js"(exports, module) {
+          var isArray = Array.isArray;
+          module.exports = isArray;
+        }
+      });
+      require_isObjectLike3 = __commonJS3({
+        "packages/state/node_modules/lodash/isObjectLike.js"(exports, module) {
+          function isObjectLike(value) {
+            return value != null && typeof value == "object";
+          }
+          module.exports = isObjectLike;
+        }
+      });
+      require_isSymbol3 = __commonJS3({
+        "packages/state/node_modules/lodash/isSymbol.js"(exports, module) {
+          var baseGetTag = require_baseGetTag3();
+          var isObjectLike = require_isObjectLike3();
+          var symbolTag = "[object Symbol]";
+          function isSymbol(value) {
+            return typeof value == "symbol" || isObjectLike(value) && baseGetTag(value) == symbolTag;
+          }
+          module.exports = isSymbol;
+        }
+      });
+      require_isKey3 = __commonJS3({
+        "packages/state/node_modules/lodash/_isKey.js"(exports, module) {
+          var isArray = require_isArray3();
+          var isSymbol = require_isSymbol3();
+          var reIsDeepProp = /\.|\[(?:[^[\]]*|(["'])(?:(?!\1)[^\\]|\\.)*?\1)\]/;
+          var reIsPlainProp = /^\w*$/;
+          function isKey(value, object) {
+            if (isArray(value)) {
+              return false;
+            }
+            var type = typeof value;
+            if (type == "number" || type == "symbol" || type == "boolean" || value == null || isSymbol(value)) {
+              return true;
+            }
+            return reIsPlainProp.test(value) || !reIsDeepProp.test(value) || object != null && value in Object(object);
+          }
+          module.exports = isKey;
+        }
+      });
+      require_nativeCreate3 = __commonJS3({
+        "packages/state/node_modules/lodash/_nativeCreate.js"(exports, module) {
+          var getNative = require_getNative3();
+          var nativeCreate = getNative(Object, "create");
+          module.exports = nativeCreate;
+        }
+      });
+      require_hashClear3 = __commonJS3({
+        "packages/state/node_modules/lodash/_hashClear.js"(exports, module) {
+          var nativeCreate = require_nativeCreate3();
+          function hashClear() {
+            this.__data__ = nativeCreate ? nativeCreate(null) : {};
+            this.size = 0;
+          }
+          module.exports = hashClear;
+        }
+      });
+      require_hashDelete3 = __commonJS3({
+        "packages/state/node_modules/lodash/_hashDelete.js"(exports, module) {
+          function hashDelete(key) {
+            var result = this.has(key) && delete this.__data__[key];
+            this.size -= result ? 1 : 0;
+            return result;
+          }
+          module.exports = hashDelete;
+        }
+      });
+      require_hashGet3 = __commonJS3({
+        "packages/state/node_modules/lodash/_hashGet.js"(exports, module) {
+          var nativeCreate = require_nativeCreate3();
+          var HASH_UNDEFINED = "__lodash_hash_undefined__";
+          var objectProto = Object.prototype;
+          var hasOwnProperty = objectProto.hasOwnProperty;
+          function hashGet(key) {
+            var data = this.__data__;
+            if (nativeCreate) {
+              var result = data[key];
+              return result === HASH_UNDEFINED ? void 0 : result;
+            }
+            return hasOwnProperty.call(data, key) ? data[key] : void 0;
+          }
+          module.exports = hashGet;
+        }
+      });
+      require_hashHas3 = __commonJS3({
+        "packages/state/node_modules/lodash/_hashHas.js"(exports, module) {
+          var nativeCreate = require_nativeCreate3();
+          var objectProto = Object.prototype;
+          var hasOwnProperty = objectProto.hasOwnProperty;
+          function hashHas(key) {
+            var data = this.__data__;
+            return nativeCreate ? data[key] !== void 0 : hasOwnProperty.call(data, key);
+          }
+          module.exports = hashHas;
+        }
+      });
+      require_hashSet3 = __commonJS3({
+        "packages/state/node_modules/lodash/_hashSet.js"(exports, module) {
+          var nativeCreate = require_nativeCreate3();
+          var HASH_UNDEFINED = "__lodash_hash_undefined__";
+          function hashSet(key, value) {
+            var data = this.__data__;
+            this.size += this.has(key) ? 0 : 1;
+            data[key] = nativeCreate && value === void 0 ? HASH_UNDEFINED : value;
+            return this;
+          }
+          module.exports = hashSet;
+        }
+      });
+      require_Hash3 = __commonJS3({
+        "packages/state/node_modules/lodash/_Hash.js"(exports, module) {
+          var hashClear = require_hashClear3();
+          var hashDelete = require_hashDelete3();
+          var hashGet = require_hashGet3();
+          var hashHas = require_hashHas3();
+          var hashSet = require_hashSet3();
+          function Hash(entries) {
+            var index = -1, length = entries == null ? 0 : entries.length;
+            this.clear();
+            while (++index < length) {
+              var entry = entries[index];
+              this.set(entry[0], entry[1]);
+            }
+          }
+          Hash.prototype.clear = hashClear;
+          Hash.prototype["delete"] = hashDelete;
+          Hash.prototype.get = hashGet;
+          Hash.prototype.has = hashHas;
+          Hash.prototype.set = hashSet;
+          module.exports = Hash;
+        }
+      });
+      require_listCacheClear3 = __commonJS3({
+        "packages/state/node_modules/lodash/_listCacheClear.js"(exports, module) {
+          function listCacheClear() {
+            this.__data__ = [];
+            this.size = 0;
+          }
+          module.exports = listCacheClear;
+        }
+      });
+      require_assocIndexOf3 = __commonJS3({
+        "packages/state/node_modules/lodash/_assocIndexOf.js"(exports, module) {
+          var eq = require_eq3();
+          function assocIndexOf(array, key) {
+            var length = array.length;
+            while (length--) {
+              if (eq(array[length][0], key)) {
+                return length;
+              }
+            }
+            return -1;
+          }
+          module.exports = assocIndexOf;
+        }
+      });
+      require_listCacheDelete3 = __commonJS3({
+        "packages/state/node_modules/lodash/_listCacheDelete.js"(exports, module) {
+          var assocIndexOf = require_assocIndexOf3();
+          var arrayProto = Array.prototype;
+          var splice = arrayProto.splice;
+          function listCacheDelete(key) {
+            var data = this.__data__, index = assocIndexOf(data, key);
+            if (index < 0) {
+              return false;
+            }
+            var lastIndex = data.length - 1;
+            if (index == lastIndex) {
+              data.pop();
+            } else {
+              splice.call(data, index, 1);
+            }
+            --this.size;
+            return true;
+          }
+          module.exports = listCacheDelete;
+        }
+      });
+      require_listCacheGet3 = __commonJS3({
+        "packages/state/node_modules/lodash/_listCacheGet.js"(exports, module) {
+          var assocIndexOf = require_assocIndexOf3();
+          function listCacheGet(key) {
+            var data = this.__data__, index = assocIndexOf(data, key);
+            return index < 0 ? void 0 : data[index][1];
+          }
+          module.exports = listCacheGet;
+        }
+      });
+      require_listCacheHas3 = __commonJS3({
+        "packages/state/node_modules/lodash/_listCacheHas.js"(exports, module) {
+          var assocIndexOf = require_assocIndexOf3();
+          function listCacheHas(key) {
+            return assocIndexOf(this.__data__, key) > -1;
+          }
+          module.exports = listCacheHas;
+        }
+      });
+      require_listCacheSet3 = __commonJS3({
+        "packages/state/node_modules/lodash/_listCacheSet.js"(exports, module) {
+          var assocIndexOf = require_assocIndexOf3();
+          function listCacheSet(key, value) {
+            var data = this.__data__, index = assocIndexOf(data, key);
+            if (index < 0) {
+              ++this.size;
+              data.push([key, value]);
+            } else {
+              data[index][1] = value;
+            }
+            return this;
+          }
+          module.exports = listCacheSet;
+        }
+      });
+      require_ListCache3 = __commonJS3({
+        "packages/state/node_modules/lodash/_ListCache.js"(exports, module) {
+          var listCacheClear = require_listCacheClear3();
+          var listCacheDelete = require_listCacheDelete3();
+          var listCacheGet = require_listCacheGet3();
+          var listCacheHas = require_listCacheHas3();
+          var listCacheSet = require_listCacheSet3();
+          function ListCache(entries) {
+            var index = -1, length = entries == null ? 0 : entries.length;
+            this.clear();
+            while (++index < length) {
+              var entry = entries[index];
+              this.set(entry[0], entry[1]);
+            }
+          }
+          ListCache.prototype.clear = listCacheClear;
+          ListCache.prototype["delete"] = listCacheDelete;
+          ListCache.prototype.get = listCacheGet;
+          ListCache.prototype.has = listCacheHas;
+          ListCache.prototype.set = listCacheSet;
+          module.exports = ListCache;
+        }
+      });
+      require_Map3 = __commonJS3({
+        "packages/state/node_modules/lodash/_Map.js"(exports, module) {
+          var getNative = require_getNative3();
+          var root2 = require_root3();
+          var Map2 = getNative(root2, "Map");
+          module.exports = Map2;
+        }
+      });
+      require_mapCacheClear3 = __commonJS3({
+        "packages/state/node_modules/lodash/_mapCacheClear.js"(exports, module) {
+          var Hash = require_Hash3();
+          var ListCache = require_ListCache3();
+          var Map2 = require_Map3();
+          function mapCacheClear() {
+            this.size = 0;
+            this.__data__ = {
+              "hash": new Hash(),
+              "map": new (Map2 || ListCache)(),
+              "string": new Hash()
+            };
+          }
+          module.exports = mapCacheClear;
+        }
+      });
+      require_isKeyable3 = __commonJS3({
+        "packages/state/node_modules/lodash/_isKeyable.js"(exports, module) {
+          function isKeyable(value) {
+            var type = typeof value;
+            return type == "string" || type == "number" || type == "symbol" || type == "boolean" ? value !== "__proto__" : value === null;
+          }
+          module.exports = isKeyable;
+        }
+      });
+      require_getMapData3 = __commonJS3({
+        "packages/state/node_modules/lodash/_getMapData.js"(exports, module) {
+          var isKeyable = require_isKeyable3();
+          function getMapData(map, key) {
+            var data = map.__data__;
+            return isKeyable(key) ? data[typeof key == "string" ? "string" : "hash"] : data.map;
+          }
+          module.exports = getMapData;
+        }
+      });
+      require_mapCacheDelete3 = __commonJS3({
+        "packages/state/node_modules/lodash/_mapCacheDelete.js"(exports, module) {
+          var getMapData = require_getMapData3();
+          function mapCacheDelete(key) {
+            var result = getMapData(this, key)["delete"](key);
+            this.size -= result ? 1 : 0;
+            return result;
+          }
+          module.exports = mapCacheDelete;
+        }
+      });
+      require_mapCacheGet3 = __commonJS3({
+        "packages/state/node_modules/lodash/_mapCacheGet.js"(exports, module) {
+          var getMapData = require_getMapData3();
+          function mapCacheGet(key) {
+            return getMapData(this, key).get(key);
+          }
+          module.exports = mapCacheGet;
+        }
+      });
+      require_mapCacheHas3 = __commonJS3({
+        "packages/state/node_modules/lodash/_mapCacheHas.js"(exports, module) {
+          var getMapData = require_getMapData3();
+          function mapCacheHas(key) {
+            return getMapData(this, key).has(key);
+          }
+          module.exports = mapCacheHas;
+        }
+      });
+      require_mapCacheSet3 = __commonJS3({
+        "packages/state/node_modules/lodash/_mapCacheSet.js"(exports, module) {
+          var getMapData = require_getMapData3();
+          function mapCacheSet(key, value) {
+            var data = getMapData(this, key), size = data.size;
+            data.set(key, value);
+            this.size += data.size == size ? 0 : 1;
+            return this;
+          }
+          module.exports = mapCacheSet;
+        }
+      });
+      require_MapCache3 = __commonJS3({
+        "packages/state/node_modules/lodash/_MapCache.js"(exports, module) {
+          var mapCacheClear = require_mapCacheClear3();
+          var mapCacheDelete = require_mapCacheDelete3();
+          var mapCacheGet = require_mapCacheGet3();
+          var mapCacheHas = require_mapCacheHas3();
+          var mapCacheSet = require_mapCacheSet3();
+          function MapCache(entries) {
+            var index = -1, length = entries == null ? 0 : entries.length;
+            this.clear();
+            while (++index < length) {
+              var entry = entries[index];
+              this.set(entry[0], entry[1]);
+            }
+          }
+          MapCache.prototype.clear = mapCacheClear;
+          MapCache.prototype["delete"] = mapCacheDelete;
+          MapCache.prototype.get = mapCacheGet;
+          MapCache.prototype.has = mapCacheHas;
+          MapCache.prototype.set = mapCacheSet;
+          module.exports = MapCache;
+        }
+      });
+      require_memoize3 = __commonJS3({
+        "packages/state/node_modules/lodash/memoize.js"(exports, module) {
+          var MapCache = require_MapCache3();
+          var FUNC_ERROR_TEXT = "Expected a function";
+          function memoize(func, resolver) {
+            if (typeof func != "function" || resolver != null && typeof resolver != "function") {
+              throw new TypeError(FUNC_ERROR_TEXT);
+            }
+            var memoized = function() {
+              var args = arguments, key = resolver ? resolver.apply(this, args) : args[0], cache = memoized.cache;
+              if (cache.has(key)) {
+                return cache.get(key);
+              }
+              var result = func.apply(this, args);
+              memoized.cache = cache.set(key, result) || cache;
+              return result;
+            };
+            memoized.cache = new (memoize.Cache || MapCache)();
+            return memoized;
+          }
+          memoize.Cache = MapCache;
+          module.exports = memoize;
+        }
+      });
+      require_memoizeCapped3 = __commonJS3({
+        "packages/state/node_modules/lodash/_memoizeCapped.js"(exports, module) {
+          var memoize = require_memoize3();
+          var MAX_MEMOIZE_SIZE = 500;
+          function memoizeCapped(func) {
+            var result = memoize(func, function(key) {
+              if (cache.size === MAX_MEMOIZE_SIZE) {
+                cache.clear();
+              }
+              return key;
+            });
+            var cache = result.cache;
+            return result;
+          }
+          module.exports = memoizeCapped;
+        }
+      });
+      require_stringToPath3 = __commonJS3({
+        "packages/state/node_modules/lodash/_stringToPath.js"(exports, module) {
+          var memoizeCapped = require_memoizeCapped3();
+          var rePropName = /[^.[\]]+|\[(?:(-?\d+(?:\.\d+)?)|(["'])((?:(?!\2)[^\\]|\\.)*?)\2)\]|(?=(?:\.|\[\])(?:\.|\[\]|$))/g;
+          var reEscapeChar = /\\(\\)?/g;
+          var stringToPath = memoizeCapped(function(string) {
+            var result = [];
+            if (string.charCodeAt(0) === 46) {
+              result.push("");
+            }
+            string.replace(rePropName, function(match, number, quote, subString) {
+              result.push(quote ? subString.replace(reEscapeChar, "$1") : number || match);
+            });
+            return result;
+          });
+          module.exports = stringToPath;
+        }
+      });
+      require_arrayMap3 = __commonJS3({
+        "packages/state/node_modules/lodash/_arrayMap.js"(exports, module) {
+          function arrayMap(array, iteratee) {
+            var index = -1, length = array == null ? 0 : array.length, result = Array(length);
+            while (++index < length) {
+              result[index] = iteratee(array[index], index, array);
+            }
+            return result;
+          }
+          module.exports = arrayMap;
+        }
+      });
+      require_baseToString3 = __commonJS3({
+        "packages/state/node_modules/lodash/_baseToString.js"(exports, module) {
+          var Symbol2 = require_Symbol3();
+          var arrayMap = require_arrayMap3();
+          var isArray = require_isArray3();
+          var isSymbol = require_isSymbol3();
+          var INFINITY = 1 / 0;
+          var symbolProto = Symbol2 ? Symbol2.prototype : void 0;
+          var symbolToString = symbolProto ? symbolProto.toString : void 0;
+          function baseToString(value) {
+            if (typeof value == "string") {
+              return value;
+            }
+            if (isArray(value)) {
+              return arrayMap(value, baseToString) + "";
+            }
+            if (isSymbol(value)) {
+              return symbolToString ? symbolToString.call(value) : "";
+            }
+            var result = value + "";
+            return result == "0" && 1 / value == -INFINITY ? "-0" : result;
+          }
+          module.exports = baseToString;
+        }
+      });
+      require_toString3 = __commonJS3({
+        "packages/state/node_modules/lodash/toString.js"(exports, module) {
+          var baseToString = require_baseToString3();
+          function toString(value) {
+            return value == null ? "" : baseToString(value);
+          }
+          module.exports = toString;
+        }
+      });
+      require_castPath3 = __commonJS3({
+        "packages/state/node_modules/lodash/_castPath.js"(exports, module) {
+          var isArray = require_isArray3();
+          var isKey = require_isKey3();
+          var stringToPath = require_stringToPath3();
+          var toString = require_toString3();
+          function castPath(value, object) {
+            if (isArray(value)) {
+              return value;
+            }
+            return isKey(value, object) ? [value] : stringToPath(toString(value));
+          }
+          module.exports = castPath;
+        }
+      });
+      require_isIndex3 = __commonJS3({
+        "packages/state/node_modules/lodash/_isIndex.js"(exports, module) {
+          var MAX_SAFE_INTEGER = 9007199254740991;
+          var reIsUint = /^(?:0|[1-9]\d*)$/;
+          function isIndex(value, length) {
+            var type = typeof value;
+            length = length == null ? MAX_SAFE_INTEGER : length;
+            return !!length && (type == "number" || type != "symbol" && reIsUint.test(value)) && (value > -1 && value % 1 == 0 && value < length);
+          }
+          module.exports = isIndex;
+        }
+      });
+      require_toKey3 = __commonJS3({
+        "packages/state/node_modules/lodash/_toKey.js"(exports, module) {
+          var isSymbol = require_isSymbol3();
+          var INFINITY = 1 / 0;
+          function toKey(value) {
+            if (typeof value == "string" || isSymbol(value)) {
+              return value;
+            }
+            var result = value + "";
+            return result == "0" && 1 / value == -INFINITY ? "-0" : result;
+          }
+          module.exports = toKey;
+        }
+      });
+      require_baseSet3 = __commonJS3({
+        "packages/state/node_modules/lodash/_baseSet.js"(exports, module) {
+          var assignValue = require_assignValue3();
+          var castPath = require_castPath3();
+          var isIndex = require_isIndex3();
+          var isObject = require_isObject3();
+          var toKey = require_toKey3();
+          function baseSet(object, path, value, customizer) {
+            if (!isObject(object)) {
+              return object;
+            }
+            path = castPath(path, object);
+            var index = -1, length = path.length, lastIndex = length - 1, nested = object;
+            while (nested != null && ++index < length) {
+              var key = toKey(path[index]), newValue = value;
+              if (key === "__proto__" || key === "constructor" || key === "prototype") {
+                return object;
+              }
+              if (index != lastIndex) {
+                var objValue = nested[key];
+                newValue = customizer ? customizer(objValue, key, nested) : void 0;
+                if (newValue === void 0) {
+                  newValue = isObject(objValue) ? objValue : isIndex(path[index + 1]) ? [] : {};
+                }
+              }
+              assignValue(nested, key, newValue);
+              nested = nested[key];
+            }
+            return object;
+          }
+          module.exports = baseSet;
+        }
+      });
+      require_set3 = __commonJS3({
+        "packages/state/node_modules/lodash/set.js"(exports, module) {
+          var baseSet = require_baseSet3();
+          function set22(object, path, value) {
+            return object == null ? object : baseSet(object, path, value);
+          }
+          module.exports = set22;
+        }
+      });
+      require_copyArray2 = __commonJS3({
+        "packages/state/node_modules/lodash/_copyArray.js"(exports, module) {
+          function copyArray(source, array) {
+            var index = -1, length = source.length;
+            array || (array = Array(length));
+            while (++index < length) {
+              array[index] = source[index];
+            }
+            return array;
+          }
+          module.exports = copyArray;
+        }
+      });
+      require_toPath2 = __commonJS3({
+        "packages/state/node_modules/lodash/toPath.js"(exports, module) {
+          var arrayMap = require_arrayMap3();
+          var copyArray = require_copyArray2();
+          var isArray = require_isArray3();
+          var isSymbol = require_isSymbol3();
+          var stringToPath = require_stringToPath3();
+          var toKey = require_toKey3();
+          var toString = require_toString3();
+          function toPath2(value) {
+            if (isArray(value)) {
+              return arrayMap(value, toKey);
+            }
+            return isSymbol(value) ? [value] : copyArray(stringToPath(toString(value)));
+          }
+          module.exports = toPath2;
+        }
+      });
+      require_isPrototype2 = __commonJS3({
+        "packages/state/node_modules/lodash/_isPrototype.js"(exports, module) {
+          var objectProto = Object.prototype;
+          function isPrototype(value) {
+            var Ctor = value && value.constructor, proto = typeof Ctor == "function" && Ctor.prototype || objectProto;
+            return value === proto;
+          }
+          module.exports = isPrototype;
+        }
+      });
+      require_overArg2 = __commonJS3({
+        "packages/state/node_modules/lodash/_overArg.js"(exports, module) {
+          function overArg(func, transform) {
+            return function(arg) {
+              return func(transform(arg));
+            };
+          }
+          module.exports = overArg;
+        }
+      });
+      require_nativeKeys2 = __commonJS3({
+        "packages/state/node_modules/lodash/_nativeKeys.js"(exports, module) {
+          var overArg = require_overArg2();
+          var nativeKeys = overArg(Object.keys, Object);
+          module.exports = nativeKeys;
+        }
+      });
+      require_baseKeys2 = __commonJS3({
+        "packages/state/node_modules/lodash/_baseKeys.js"(exports, module) {
+          var isPrototype = require_isPrototype2();
+          var nativeKeys = require_nativeKeys2();
+          var objectProto = Object.prototype;
+          var hasOwnProperty = objectProto.hasOwnProperty;
+          function baseKeys(object) {
+            if (!isPrototype(object)) {
+              return nativeKeys(object);
+            }
+            var result = [];
+            for (var key in Object(object)) {
+              if (hasOwnProperty.call(object, key) && key != "constructor") {
+                result.push(key);
+              }
+            }
+            return result;
+          }
+          module.exports = baseKeys;
+        }
+      });
+      require_DataView2 = __commonJS3({
+        "packages/state/node_modules/lodash/_DataView.js"(exports, module) {
+          var getNative = require_getNative3();
+          var root2 = require_root3();
+          var DataView = getNative(root2, "DataView");
+          module.exports = DataView;
+        }
+      });
+      require_Promise2 = __commonJS3({
+        "packages/state/node_modules/lodash/_Promise.js"(exports, module) {
+          var getNative = require_getNative3();
+          var root2 = require_root3();
+          var Promise2 = getNative(root2, "Promise");
+          module.exports = Promise2;
+        }
+      });
+      require_Set2 = __commonJS3({
+        "packages/state/node_modules/lodash/_Set.js"(exports, module) {
+          var getNative = require_getNative3();
+          var root2 = require_root3();
+          var Set2 = getNative(root2, "Set");
+          module.exports = Set2;
+        }
+      });
+      require_WeakMap2 = __commonJS3({
+        "packages/state/node_modules/lodash/_WeakMap.js"(exports, module) {
+          var getNative = require_getNative3();
+          var root2 = require_root3();
+          var WeakMap2 = getNative(root2, "WeakMap");
+          module.exports = WeakMap2;
+        }
+      });
+      require_getTag2 = __commonJS3({
+        "packages/state/node_modules/lodash/_getTag.js"(exports, module) {
+          var DataView = require_DataView2();
+          var Map2 = require_Map3();
+          var Promise2 = require_Promise2();
+          var Set2 = require_Set2();
+          var WeakMap2 = require_WeakMap2();
+          var baseGetTag = require_baseGetTag3();
+          var toSource = require_toSource3();
+          var mapTag = "[object Map]";
+          var objectTag = "[object Object]";
+          var promiseTag = "[object Promise]";
+          var setTag = "[object Set]";
+          var weakMapTag = "[object WeakMap]";
+          var dataViewTag = "[object DataView]";
+          var dataViewCtorString = toSource(DataView);
+          var mapCtorString = toSource(Map2);
+          var promiseCtorString = toSource(Promise2);
+          var setCtorString = toSource(Set2);
+          var weakMapCtorString = toSource(WeakMap2);
+          var getTag = baseGetTag;
+          if (DataView && getTag(new DataView(new ArrayBuffer(1))) != dataViewTag || Map2 && getTag(new Map2()) != mapTag || Promise2 && getTag(Promise2.resolve()) != promiseTag || Set2 && getTag(new Set2()) != setTag || WeakMap2 && getTag(new WeakMap2()) != weakMapTag) {
+            getTag = function(value) {
+              var result = baseGetTag(value), Ctor = result == objectTag ? value.constructor : void 0, ctorString = Ctor ? toSource(Ctor) : "";
+              if (ctorString) {
+                switch (ctorString) {
+                  case dataViewCtorString:
+                    return dataViewTag;
+                  case mapCtorString:
+                    return mapTag;
+                  case promiseCtorString:
+                    return promiseTag;
+                  case setCtorString:
+                    return setTag;
+                  case weakMapCtorString:
+                    return weakMapTag;
+                }
+              }
+              return result;
+            };
+          }
+          module.exports = getTag;
+        }
+      });
+      require_baseIsArguments3 = __commonJS3({
+        "packages/state/node_modules/lodash/_baseIsArguments.js"(exports, module) {
+          var baseGetTag = require_baseGetTag3();
+          var isObjectLike = require_isObjectLike3();
+          var argsTag = "[object Arguments]";
+          function baseIsArguments(value) {
+            return isObjectLike(value) && baseGetTag(value) == argsTag;
+          }
+          module.exports = baseIsArguments;
+        }
+      });
+      require_isArguments3 = __commonJS3({
+        "packages/state/node_modules/lodash/isArguments.js"(exports, module) {
+          var baseIsArguments = require_baseIsArguments3();
+          var isObjectLike = require_isObjectLike3();
+          var objectProto = Object.prototype;
+          var hasOwnProperty = objectProto.hasOwnProperty;
+          var propertyIsEnumerable = objectProto.propertyIsEnumerable;
+          var isArguments = baseIsArguments(function() {
+            return arguments;
+          }()) ? baseIsArguments : function(value) {
+            return isObjectLike(value) && hasOwnProperty.call(value, "callee") && !propertyIsEnumerable.call(value, "callee");
+          };
+          module.exports = isArguments;
+        }
+      });
+      require_isLength3 = __commonJS3({
+        "packages/state/node_modules/lodash/isLength.js"(exports, module) {
+          var MAX_SAFE_INTEGER = 9007199254740991;
+          function isLength(value) {
+            return typeof value == "number" && value > -1 && value % 1 == 0 && value <= MAX_SAFE_INTEGER;
+          }
+          module.exports = isLength;
+        }
+      });
+      require_isArrayLike2 = __commonJS3({
+        "packages/state/node_modules/lodash/isArrayLike.js"(exports, module) {
+          var isFunction = require_isFunction3();
+          var isLength = require_isLength3();
+          function isArrayLike(value) {
+            return value != null && isLength(value.length) && !isFunction(value);
+          }
+          module.exports = isArrayLike;
+        }
+      });
+      require_stubFalse2 = __commonJS3({
+        "packages/state/node_modules/lodash/stubFalse.js"(exports, module) {
+          function stubFalse() {
+            return false;
+          }
+          module.exports = stubFalse;
+        }
+      });
+      require_isBuffer2 = __commonJS3({
+        "packages/state/node_modules/lodash/isBuffer.js"(exports, module) {
+          var root2 = require_root3();
+          var stubFalse = require_stubFalse2();
+          var freeExports = typeof exports == "object" && exports && !exports.nodeType && exports;
+          var freeModule = freeExports && typeof module == "object" && module && !module.nodeType && module;
+          var moduleExports = freeModule && freeModule.exports === freeExports;
+          var Buffer2 = moduleExports ? root2.Buffer : void 0;
+          var nativeIsBuffer = Buffer2 ? Buffer2.isBuffer : void 0;
+          var isBuffer = nativeIsBuffer || stubFalse;
+          module.exports = isBuffer;
+        }
+      });
+      require_baseIsTypedArray2 = __commonJS3({
+        "packages/state/node_modules/lodash/_baseIsTypedArray.js"(exports, module) {
+          var baseGetTag = require_baseGetTag3();
+          var isLength = require_isLength3();
+          var isObjectLike = require_isObjectLike3();
+          var argsTag = "[object Arguments]";
+          var arrayTag = "[object Array]";
+          var boolTag = "[object Boolean]";
+          var dateTag = "[object Date]";
+          var errorTag = "[object Error]";
+          var funcTag = "[object Function]";
+          var mapTag = "[object Map]";
+          var numberTag = "[object Number]";
+          var objectTag = "[object Object]";
+          var regexpTag = "[object RegExp]";
+          var setTag = "[object Set]";
+          var stringTag = "[object String]";
+          var weakMapTag = "[object WeakMap]";
+          var arrayBufferTag = "[object ArrayBuffer]";
+          var dataViewTag = "[object DataView]";
+          var float32Tag = "[object Float32Array]";
+          var float64Tag = "[object Float64Array]";
+          var int8Tag = "[object Int8Array]";
+          var int16Tag = "[object Int16Array]";
+          var int32Tag = "[object Int32Array]";
+          var uint8Tag = "[object Uint8Array]";
+          var uint8ClampedTag = "[object Uint8ClampedArray]";
+          var uint16Tag = "[object Uint16Array]";
+          var uint32Tag = "[object Uint32Array]";
+          var typedArrayTags = {};
+          typedArrayTags[float32Tag] = typedArrayTags[float64Tag] = typedArrayTags[int8Tag] = typedArrayTags[int16Tag] = typedArrayTags[int32Tag] = typedArrayTags[uint8Tag] = typedArrayTags[uint8ClampedTag] = typedArrayTags[uint16Tag] = typedArrayTags[uint32Tag] = true;
+          typedArrayTags[argsTag] = typedArrayTags[arrayTag] = typedArrayTags[arrayBufferTag] = typedArrayTags[boolTag] = typedArrayTags[dataViewTag] = typedArrayTags[dateTag] = typedArrayTags[errorTag] = typedArrayTags[funcTag] = typedArrayTags[mapTag] = typedArrayTags[numberTag] = typedArrayTags[objectTag] = typedArrayTags[regexpTag] = typedArrayTags[setTag] = typedArrayTags[stringTag] = typedArrayTags[weakMapTag] = false;
+          function baseIsTypedArray(value) {
+            return isObjectLike(value) && isLength(value.length) && !!typedArrayTags[baseGetTag(value)];
+          }
+          module.exports = baseIsTypedArray;
+        }
+      });
+      require_baseUnary2 = __commonJS3({
+        "packages/state/node_modules/lodash/_baseUnary.js"(exports, module) {
+          function baseUnary(func) {
+            return function(value) {
+              return func(value);
+            };
+          }
+          module.exports = baseUnary;
+        }
+      });
+      require_nodeUtil2 = __commonJS3({
+        "packages/state/node_modules/lodash/_nodeUtil.js"(exports, module) {
+          var freeGlobal = require_freeGlobal3();
+          var freeExports = typeof exports == "object" && exports && !exports.nodeType && exports;
+          var freeModule = freeExports && typeof module == "object" && module && !module.nodeType && module;
+          var moduleExports = freeModule && freeModule.exports === freeExports;
+          var freeProcess = moduleExports && freeGlobal.process;
+          var nodeUtil = function() {
+            try {
+              var types = freeModule && freeModule.require && freeModule.require("util").types;
+              if (types) {
+                return types;
+              }
+              return freeProcess && freeProcess.binding && freeProcess.binding("util");
+            } catch (e) {
+            }
+          }();
+          module.exports = nodeUtil;
+        }
+      });
+      require_isTypedArray2 = __commonJS3({
+        "packages/state/node_modules/lodash/isTypedArray.js"(exports, module) {
+          var baseIsTypedArray = require_baseIsTypedArray2();
+          var baseUnary = require_baseUnary2();
+          var nodeUtil = require_nodeUtil2();
+          var nodeIsTypedArray = nodeUtil && nodeUtil.isTypedArray;
+          var isTypedArray = nodeIsTypedArray ? baseUnary(nodeIsTypedArray) : baseIsTypedArray;
+          module.exports = isTypedArray;
+        }
+      });
+      require_isEmpty2 = __commonJS3({
+        "packages/state/node_modules/lodash/isEmpty.js"(exports, module) {
+          var baseKeys = require_baseKeys2();
+          var getTag = require_getTag2();
+          var isArguments = require_isArguments3();
+          var isArray = require_isArray3();
+          var isArrayLike = require_isArrayLike2();
+          var isBuffer = require_isBuffer2();
+          var isPrototype = require_isPrototype2();
+          var isTypedArray = require_isTypedArray2();
+          var mapTag = "[object Map]";
+          var setTag = "[object Set]";
+          var objectProto = Object.prototype;
+          var hasOwnProperty = objectProto.hasOwnProperty;
+          function isEmpty2(value) {
+            if (value == null) {
+              return true;
+            }
+            if (isArrayLike(value) && (isArray(value) || typeof value == "string" || typeof value.splice == "function" || isBuffer(value) || isTypedArray(value) || isArguments(value))) {
+              return !value.length;
+            }
+            var tag = getTag(value);
+            if (tag == mapTag || tag == setTag) {
+              return !value.size;
+            }
+            if (isPrototype(value)) {
+              return !baseKeys(value).length;
+            }
+            for (var key in value) {
+              if (hasOwnProperty.call(value, key)) {
+                return false;
+              }
+            }
+            return true;
+          }
+          module.exports = isEmpty2;
+        }
+      });
+      import_set4 = __toESM3(require_set3());
+      Observer2 = class {
+        constructor() {
+          this.listeners = /* @__PURE__ */ new Set();
+        }
+        listen(listener) {
+          this.listeners.add(listener);
+          return () => {
+            this.listeners.delete(listener);
+          };
+        }
+        emit(event) {
+          for (const listener of this.listeners) {
+            if (listener(event)) {
+              return;
+            }
+          }
+        }
+        dispose() {
+          this.listeners.clear();
+        }
+      };
+      import_toPath2 = __toESM3(require_toPath2());
+      import_isEmpty2 = __toESM3(require_isEmpty2());
+      PathTreeNode2 = class {
+        constructor(path, children = {}) {
+          this.path = path;
+          this.children = children;
+          this.point = false;
+        }
+        get isEmpty() {
+          return (0, import_isEmpty2.default)(this.children);
+        }
+      };
+      PathTree2 = class extends PathTreeNode2 {
+        constructor(paths = []) {
+          super("");
+          this.createTree(paths);
+        }
+        static pushPrefix(path, node) {
+          const tree = new PathTree2();
+          tree.children[path] = new PathTreeNode2(path, node.children);
+          return tree;
+        }
+        pushNode(node, [path, ...rest]) {
+          if (path in node.children) {
+            node.children[path].point = true;
+          } else {
+            node.children[path] = new PathTreeNode2(path);
+          }
+          if (rest.length) {
+            return this.pushNode(node.children[path], rest);
+          }
+        }
+        createTree(paths) {
+          for (const path of paths) {
+            this.pushNode(this, (0, import_toPath2.default)(path));
+          }
+        }
+        push(path) {
+          this.pushNode(this, (0, import_toPath2.default)(path));
+        }
+        includesRecursive(watch, change) {
+          if (watch.point || watch.isEmpty && change.isEmpty || change.isEmpty != watch.isEmpty) {
+            return true;
+          }
+          for (const key in watch.children) {
+            if (!(key in change.children)) {
+              continue;
+            }
+            if (this.includesRecursive(watch.children[key], change.children[key])) {
+              return true;
+            }
+          }
+          return false;
+        }
+        includes(node) {
+          if (node.isEmpty) {
+            return this.isEmpty;
+          }
+          return this.includesRecursive(this, node);
+        }
+      };
+      BatchManager2 = class {
+        constructor() {
+          this.batches = [];
+        }
+        open() {
+          this.batches.push(/* @__PURE__ */ new Set());
+        }
+        action(handler) {
+          if (!this.batches.length) {
+            return handler();
+          }
+          this.batches[this.batches.length - 1].add(handler);
+        }
+        close() {
+          const batch22 = this.batches.pop();
+          if (!batch22) {
+            return;
+          }
+          batch22.forEach((handler) => handler());
+        }
+      };
+      manager2 = new BatchManager2();
+      defaultEqualResolver2 = (a, b) => a === b;
+      ObserveState2 = class extends Observer2 {
+        reaction(selectors, action, {
+          resolver = defaultEqualResolver2,
+          initCall = false
+        } = {}) {
+          const callSelectors = () => selectors.map((selector) => selector(this.data));
+          const hasSelector = selectors.length > 0;
+          let memo = callSelectors();
+          if (initCall) {
+            action.apply(null, memo);
+          }
+          const handler = () => {
+            if (!hasSelector) {
+              return action.apply(null);
+            }
+            const values = callSelectors();
+            if (values.every((value, index) => resolver(value, memo[index]))) {
+              return;
+            }
+            memo = values;
+            return action.apply(null, memo);
+          };
+          return this.listen(() => manager2.action(handler));
+        }
+        on(paths, action, { initCall = false } = {}) {
+          let tree = paths;
+          if (!(paths instanceof PathTree2)) {
+            tree = new PathTree2(paths);
+          }
+          if (initCall) {
+            action();
+          }
+          return this.listen(({ changeTree }) => {
+            if (!tree.includes(changeTree)) {
+              return;
+            }
+            return manager2.action(action);
+          });
+        }
+        once(paths, action) {
+          const unsubscribe = this.on(paths, () => {
+            action();
+            unsubscribe();
+          });
+          return unsubscribe;
+        }
+      };
+      State2 = class extends ObserveState2 {
+        change(value) {
+          const changeTree = new PathTree2();
+          for (const key in value) {
+            changeTree.push(key);
+            this.data[key] = value[key];
+          }
+          this.emit({
+            changeTree,
+            detail: {}
+          });
+        }
+        commit(changes) {
+          const changeTree = new PathTree2();
+          const results = [];
+          for (const { path, value } of changes) {
+            changeTree.push(path);
+            results.push(Boolean((0, import_set4.default)(this.data, path, value)));
+          }
+          this.emit({ changeTree, detail: {} });
+          return results;
+        }
+      };
+    }
+  });
+
+  // node_modules/projectx.state/dist/index.esm.js
+  var require_index_esm3 = __commonJS({
+    "node_modules/projectx.state/dist/index.esm.js"(exports, module) {
+      "use strict";
+      if (false) {
+        module.exports = null;
+      } else {
+        module.exports = (init_dev_esm3(), __toCommonJS(dev_esm_exports3));
+      }
+    }
+  });
+
+  // dev/index.tsx
+  var import_client = __toESM(require_client());
+
+  // dev/examples/login.tsx
+  var import__ = __toESM(require_index_esm2());
+  var import_jsx_runtime2 = __toESM(require_jsx_runtime());
+  function Input({ name, type, label }) {
+    const {
+      input,
+      fieldState: { error, isTouched }
+    } = (0, import__.useField)(name);
+    return /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("label", { children: [
+      /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("span", { children: [
+        label,
+        " "
+      ] }),
+      /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("input", __spreadProps(__spreadValues({}, input), { type })),
+      error && isTouched && /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("div", { style: { color: "tomato" }, children: error })
+    ] });
+  }
+  function Comp() {
+    const res = (0, import__.useWatch)(["password", "username"]);
+    return /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("pre", { children: JSON.stringify(res) });
+  }
+  function App() {
+    const form = (0, import__.useForm)({
+      defaultValues: { password: "", username: "" }
+    });
+    const { errors, resetErrors, setErrors } = (0, import__.useError)(form);
+    (0, import__.useValidate)(({ password, username }) => {
+      const errors2 = {};
+      errors2.password = password.length ? null : "Error";
+      errors2.username = username.length ? null : "Error";
+      return errors2;
+    }, form);
+    console.log(errors);
+    return /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)(import__.FormProvider, { form, children: [
+      /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("form", { onSubmit: form.handleSubmit((values) => console.log(values)), children: [
+        /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("h1", { children: "Login" }),
+        /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("div", { children: /* @__PURE__ */ (0, import_jsx_runtime2.jsx)(Input, { name: "username", type: "text", label: "Username" }) }),
+        /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("div", { children: /* @__PURE__ */ (0, import_jsx_runtime2.jsx)(Input, { name: "password", type: "password", label: "password" }) }),
+        /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("button", { type: "submit", children: "Login" })
+      ] }),
+      /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("button", { onClick: () => setErrors({ loading: "random text" }), children: "set errors" }),
+      /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("button", { onClick: () => setErrors({ loading: null }), children: "reset random errors" }),
+      /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("button", { onClick: () => resetErrors(), children: "reset errors" }),
+      /* @__PURE__ */ (0, import_jsx_runtime2.jsx)(Comp, {})
+    ] });
+  }
+  var login_default = App;
+
+  // src/modules/hooks.ts
+  var import_react4 = __toESM(require_react());
+  var import_get6 = __toESM(require_get());
+
+  // src/modules/form.ts
+  var import_projectx3 = __toESM(require_index_esm3());
+  var import_set5 = __toESM(require_set());
+  var import_get4 = __toESM(require_get());
+  var Form2 = class extends import_projectx3.ObserveState {
+    constructor(options) {
+      super();
+      this.options = options;
+      this.handleSubmit = (onSubmit) => (event) => __async(this, null, function* () {
+        event == null ? void 0 : event.preventDefault();
+        this.baseCommit([
+          { path: "state.isSubmitted", value: true },
+          { path: "state.isSubmitting", value: true }
+        ]);
+        try {
+          yield onSubmit(this.data);
+        } catch (error) {
+          console.error(error);
+        } finally {
+          this.baseCommit([{ path: "state.isSubmitting", value: false }]);
+        }
+      });
+      this.data = {
+        values: structuredClone(options.defaultValues),
+        state: {
+          touchedFields: {},
+          isSubmitted: false,
+          isSubmitting: false
+        },
+        errors: {}
+      };
+    }
+    get formState() {
+      return this.data.state;
+    }
+    baseCommit(changes) {
+      if (!changes.length) {
+        return [];
+      }
+      const changeTree = new import_projectx3.PathTree();
+      const results = [];
+      for (const { path, value } of changes) {
+        changeTree.push(path);
+        results.push(Boolean((0, import_set5.default)(this.data, path, value)));
+      }
+      this.emit({
+        changeTree,
+        detail: { prev: {}, curr: {}, modes: /* @__PURE__ */ new Map(), values: false }
+      });
+      return results;
+    }
+    commit(changes) {
+      if (!changes.length) {
+        return [];
+      }
+      const changeTree = new import_projectx3.PathTree();
+      const prev = structuredClone(this.data.values);
+      const results = [];
+      const modes = /* @__PURE__ */ new Map();
+      for (const { path, value, changeMode = "change" } of changes) {
+        changeTree.push(path);
+        modes.set(path, changeMode);
+        if (changeMode === "native") {
+          this.data.state.touchedFields[path] = true;
+        }
+        results.push(Boolean((0, import_set5.default)(this.data.values, path, value)));
+      }
+      changeTree.push("state.touchedFields");
+      this.emit({
+        changeTree: import_projectx3.PathTree.pushPrefix("values", changeTree),
+        detail: { prev, curr: this.data.values, modes, values: true }
+      });
+      return results;
+    }
+    change(values) {
+      const changeTree = new import_projectx3.PathTree();
+      for (const key in values) {
+        changeTree.push(key);
+        this.data[key] = values[key];
+      }
+      this.emit({
+        changeTree,
+        detail: { curr: {}, prev: {}, modes: /* @__PURE__ */ new Map(), values: false }
+      });
+    }
+    setErrors(errors) {
+      this.change({
+        errors: Object.entries(errors).reduce((acc, [key, error]) => {
+          if (error) {
+            acc[key] = error;
+          } else {
+            delete acc[key];
+          }
+          return acc;
+        }, this.data.errors)
+      });
+    }
+    resetErrors(...paths) {
+      const errors = this.data.errors;
+      for (const path of paths) {
+        delete errors[path];
+      }
+      this.change({ errors: paths.length ? errors : {} });
+    }
+    getValues(...args) {
+      if (!args.length) {
+        return this.data.values;
+      }
+      if (args.length > 1) {
+        return args.reduce(
+          (acc, p) => acc.concat((0, import_get4.default)(this.data.values, p)),
+          []
+        );
+      }
+      const [first] = args;
+      const type = typeof first;
+      if (type === "string") {
+        return (0, import_get4.default)(this.data.values, first);
+      }
+      if (!type || type !== "object") {
+        throw new Error("Invalid format argument of `getValues` method.");
+      }
+      if (Array.isArray(first)) {
+        return first.reduce(
+          (acc, p) => acc.concat((0, import_get4.default)(this.data.values, p)),
+          []
+        );
+      }
+      return Object.keys(first).reduce(
+        (acc, p) => Object.assign(acc, { [p]: (0, import_get4.default)(this.data.values, p) }),
+        {}
+      );
+    }
+    reset() {
+      this.change({
+        values: structuredClone(this.options.defaultValues),
+        state: {
+          touchedFields: {},
+          isSubmitted: false,
+          isSubmitting: false
+        },
+        errors: {}
+      });
+    }
+  };
+  var form_default2 = Form2;
+
+  // src/modules/recalculate.ts
+  var import_projectx4 = __toESM(require_index_esm3());
+  var import_get5 = __toESM(require_get());
+  var import_set6 = __toESM(require_set());
+  var import_has2 = __toESM(require_has());
+  function getRecalculateResult2(result) {
+    if (result && typeof result === "object") {
+      return result;
+    }
+    return { value: result, mode: "change" };
+  }
+  function createRecalculate2(form, { defaultExternal = {}, fields }) {
+    const recalculateMap = fields.reduce(
+      (acc, item) => Object.assign(acc, { [item.path]: item }),
+      {}
+    );
+    let memo = structuredClone(defaultExternal);
+    let lastCalledPath;
+    const workPromises = /* @__PURE__ */ new Map();
+    function handleResult(_0, _1, _2) {
+      return __async(this, arguments, function* (current, prev, { handler, path }) {
+        const handleResult2 = handler(current, prev, {
+          external: memo,
+          state: form.data.state,
+          values: form.data.values,
+          lastCalledPath
+        });
+        let result;
+        if (handleResult2 instanceof Promise) {
+          workPromises.set(String(path), handleResult2);
+          result = yield handleResult2;
+          if (workPromises.get(String(path)) !== handleResult2) {
+            return;
+          }
+        } else {
+          result = handleResult2;
+        }
+        const commits = [];
+        for (const path2 in result) {
+          const { value, mode = "change" } = getRecalculateResult2(result[path2]);
+          commits.push({ path: path2, value, changeMode: mode });
+        }
+        form.commit(commits);
+      });
+    }
+    function callExternal(field, value) {
+      return __async(this, null, function* () {
+        if (!(field in recalculateMap)) {
+          return;
+        }
+        const options = recalculateMap[field];
+        const prev = (0, import_get5.default)(memo, String(field));
+        (0, import_set6.default)(memo, String(field), value);
+        try {
+          yield handleResult(value, prev, options);
+        } catch (e) {
+        }
+      });
+    }
+    function callRecalculate(field, detail) {
+      return __async(this, null, function* () {
+        const options = recalculateMap[field];
+        const { watchType = "native" } = options;
+        if (watchType !== (detail.modes.get(field) || "change")) {
+          return;
+        }
+        lastCalledPath = field;
+        try {
+          yield handleResult(
+            (0, import_get5.default)(detail.curr, field),
+            (0, import_get5.default)(detail.prev, field),
+            options
+          );
+        } catch (e) {
+        }
+      });
+    }
+    const entries = [];
+    for (const path in recalculateMap) {
+      if (!(0, import_has2.default)(form.data.values, path)) {
+        continue;
+      }
+      entries.push([path, new import_projectx4.PathTree([`values.${path}`])]);
+    }
+    const unsubscribe = form.listen(({ changeTree, detail }) => {
+      const entry = detail.values && entries.find(([, tree]) => tree.includes(changeTree));
+      if (!entry) {
+        return;
+      }
+      callRecalculate(entry[0], detail);
+    });
+    return {
+      callExternal: (path, value) => callExternal(path, value),
+      callRecalculate: (path, value) => {
+        const options = recalculateMap[path];
+        if (!options) {
+          return;
+        }
+        form.commit([
+          {
+            path,
+            value: value === void 0 ? (0, import_get5.default)(form.data.values, path) : value,
+            changeMode: options.watchType || "native"
+          }
+        ]);
+      },
+      dispose: () => {
+        unsubscribe();
+        memo = structuredClone(defaultExternal);
+        lastCalledPath = void 0;
+        workPromises.clear();
+      }
+    };
+  }
+
+  // src/modules/provider.tsx
+  var import_react3 = __toESM(require_react());
+  var import_jsx_runtime3 = __toESM(require_jsx_runtime());
+  var FormContext2 = (0, import_react3.createContext)({});
+  function FormProvider3({
+    form,
+    children
+  }) {
+    return /* @__PURE__ */ (0, import_jsx_runtime3.jsx)(FormContext2.Provider, { value: form, children });
+  }
+  var provider_default2 = FormProvider3;
+
+  // src/modules/hooks.ts
   function useFormContext2() {
-    return (0, import_react3.useContext)(FormContext2);
+    return (0, import_react4.useContext)(FormContext2);
   }
   function useContextOrDefault2(form) {
     const formContext = form || useFormContext2();
@@ -25990,17 +29058,17 @@
     }
     return event;
   }
-  function useField2(name, form) {
+  function useField3(name, form) {
     const formContext = useContextOrDefault2(form);
-    const [value, setValue] = (0, import_react3.useState)(
-      () => import_projectx32.Path.get(formContext.data.values, name)
+    const [value, setValue] = (0, import_react4.useState)(
+      () => (0, import_get6.default)(formContext.data.values, name)
     );
-    const [error, setError] = (0, import_react3.useState)(null);
-    (0, import_react3.useEffect)(() => {
-      const unsubscribeValue = formContext.watch([`values.${name}`], () => {
-        setValue(import_projectx32.Path.get(formContext.data.values, name));
+    const [error, setError] = (0, import_react4.useState)(null);
+    (0, import_react4.useEffect)(() => {
+      const unsubscribeValue = formContext.on([`values.${name}`], () => {
+        setValue((0, import_get6.default)(formContext.data.values, name));
       });
-      const unsubscribeError = formContext.watch([`errors.${name}`], () => {
+      const unsubscribeError = formContext.on([`errors.${name}`], () => {
         setError(formContext.data.errors[name]);
       });
       return () => {
@@ -26024,13 +29092,13 @@
       },
       change: (value2) => formContext.commit([{ path: name, value: value2 }]),
       fieldState: {
-        isTouched: formContext.data.state.touchedFields.has(name),
+        isTouched: name in formContext.data.state.touchedFields,
         error
       }
     };
   }
-  function useForm2(options) {
-    const formApiRef = (0, import_react3.useRef)(null);
+  function useForm3(options) {
+    const formApiRef = (0, import_react4.useRef)(null);
     if (!formApiRef.current) {
       formApiRef.current = new form_default2(options);
     }
@@ -26038,11 +29106,11 @@
   }
   function useRecalculate2(schema, form) {
     const formContext = useContextOrDefault2(form);
-    const resultRef = (0, import_react3.useRef)(null);
+    const resultRef = (0, import_react4.useRef)(null);
     if (!resultRef.current) {
       resultRef.current = createRecalculate2(formContext, schema);
     }
-    (0, import_react3.useEffect)(
+    (0, import_react4.useEffect)(
       () => () => {
         var _a;
         (_a = resultRef.current) == null ? void 0 : _a.dispose();
@@ -26051,13 +29119,23 @@
     );
     return resultRef.current;
   }
-  function FormProvider2({
-    form,
-    children
-  }) {
-    return /* @__PURE__ */ (0, import_jsx_runtime3.jsx)(FormContext2.Provider, { value: form, children });
+  function useValidate3(validator, form) {
+    const formContext = useContextOrDefault2(form);
+    (0, import_react4.useEffect)(
+      () => formContext.on(["values"], () => {
+        const result = validator(
+          formContext.data.values,
+          formContext.data.errors
+        );
+        if (result === null) {
+          formContext.resetErrors();
+        } else {
+          formContext.setErrors(result);
+        }
+      }),
+      [formContext, validator]
+    );
   }
-  var provider_default2 = FormProvider2;
 
   // dev/examples/recalculate.tsx
   var import_jsx_runtime4 = __toESM(require_jsx_runtime());
@@ -26065,7 +29143,7 @@
     const {
       input,
       fieldState: { error }
-    } = useField2(name);
+    } = useField3(name);
     return /* @__PURE__ */ (0, import_jsx_runtime4.jsxs)("label", { children: [
       /* @__PURE__ */ (0, import_jsx_runtime4.jsxs)("span", { children: [
         label,
@@ -26076,7 +29154,7 @@
     ] });
   }
   function App2() {
-    const form = useForm2({
+    const form = useForm3({
       defaultValues: { first: 0, second: 0 }
     });
     useRecalculate2(
@@ -26118,7 +29196,7 @@
     const {
       input,
       fieldState: { error }
-    } = useField(name);
+    } = useField3(name);
     return /* @__PURE__ */ (0, import_jsx_runtime5.jsxs)("label", { children: [
       /* @__PURE__ */ (0, import_jsx_runtime5.jsxs)("span", { children: [
         label,
@@ -26130,10 +29208,10 @@
   }
   function App3() {
     const [mul, setMul] = (0, import_react5.useState)(10);
-    const form = useForm({
+    const form = useForm3({
       defaultValues: { first: 0, second: 0 }
     });
-    const recalculate = useRecalculate(
+    const recalculate = useRecalculate2(
       {
         defaultExternal: { multiple: mul },
         fields: [
@@ -26169,7 +29247,7 @@
     (0, import_react5.useEffect)(() => {
       recalculate.callExternal("multiple", mul);
     }, [mul]);
-    return /* @__PURE__ */ (0, import_jsx_runtime5.jsxs)(provider_default, { form, children: [
+    return /* @__PURE__ */ (0, import_jsx_runtime5.jsxs)(provider_default2, { form, children: [
       /* @__PURE__ */ (0, import_jsx_runtime5.jsxs)("form", { onSubmit: form.handleSubmit((values) => console.log(values)), children: [
         /* @__PURE__ */ (0, import_jsx_runtime5.jsx)("h1", { children: "Recalculate external" }),
         /* @__PURE__ */ (0, import_jsx_runtime5.jsx)("div", { children: /* @__PURE__ */ (0, import_jsx_runtime5.jsx)(Input3, { name: "first", type: "number", label: "First" }) }),
@@ -26188,7 +29266,7 @@
     const {
       input,
       fieldState: { error }
-    } = useField(name);
+    } = useField3(name);
     console.log("field: ", input, error);
     return /* @__PURE__ */ (0, import_jsx_runtime6.jsxs)("label", { children: [
       /* @__PURE__ */ (0, import_jsx_runtime6.jsxs)("span", { children: [
@@ -26200,7 +29278,7 @@
     ] });
   }
   function SecondForm({ mul }) {
-    const recalculate = useRecalculate({
+    const recalculate = useRecalculate2({
       defaultExternal: { multiple: mul },
       fields: [
         {
@@ -26243,7 +29321,7 @@
     return /* @__PURE__ */ (0, import_jsx_runtime6.jsx)(import_jsx_runtime6.Fragment, { children: /* @__PURE__ */ (0, import_jsx_runtime6.jsx)("div", { children: /* @__PURE__ */ (0, import_jsx_runtime6.jsx)(Input4, { name: "first", type: "number", label: "First" }) }) });
   }
   function Form3({ isFirstForm, mul }) {
-    useValidate((values) => {
+    useValidate3((values) => {
       console.log(values);
       return {};
     });
@@ -26253,10 +29331,10 @@
   function App4() {
     const [isFirstForm, setIsFirstForm] = (0, import_react6.useState)(false);
     const [mul, setMul] = (0, import_react6.useState)(1);
-    const form = useForm({
+    const form = useForm3({
       defaultValues: { first: 0, second: 0 }
     });
-    return /* @__PURE__ */ (0, import_jsx_runtime6.jsxs)(provider_default, { form, children: [
+    return /* @__PURE__ */ (0, import_jsx_runtime6.jsxs)(provider_default2, { form, children: [
       /* @__PURE__ */ (0, import_jsx_runtime6.jsx)("h1", { children: "Multiple form" }),
       /* @__PURE__ */ (0, import_jsx_runtime6.jsxs)("div", { children: [
         /* @__PURE__ */ (0, import_jsx_runtime6.jsx)(

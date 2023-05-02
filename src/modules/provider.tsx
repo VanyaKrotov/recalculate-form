@@ -1,8 +1,11 @@
-import { PropsWithChildren, ReactElement } from "react";
-import { FormConstructor, FormContext } from "../shared";
+import { PropsWithChildren, ReactElement, createContext } from "react";
+
+import Form, { DefaultValues } from "./form";
+
+export const FormContext = createContext({} as Form<DefaultValues, string>);
 
 interface Props<T extends object, M extends string> extends PropsWithChildren {
-  form: FormConstructor<T, M>;
+  form: Form<T, M>;
 }
 
 function FormProvider<T extends object, M extends string>({

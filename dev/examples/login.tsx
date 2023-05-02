@@ -5,7 +5,8 @@ import {
   FormProvider,
   useValidate,
   useError,
-} from "../../src";
+  useWatch,
+} from "../../";
 
 interface InputProps {
   name: string;
@@ -26,6 +27,12 @@ function Input({ name, type, label }: InputProps) {
       {error && isTouched && <div style={{ color: "tomato" }}>{error}</div>}
     </label>
   );
+}
+
+function Comp() {
+  const res = useWatch(["password", "username"]);
+
+  return <pre>{JSON.stringify(res)}</pre>;
 }
 
 function App() {
@@ -67,6 +74,7 @@ function App() {
         reset random errors
       </button>
       <button onClick={() => resetErrors()}>reset errors</button>
+      <Comp />
     </FormProvider>
   );
 }

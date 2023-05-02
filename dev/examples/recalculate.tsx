@@ -1,4 +1,5 @@
-import { useForm, useField, FormProvider, useRecalculate } from "../../dist/dev";
+import React from "react";
+import { useForm, useField, FormProvider, useRecalculate } from "../../src";
 
 interface InputProps {
   name: string;

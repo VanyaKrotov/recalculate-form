@@ -1,6 +1,6 @@
 {
   "name": "recalculate-form",
-  "version": "0.0.13-beta",
+  "version": "0.0.14-beta",
   "description": "",
   "main": "./dist/index.cjs.js",
   "module": "./dist/index.esm.js",
@@ -26,11 +26,13 @@
   },
   "homepage": "https://github.com/VanyaKrotov/recalculate-form#readme",
   "dependencies": {
-    "projectx.state": "^0.0.8-beta",
+    "lodash": "^4.17.21",
+    "projectx.state": "^0.0.9-beta",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
   },
   "devDependencies": {
+    "@types/lodash": "^4.14.194",
     "@types/react": "^18.0.28",
     "@types/react-dom": "^18.0.11",
     "esbuild": "^0.17.12",

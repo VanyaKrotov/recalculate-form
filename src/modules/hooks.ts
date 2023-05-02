@@ -1,31 +1,32 @@
-import { useContext, useEffect, useRef, useState } from "react";
-import { Path } from "projectx.state";
+import { ChangeEvent, useContext, useEffect, useRef, useState } from "react";
+import get from "lodash/get";
 
-import Form from "./form";
-import {
+import Form, {
+  ConstructorParams,
+  DefaultValues,
   Errors,
-  FormConstructor,
-  FormConstructorParams,
-  FormContext,
-  FormDefaultValues,
-  FormState,
   InputErrors,
+  FormState,
+  ChangeMode,
+  DefaultModes,
+} from "./form";
+
+import {
   JoinRecalculateResult,
   RecalculateOptions,
-  UseFieldResult,
-  ValidateCallback,
-} from "../shared";
-import { createRecalculate } from "./recalculate";
+  createRecalculate,
+} from "./recalculate";
+import { FormContext } from "./provider";
 
-export function useFormContext<
-  T extends object,
-  M extends string
->(): FormConstructor<T, M> {
-  return useContext(FormContext) as FormConstructor<T, M>;
+export function useFormContext<T extends object, M extends string>(): Form<
+  T,
+  M
+> {
+  return useContext(FormContext) as Form<T, M>;
 }
 
 function useContextOrDefault<T extends object, M extends string = never>(
-  form?: FormConstructor<T, M>
+  form?: Form<T, M>
 ) {
   const formContext = form || useFormContext();
   if (!formContext) {
@@ -52,22 +53,36 @@ function getOnChangeValue<T>(event: unknown): T {
   return event as T;
 }
 
+interface UseFieldResult<T> {
+  change: (value: T) => void;
+  fieldState: {
+    isTouched: boolean;
+    error: string | null;
+  };
+  input: {
+    name: string;
+    value: T;
+    onChange(event: ChangeEvent<HTMLInputElement>): void;
+    onChange(value: T): void;
+  };
+}
+
 export function useField<
   T = string,
-  V extends FormDefaultValues = FormDefaultValues,
+  V extends DefaultValues = DefaultValues,
   M extends string = string
->(name: string, form?: FormConstructor<V, M>): UseFieldResult<T> {
+>(name: string, form?: Form<V, M>): UseFieldResult<T> {
   const formContext = useContextOrDefault(form);
   const [value, setValue] = useState<T | null>(() =>
-    Path.get(formContext.data.values, name)
+    get(formContext.data.values, name)
   );
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    const unsubscribeValue = formContext.watch([`values.${name}`], () => {
-      setValue(Path.get(formContext.data.values, name));
+    const unsubscribeValue = formContext.on([`values.${name}`], () => {
+      setValue(get(formContext.data.values, name));
     });
-    const unsubscribeError = formContext.watch([`errors.${name}`], () => {
+    const unsubscribeError = formContext.on([`errors.${name}`], () => {
       setError(formContext.data.errors[name]);
     });
 
@@ -93,25 +108,26 @@ export function useField<
     },
     change: (value: T) => formContext.commit([{ path: name, value }]),
     fieldState: {
-      isTouched: formContext.data.state.touchedFields.has(name),
+      isTouched: name in formContext.data.state.touchedFields,
       error,
     },
   };
 }
 
-export function useWatch<V extends object, R, M extends string>(
-  path: string,
-  form?: FormConstructor<V, M>
-): R;
 export function useWatch<
-  V extends object,
-  R extends FormDefaultValues,
-  M extends string
->(paths?: string[], form?: FormConstructor<V, M>): R;
+  R,
+  V extends object = DefaultValues,
+  M extends string = DefaultModes
+>(path: string, form?: Form<V, M>): R;
+export function useWatch<
+  R extends Array<unknown>,
+  V extends object = DefaultValues,
+  M extends string = DefaultModes
+>(paths?: string[], form?: Form<V, M>): R;
 
 export function useWatch(
   paths: unknown,
-  form?: FormConstructor<FormDefaultValues, string>
+  form?: Form<DefaultValues, DefaultModes>
 ): unknown {
   const formContext = useContextOrDefault(form);
   const [values, setValues] = useState<unknown>(() =>
@@ -124,7 +140,7 @@ export function useWatch(
 
   useEffect(
     () =>
-      formContext.watch(watchPath, () =>
+      formContext.on(watchPath, () =>
         setValues(formContext.getValues(paths as string[]))
       ),
     watchPath
@@ -134,9 +150,9 @@ export function useWatch(
 }
 
 export function useForm<T extends object, M extends string = string>(
-  options: FormConstructorParams<T>
-): FormConstructor<T, M> {
-  const formApiRef = useRef<FormConstructor<T, M> | null>(null);
+  options: ConstructorParams<T>
+): Form<T, M> {
+  const formApiRef = useRef<Form<T, M> | null>(null);
   if (!formApiRef.current) {
     formApiRef.current = new Form<T, M>(options);
   }
@@ -150,7 +166,7 @@ export function useRecalculate<
   M extends string = never
 >(
   schema: RecalculateOptions<T, E, M>,
-  form?: FormConstructor<T, M>
+  form?: Form<T, M>
 ): JoinRecalculateResult<E> {
   const formContext = useContextOrDefault(form);
   const resultRef = useRef<JoinRecalculateResult<E> | null>(null);
@@ -169,31 +185,33 @@ export function useRecalculate<
 }
 
 export function useFormState<T extends object, M extends string>(
-  form?: FormConstructor<T, M>
+  form?: Form<T, M>
 ): FormState {
   const formContext = useContextOrDefault(form);
   const [state, setState] = useState(() => formContext.data.state);
 
   useEffect(
     () =>
-      formContext.watch(["state"], () =>
-        setState({ ...formContext.data.state })
-      ),
+      formContext.on(["state"], () => setState({ ...formContext.data.state })),
     [formContext]
   );
 
   return state;
 }
 
-export function useValidate<T extends FormDefaultValues, M extends string>(
+interface ValidateCallback<T extends DefaultValues> {
+  (values: T, errors: Errors): InputErrors | null;
+}
+
+export function useValidate<T extends DefaultValues, M extends string>(
   validator: ValidateCallback<T>,
-  form?: FormConstructor<T, M>
+  form?: Form<T, M>
 ): void {
   const formContext = useContextOrDefault(form);
 
   useEffect(
     () =>
-      formContext.watch(["values"], () => {
+      formContext.on(["values"], () => {
         const result = validator(
           formContext.data.values,
           formContext.data.errors
@@ -209,18 +227,15 @@ export function useValidate<T extends FormDefaultValues, M extends string>(
   );
 }
 
-export function useError<T extends FormDefaultValues, M extends string>(
-  form?: FormConstructor<T, M>
-): { errors: Errors } & Pick<
-  FormConstructor<T, M>,
-  "setErrors" | "resetErrors"
-> {
+export function useError<T extends DefaultValues, M extends string>(
+  form?: Form<T, M>
+): { errors: Errors } & Pick<Form<T, M>, "setErrors" | "resetErrors"> {
   const formContext = useContextOrDefault(form);
   const [errors, setErrors] = useState<Errors>(() => formContext.data.errors);
 
   useEffect(
     () =>
-      formContext.watch(["errors"], () => {
+      formContext.on(["errors"], () => {
         setErrors({ ...formContext.data.errors });
       }),
     [formContext]
@@ -233,8 +248,8 @@ export function useError<T extends FormDefaultValues, M extends string>(
   };
 }
 
-export function useCommit<T extends FormDefaultValues, M extends string>(
-  form?: FormConstructor<T, M>
+export function useCommit<T extends DefaultValues, M extends string>(
+  form?: Form<T, M>
 ) {
   const formContext = useContextOrDefault(form);
 
