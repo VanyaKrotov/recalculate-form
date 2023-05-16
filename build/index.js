@@ -1130,7 +1130,7 @@
             }
             return dispatcher.useContext(Context);
           }
-          function useState5(initialState) {
+          function useState6(initialState) {
             var dispatcher = resolveDispatcher();
             return dispatcher.useState(initialState);
           }
@@ -1932,7 +1932,7 @@
           exports.useMemo = useMemo;
           exports.useReducer = useReducer;
           exports.useRef = useRef3;
-          exports.useState = useState5;
+          exports.useState = useState6;
           exports.useSyncExternalStore = useSyncExternalStore;
           exports.useTransition = useTransition;
           exports.version = ReactVersion;
@@ -2428,9 +2428,9 @@
           if (typeof __REACT_DEVTOOLS_GLOBAL_HOOK__ !== "undefined" && typeof __REACT_DEVTOOLS_GLOBAL_HOOK__.registerInternalModuleStart === "function") {
             __REACT_DEVTOOLS_GLOBAL_HOOK__.registerInternalModuleStart(new Error());
           }
-          var React3 = require_react();
+          var React4 = require_react();
           var Scheduler = require_scheduler();
-          var ReactSharedInternals = React3.__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED;
+          var ReactSharedInternals = React4.__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED;
           var suppressWarning = false;
           function setSuppressWarning(newSuppressWarning) {
             {
@@ -4035,7 +4035,7 @@
             {
               if (props.value == null) {
                 if (typeof props.children === "object" && props.children !== null) {
-                  React3.Children.forEach(props.children, function(child) {
+                  React4.Children.forEach(props.children, function(child) {
                     if (child == null) {
                       return;
                     }
@@ -12482,7 +12482,7 @@
             }
           }
           var fakeInternalInstance = {};
-          var emptyRefsObject = new React3.Component().refs;
+          var emptyRefsObject = new React4.Component().refs;
           var didWarnAboutStateAssignmentForComponent;
           var didWarnAboutUninitializedState;
           var didWarnAboutGetSnapshotBeforeUpdateWithoutDidUpdate;
@@ -24571,7 +24571,7 @@
       if (true) {
         (function() {
           "use strict";
-          var React3 = require_react();
+          var React4 = require_react();
           var REACT_ELEMENT_TYPE = Symbol.for("react.element");
           var REACT_PORTAL_TYPE = Symbol.for("react.portal");
           var REACT_FRAGMENT_TYPE = Symbol.for("react.fragment");
@@ -24597,7 +24597,7 @@
             }
             return null;
           }
-          var ReactSharedInternals = React3.__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED;
+          var ReactSharedInternals = React4.__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED;
           function error(format) {
             {
               {
@@ -25722,22 +25722,27 @@
     );
     return state;
   }
-  function useValidate(validator, form) {
+  function useValidate(validator, deps = [], form) {
     const formContext = useContextOrDefault(form);
+    const validateFn = () => {
+      const result = validator(
+        formContext.data.values,
+        formContext.data.errors,
+        ...deps
+      );
+      if (result === null) {
+        formContext.resetErrors();
+      } else {
+        formContext.setErrors(result);
+      }
+    };
     (0, import_react.useEffect)(
-      () => formContext.on(["values"], () => {
-        const result = validator(
-          formContext.data.values,
-          formContext.data.errors
-        );
-        if (result === null) {
-          formContext.resetErrors();
-        } else {
-          formContext.setErrors(result);
-        }
-      }),
+      () => formContext.on(["values"], validateFn),
       [formContext, validator]
     );
+    (0, import_react.useEffect)(() => {
+      validateFn();
+    }, deps);
   }
   function useError(form) {
     const formContext = useContextOrDefault(form);
@@ -28714,6 +28719,7 @@
   var import_client = __toESM(require_client());
 
   // dev/examples/login.tsx
+  var import_react3 = __toESM(require_react());
   var import__ = __toESM(require_index_esm2());
   var import_jsx_runtime2 = __toESM(require_jsx_runtime());
   function Input({ name, type, label }) {
@@ -28735,17 +28741,24 @@
     return /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("pre", { children: JSON.stringify(res) });
   }
   function App() {
+    const [c, set5] = (0, import_react3.useState)(false);
     const form = (0, import__.useForm)({
       defaultValues: { password: "", username: "" }
     });
     const { errors, resetErrors, setErrors } = (0, import__.useError)(form);
-    (0, import__.useValidate)(({ password, username }) => {
-      const errors2 = {};
-      errors2.password = password.length ? null : "Error";
-      errors2.username = username.length ? null : "Error";
-      return errors2;
-    }, form);
-    console.log(errors);
+    (0, import__.useValidate)(
+      ({ password, username }, err, showErrors) => {
+        if (!showErrors) {
+          return null;
+        }
+        const errors2 = {};
+        errors2.password = password.length ? null : "Error";
+        errors2.username = username.length ? null : "Error";
+        return errors2;
+      },
+      [c],
+      form
+    );
     return /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)(import__.FormProvider, { form, children: [
       /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("form", { onSubmit: form.handleSubmit((values) => console.log(values)), children: [
         /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("h1", { children: "Login" }),
@@ -28756,13 +28769,15 @@
       /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("button", { onClick: () => setErrors({ loading: "random text" }), children: "set errors" }),
       /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("button", { onClick: () => setErrors({ loading: null }), children: "reset random errors" }),
       /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("button", { onClick: () => resetErrors(), children: "reset errors" }),
+      /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("button", { onClick: () => set5(true), disabled: c, children: "on" }),
+      /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("button", { onClick: () => set5(false), disabled: !c, children: "off" }),
       /* @__PURE__ */ (0, import_jsx_runtime2.jsx)(Comp, {})
     ] });
   }
   var login_default = App;
 
   // src/modules/hooks.ts
-  var import_react4 = __toESM(require_react());
+  var import_react5 = __toESM(require_react());
   var import_get6 = __toESM(require_get());
 
   // src/modules/form.ts
@@ -29028,9 +29043,9 @@
   }
 
   // src/modules/provider.tsx
-  var import_react3 = __toESM(require_react());
+  var import_react4 = __toESM(require_react());
   var import_jsx_runtime3 = __toESM(require_jsx_runtime());
-  var FormContext2 = (0, import_react3.createContext)({});
+  var FormContext2 = (0, import_react4.createContext)({});
   function FormProvider3({
     form,
     children
@@ -29041,7 +29056,7 @@
 
   // src/modules/hooks.ts
   function useFormContext2() {
-    return (0, import_react4.useContext)(FormContext2);
+    return (0, import_react5.useContext)(FormContext2);
   }
   function useContextOrDefault2(form) {
     const formContext = form || useFormContext2();
@@ -29060,11 +29075,11 @@
   }
   function useField3(name, form) {
     const formContext = useContextOrDefault2(form);
-    const [value, setValue] = (0, import_react4.useState)(
+    const [value, setValue] = (0, import_react5.useState)(
       () => (0, import_get6.default)(formContext.data.values, name)
     );
-    const [error, setError] = (0, import_react4.useState)(null);
-    (0, import_react4.useEffect)(() => {
+    const [error, setError] = (0, import_react5.useState)(null);
+    (0, import_react5.useEffect)(() => {
       const unsubscribeValue = formContext.on([`values.${name}`], () => {
         setValue((0, import_get6.default)(formContext.data.values, name));
       });
@@ -29098,7 +29113,7 @@
     };
   }
   function useForm3(options) {
-    const formApiRef = (0, import_react4.useRef)(null);
+    const formApiRef = (0, import_react5.useRef)(null);
     if (!formApiRef.current) {
       formApiRef.current = new form_default2(options);
     }
@@ -29106,11 +29121,11 @@
   }
   function useRecalculate2(schema, form) {
     const formContext = useContextOrDefault2(form);
-    const resultRef = (0, import_react4.useRef)(null);
+    const resultRef = (0, import_react5.useRef)(null);
     if (!resultRef.current) {
       resultRef.current = createRecalculate2(formContext, schema);
     }
-    (0, import_react4.useEffect)(
+    (0, import_react5.useEffect)(
       () => () => {
         var _a;
         (_a = resultRef.current) == null ? void 0 : _a.dispose();
@@ -29119,22 +29134,27 @@
     );
     return resultRef.current;
   }
-  function useValidate3(validator, form) {
+  function useValidate3(validator, deps = [], form) {
     const formContext = useContextOrDefault2(form);
-    (0, import_react4.useEffect)(
-      () => formContext.on(["values"], () => {
-        const result = validator(
-          formContext.data.values,
-          formContext.data.errors
-        );
-        if (result === null) {
-          formContext.resetErrors();
-        } else {
-          formContext.setErrors(result);
-        }
-      }),
+    const validateFn = () => {
+      const result = validator(
+        formContext.data.values,
+        formContext.data.errors,
+        ...deps
+      );
+      if (result === null) {
+        formContext.resetErrors();
+      } else {
+        formContext.setErrors(result);
+      }
+    };
+    (0, import_react5.useEffect)(
+      () => formContext.on(["values"], validateFn),
       [formContext, validator]
     );
+    (0, import_react5.useEffect)(() => {
+      validateFn();
+    }, deps);
   }
 
   // dev/examples/recalculate.tsx
@@ -29190,7 +29210,7 @@
   var recalculate_default = App2;
 
   // dev/examples/recalculate-external.tsx
-  var import_react5 = __toESM(require_react());
+  var import_react6 = __toESM(require_react());
   var import_jsx_runtime5 = __toESM(require_jsx_runtime());
   function Input3({ name, type, label }) {
     const {
@@ -29207,7 +29227,7 @@
     ] });
   }
   function App3() {
-    const [mul, setMul] = (0, import_react5.useState)(10);
+    const [mul, setMul] = (0, import_react6.useState)(10);
     const form = useForm3({
       defaultValues: { first: 0, second: 0 }
     });
@@ -29244,7 +29264,7 @@
       },
       form
     );
-    (0, import_react5.useEffect)(() => {
+    (0, import_react6.useEffect)(() => {
       recalculate.callExternal("multiple", mul);
     }, [mul]);
     return /* @__PURE__ */ (0, import_jsx_runtime5.jsxs)(provider_default2, { form, children: [
@@ -29260,7 +29280,7 @@
   var recalculate_external_default = App3;
 
   // dev/examples/multiple-form.tsx
-  var import_react6 = __toESM(require_react());
+  var import_react7 = __toESM(require_react());
   var import_jsx_runtime6 = __toESM(require_jsx_runtime());
   function Input4({ name, type, label }) {
     const {
@@ -29309,7 +29329,7 @@
         }
       ]
     });
-    (0, import_react6.useEffect)(() => {
+    (0, import_react7.useEffect)(() => {
       recalculate.callExternal("multiple", mul);
     }, [mul]);
     return /* @__PURE__ */ (0, import_jsx_runtime6.jsxs)(import_jsx_runtime6.Fragment, { children: [
@@ -29329,8 +29349,8 @@
     return /* @__PURE__ */ (0, import_jsx_runtime6.jsx)(FormComponent, { mul });
   }
   function App4() {
-    const [isFirstForm, setIsFirstForm] = (0, import_react6.useState)(false);
-    const [mul, setMul] = (0, import_react6.useState)(1);
+    const [isFirstForm, setIsFirstForm] = (0, import_react7.useState)(false);
+    const [mul, setMul] = (0, import_react7.useState)(1);
     const form = useForm3({
       defaultValues: { first: 0, second: 0 }
     });

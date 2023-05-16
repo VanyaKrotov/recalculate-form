@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   useForm,
   useField,
@@ -36,22 +36,29 @@ function Comp() {
 }
 
 function App() {
+  const [c, set] = useState(false);
   const form = useForm({
     defaultValues: { password: "", username: "" },
   });
 
   const { errors, resetErrors, setErrors } = useError(form);
 
-  useValidate(({ password, username }) => {
-    const errors: any = {};
+  useValidate(
+    ({ password, username }, err, showErrors) => {
+      if (!showErrors) {
+        return null;
+      }
 
-    errors.password = password.length ? null : "Error";
-    errors.username = username.length ? null : "Error";
+      const errors: any = {};
 
-    return errors;
-  }, form);
+      errors.password = password.length ? null : "Error";
+      errors.username = username.length ? null : "Error";
 
-  console.log(errors);
+      return errors;
+    },
+    [c],
+    form
+  );
 
   return (
     <FormProvider form={form}>
@@ -74,6 +81,13 @@ function App() {
         reset random errors
       </button>
       <button onClick={() => resetErrors()}>reset errors</button>
+
+      <button onClick={() => set(true)} disabled={c}>
+        on
+      </button>
+      <button onClick={() => set(false)} disabled={!c}>
+        off
+      </button>
       <Comp />
     </FormProvider>
   );

@@ -100,14 +100,21 @@ yarn add recalculate-form
 
 - `errors: Record<string, string | null>` - объект с ошибками формы;
 
-### `useValidate<T, M>(validator: ValidateCallback<T>, form?: FormConstructor<V, M>): Errors` - хук для валидации формы. Вызов метода `validator` производится в момент изменения значений формы;
+### `useValidate<T, D, M>(validator: ValidateCallback<T, D>, deps?: D, form?: FormConstructor<V, M>): Errors` - хук для валидации формы. Вызов метода `validator` производится в момент изменения значений формы;
 
 Типизация:
 
 - `T` - значения формы;
+- `D` - внешние зависимости для валидации;
 - `M` - типы мутаций (расширяет базовые: `native` | `change`);
 
-- `validator: ValidateCallback<T>` - метод для валидации. Принимает аргементами значения формы и ошибки, возвращает объект ошибок или пустой объект;
+- `validator: ValidateCallback<T, D>` - метод для валидации. Принимает аргементами значения формы, ошибки и внешние зависимости;
+
+Возвращаемые значени:
+
+- `null` - сброс всех значений;
+- `{}` - нет действий (оставить все ошибки как было до вызова валидатора)
+- `{ field: null }` - сбросить отдельное поле `field`
 
 ### `useRecalculate<T, E, M>(schema: RecalculateOptions<T, E, M>, form?: FormConstructor<V, M>): JoinRecalculateResult<E>` - хук для подключения декораторов перерасчета значений;
 
@@ -134,7 +141,15 @@ yarn add recalculate-form
 ### Бызовая форма логина
 
 ```ts
-import { useForm, useField } from "recalculate-form";
+import React, { useState } from "react";
+import {
+  useForm,
+  useField,
+  FormProvider,
+  useValidate,
+  useError,
+  useWatch,
+} from "recalculate-form";
 
 interface InputProps {
   name: string;
@@ -145,22 +160,42 @@ interface InputProps {
 function Input({ name, type, label }: InputProps) {
   const {
     input,
-    fieldState: { error },
+    fieldState: { error, isTouched },
   } = useField<string>(name);
 
   return (
     <label>
-      <span>{label}</span>
+      <span>{label} </span>
       <input {...input} type={type} />
-      {error && <div style={{ color: "tomato" }}>{error}</div>}
+      {error && isTouched && <div style={{ color: "tomato" }}>{error}</div>}
     </label>
   );
 }
 
 function App() {
+  const [show, setShow] = useState(false);
   const form = useForm({
     defaultValues: { password: "", username: "" },
   });
+
+  const { errors, resetErrors, setErrors } = useError(form);
+
+  useValidate(
+    ({ password, username }, err, showErrors) => {
+      if (!showErrors) {
+        return null;
+      }
+
+      const errors: any = {};
+
+      errors.password = password.length ? null : "Error";
+      errors.username = username.length ? null : "Error";
+
+      return errors;
+    },
+    [show],
+    form
+  );
 
   return (
     <FormProvider form={form}>
@@ -175,6 +210,21 @@ function App() {
 
         <button type="submit">Login</button>
       </form>
+
+      <button onClick={() => setErrors({ loading: "random text" })}>
+        set errors
+      </button>
+      <button onClick={() => setErrors({ loading: null })}>
+        reset random errors
+      </button>
+      <button onClick={() => resetErrors()}>reset errors</button>
+
+      <button onClick={() => set(true)} disabled={c}>
+        on
+      </button>
+      <button onClick={() => set(false)} disabled={!c}>
+        off
+      </button>
     </FormProvider>
   );
 }

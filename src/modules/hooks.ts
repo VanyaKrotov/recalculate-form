@@ -149,7 +149,7 @@ export function useWatch(
   return values;
 }
 
-export function useForm<T extends object, M extends string = string>(
+export function useForm<T extends object, M extends string = DefaultModes>(
   options: ConstructorParams<T>
 ): Form<T, M> {
   const formApiRef = useRef<Form<T, M> | null>(null);
@@ -163,7 +163,7 @@ export function useForm<T extends object, M extends string = string>(
 export function useRecalculate<
   T extends object,
   E extends object,
-  M extends string = never
+  M extends string = DefaultModes
 >(
   schema: RecalculateOptions<T, E, M>,
   form?: Form<T, M>
@@ -199,32 +199,42 @@ export function useFormState<T extends object, M extends string>(
   return state;
 }
 
-interface ValidateCallback<T extends DefaultValues> {
-  (values: T, errors: Errors): InputErrors | null;
+interface ValidateCallback<T extends DefaultValues, E extends Array<E>> {
+  (values: T, errors: Errors, ...external: E): InputErrors | null;
 }
 
-export function useValidate<T extends DefaultValues, M extends string>(
-  validator: ValidateCallback<T>,
+export function useValidate<
+  T extends DefaultValues,
+  D extends Array<any> = Array<any>,
+  M extends string = DefaultModes
+>(
+  validator: ValidateCallback<T, D>,
+  deps: D = [] as unknown as D,
   form?: Form<T, M>
 ): void {
   const formContext = useContextOrDefault(form);
+  const validateFn = () => {
+    const result = validator(
+      formContext.data.values,
+      formContext.data.errors,
+      ...deps
+    );
+
+    if (result === null) {
+      formContext.resetErrors();
+    } else {
+      formContext.setErrors(result);
+    }
+  };
 
   useEffect(
-    () =>
-      formContext.on(["values"], () => {
-        const result = validator(
-          formContext.data.values,
-          formContext.data.errors
-        );
-
-        if (result === null) {
-          formContext.resetErrors();
-        } else {
-          formContext.setErrors(result);
-        }
-      }),
+    () => formContext.on(["values"], validateFn),
     [formContext, validator]
   );
+
+  useEffect(() => {
+    validateFn();
+  }, deps);
 }
 
 export function useError<T extends DefaultValues, M extends string>(
