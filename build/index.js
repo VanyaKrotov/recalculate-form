@@ -1154,7 +1154,7 @@
             var dispatcher = resolveDispatcher();
             return dispatcher.useLayoutEffect(create, deps);
           }
-          function useCallback2(callback, deps) {
+          function useCallback3(callback, deps) {
             var dispatcher = resolveDispatcher();
             return dispatcher.useCallback(callback, deps);
           }
@@ -1920,7 +1920,7 @@
           exports.memo = memo;
           exports.startTransition = startTransition;
           exports.unstable_act = act;
-          exports.useCallback = useCallback2;
+          exports.useCallback = useCallback3;
           exports.useContext = useContext2;
           exports.useDebugValue = useDebugValue;
           exports.useDeferredValue = useDeferredValue;
@@ -25546,14 +25546,20 @@
         constructor() {
           this.listeners = /* @__PURE__ */ new Set();
         }
-        listen(listener) {
-          this.listeners.add(listener);
+        listen(listener, priority = 1) {
+          const item = { listener, priority };
+          this.listeners.add(item);
+          this.listeners = new Set(
+            Array.from(this.listeners).sort(
+              (a, b) => a.priority > b.priority ? 1 : -1
+            )
+          );
           return () => {
-            this.listeners.delete(listener);
+            this.listeners.delete(item);
           };
         }
         emit(event) {
-          for (const listener of this.listeners) {
+          for (const { listener } of this.listeners) {
             if (listener(event)) {
               return;
             }
@@ -25671,7 +25677,7 @@
           };
           return this.listen(() => manager.action(handler));
         }
-        on(paths, action, { initCall = false } = {}) {
+        on(paths, action, { initCall = false, priority } = {}) {
           let tree = paths;
           if (!(paths instanceof PathTree)) {
             tree = new PathTree(paths);
@@ -25684,14 +25690,33 @@
               return;
             }
             return manager.action(action);
-          });
+          }, priority);
         }
-        once(paths, action) {
-          const unsubscribe = this.on(paths, () => {
-            action();
-            unsubscribe();
-          });
+        once(paths, action, priority) {
+          const unsubscribe = this.on(
+            paths,
+            () => {
+              action();
+              unsubscribe();
+            },
+            { priority }
+          );
           return unsubscribe;
+        }
+        when(paths, action, priority) {
+          return new Promise((resolve) => {
+            const unsubscribe = this.on(
+              paths,
+              () => {
+                if (!action(this.data)) {
+                  return;
+                }
+                resolve(structuredClone(this.data));
+                unsubscribe();
+              },
+              { priority }
+            );
+          });
         }
       };
       State = class extends ObserveState {
@@ -27010,32 +27035,32 @@
     const lastCalledPath = (0, import_react.useRef)();
     const workPromises = (0, import_react.useRef)(/* @__PURE__ */ new Map());
     const handleResult = (0, import_react.useCallback)(
-      function(_0, _1, _2) {
-        return __async(this, arguments, function* (current, prev, { handler, path }) {
-          const handleResult2 = handler(current, prev, {
-            external: memo.current,
-            state: form.data.state,
-            values: form.data.values,
-            lastCalledPath: lastCalledPath.current
-          });
-          let result;
-          if (handleResult2 instanceof Promise) {
-            workPromises.current.set(String(path), handleResult2);
-            result = yield handleResult2;
-            if (workPromises.current.get(String(path)) !== handleResult2) {
-              return;
-            }
-          } else {
-            result = handleResult2;
-          }
-          const commits = [];
-          for (const path2 in result) {
-            const { value, mode = "change" } = getRecalculateResult(result[path2]);
-            commits.push({ path: path2, value, changeMode: mode });
-          }
-          form.commit(commits);
+      (_0, _1, _2) => __async(this, [_0, _1, _2], function* (current, prev, { handler, path }) {
+        const handleResult2 = handler(current, prev, {
+          external: memo.current,
+          state: form.data.state,
+          values: form.data.values,
+          lastCalledPath: lastCalledPath.current
         });
-      },
+        let result;
+        if (handleResult2 instanceof Promise) {
+          workPromises.current.set(String(path), handleResult2);
+          result = yield handleResult2;
+          if (workPromises.current.get(String(path)) !== handleResult2) {
+            return;
+          }
+        } else {
+          result = handleResult2;
+        }
+        const commits = [];
+        for (const path2 in result) {
+          const { value, mode = "change" } = getRecalculateResult(
+            result[path2]
+          );
+          commits.push({ path: path2, value, changeMode: mode });
+        }
+        form.commit(commits);
+      }),
       []
     );
     function callExternal(field, value) {
@@ -27053,24 +27078,22 @@
       });
     }
     const callRecalculate = (0, import_react.useCallback)(
-      function(field, detail) {
-        return __async(this, null, function* () {
-          const options = recalculateMap[field];
-          const { watchType = "native" } = options;
-          if (watchType !== (detail.modes.get(field) || "change")) {
-            return;
-          }
-          lastCalledPath.current = field;
-          try {
-            yield handleResult(
-              (0, import_get2.default)(detail.curr, field),
-              (0, import_get2.default)(detail.prev, field),
-              options
-            );
-          } catch (e) {
-          }
-        });
-      },
+      (field, detail) => __async(this, null, function* () {
+        const options = recalculateMap[field];
+        const { watchType = "native" } = options;
+        if (watchType !== (detail.modes.get(field) || "change")) {
+          return;
+        }
+        lastCalledPath.current = field;
+        try {
+          yield handleResult(
+            (0, import_get2.default)(detail.curr, field),
+            (0, import_get2.default)(detail.prev, field),
+            options
+          );
+        } catch (e) {
+        }
+      }),
       [recalculateMap, handleResult]
     );
     (0, import_react.useEffect)(() => {
@@ -27087,7 +27110,7 @@
           return;
         }
         callRecalculate(entry[0], detail);
-      });
+      }, -1);
       return () => {
         unsubscribe();
         memo.current = structuredClone(defaultExternal);
@@ -27209,9 +27232,19 @@
     const formContext = useContextOrDefault(form);
     return useCreateRecalculate(formContext, schema);
   }
+  var useAction = (callback, deps = []) => {
+    const callbackRef = (0, import_react3.useRef)(callback);
+    (0, import_react3.useEffect)(() => {
+      callbackRef.current = callback;
+    }, [callback]);
+    return (0, import_react3.useCallback)(
+      (...args) => callbackRef.current(...args),
+      deps
+    );
+  };
   function useValidate(validator, deps = [], form) {
     const formContext = useContextOrDefault(form);
-    const validateFn = () => {
+    const validateFn = useAction(() => {
       const result = validator(
         formContext.data.values,
         formContext.data.errors,
@@ -27222,10 +27255,10 @@
       } else {
         formContext.setErrors(result);
       }
-    };
+    });
     (0, import_react3.useEffect)(
-      () => formContext.on(["values"], validateFn),
-      [formContext, validator]
+      () => formContext.on(["values"], validateFn, { priority: Number.MAX_VALUE }),
+      [formContext]
     );
     (0, import_react3.useEffect)(() => {
       validateFn();
@@ -27363,7 +27396,6 @@
       input,
       fieldState: { error }
     } = useField(name);
-    console.log("field: ", name, input);
     return /* @__PURE__ */ (0, import_jsx_runtime4.jsxs)("label", { children: [
       /* @__PURE__ */ (0, import_jsx_runtime4.jsxs)("span", { children: [
         label,
@@ -27375,6 +27407,9 @@
   }
   function Component() {
     const [mul, setMul] = (0, import_react5.useState)(10);
+    (0, import_react5.useEffect)(() => {
+      setInterval(() => setMul((p) => p + 1), 2e3);
+    }, []);
     return /* @__PURE__ */ (0, import_jsx_runtime4.jsxs)(import_jsx_runtime4.Fragment, { children: [
       /* @__PURE__ */ (0, import_jsx_runtime4.jsx)(Form2, { mul }),
       /* @__PURE__ */ (0, import_jsx_runtime4.jsx)("button", { onClick: () => setMul((prev) => prev + 1), children: mul })

@@ -1,4 +1,11 @@
-import { ChangeEvent, useContext, useEffect, useRef, useState } from "react";
+import {
+  ChangeEvent,
+  useCallback,
+  useContext,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import get from "lodash/get";
 
 import Form, {
@@ -191,6 +198,22 @@ interface ValidateCallback<T extends DefaultValues, E extends Array<E>> {
   (values: T, errors: Errors, ...external: E): InputErrors | null;
 }
 
+const useAction = (
+  callback: (...args: unknown[]) => any,
+  deps: ReadonlyArray<unknown> = []
+) => {
+  const callbackRef = useRef(callback);
+
+  useEffect(() => {
+    callbackRef.current = callback;
+  }, [callback]);
+
+  return useCallback(
+    (...args: unknown[]) => callbackRef.current(...args),
+    deps
+  );
+};
+
 export function useValidate<
   T extends DefaultValues,
   D extends Array<any> = Array<any>,
@@ -201,7 +224,8 @@ export function useValidate<
   form?: Form<T, M>
 ): void {
   const formContext = useContextOrDefault(form);
-  const validateFn = () => {
+
+  const validateFn = useAction(() => {
     const result = validator(
       formContext.data.values,
       formContext.data.errors,
@@ -213,11 +237,12 @@ export function useValidate<
     } else {
       formContext.setErrors(result);
     }
-  };
+  });
 
   useEffect(
-    () => formContext.on(["values"], validateFn),
-    [formContext, validator]
+    () =>
+      formContext.on(["values"], validateFn, { priority: Number.MAX_VALUE }),
+    [formContext]
   );
 
   useEffect(() => {

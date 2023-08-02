@@ -88,39 +88,43 @@ function useCreateRecalculate<
   const lastCalledPath = useRef<string | undefined>();
   const workPromises = useRef(new Map<string, Promise<any>>());
 
-  const handleResult = useCallback(async function (
-    current: unknown,
-    prev: unknown,
-    { handler, path }: RecalculateField<T, E, M>
-  ) {
-    const handleResult = handler(current, prev, {
-      external: memo.current as E,
-      state: form.data.state,
-      values: form.data.values,
-      lastCalledPath: lastCalledPath.current,
-    });
+  const handleResult = useCallback(
+    async (
+      current: unknown,
+      prev: unknown,
+      { handler, path }: RecalculateField<T, E, M>
+    ) => {
+      const handleResult = handler(current, prev, {
+        external: memo.current as E,
+        state: form.data.state,
+        values: form.data.values,
+        lastCalledPath: lastCalledPath.current,
+      });
 
-    let result;
-    if (handleResult instanceof Promise) {
-      workPromises.current.set(String(path), handleResult);
-      result = await handleResult;
-      if (workPromises.current.get(String(path)) !== handleResult) {
-        return;
+      let result;
+      if (handleResult instanceof Promise) {
+        workPromises.current.set(String(path), handleResult);
+        result = await handleResult;
+        if (workPromises.current.get(String(path)) !== handleResult) {
+          return;
+        }
+      } else {
+        result = handleResult;
       }
-    } else {
-      result = handleResult;
-    }
 
-    const commits: Commit<M>[] = [];
-    for (const path in result) {
-      const { value, mode = "change" } = getRecalculateResult<M>(result[path]!);
+      const commits: Commit<M>[] = [];
+      for (const path in result) {
+        const { value, mode = "change" } = getRecalculateResult<M>(
+          result[path]!
+        );
 
-      commits.push({ path, value, changeMode: mode });
-    }
+        commits.push({ path, value, changeMode: mode });
+      }
 
-    form.commit(commits);
-  },
-  []);
+      form.commit(commits);
+    },
+    []
+  );
 
   async function callExternal(field: keyof E, value: unknown) {
     if (!(field in recalculateMap)) {
@@ -137,7 +141,7 @@ function useCreateRecalculate<
   }
 
   const callRecalculate = useCallback(
-    async function (field: string, detail: Details<T, M>) {
+    async (field: string, detail: Details<T, M>) => {
       const options = recalculateMap[field as Keys];
       const { watchType = "native" } = options;
       if (watchType !== (detail.modes.get(field) || "change")) {
@@ -175,7 +179,7 @@ function useCreateRecalculate<
       }
 
       callRecalculate(entry[0], detail);
-    });
+    }, -1);
 
     return () => {
       unsubscribe();

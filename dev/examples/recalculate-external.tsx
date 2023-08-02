@@ -20,7 +20,7 @@ function Input({ name, type, label }: InputProps) {
     fieldState: { error },
   } = useField<string>(name);
 
-  console.log("field: ", name, input);
+  // console.log("field: ", name, input);
 
   return (
     <label>
@@ -33,6 +33,10 @@ function Input({ name, type, label }: InputProps) {
 
 function Component() {
   const [mul, setMul] = useState(10);
+
+  useEffect(() => {
+    setInterval(() => setMul((p) => p + 1), 2000);
+  }, []);
 
   return (
     <>
