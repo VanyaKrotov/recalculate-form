@@ -1,3 +1,4 @@
+import { useCallback, useEffect, useMemo, useRef } from "react";
 import { PathTree } from "projectx.state";
 import get from "lodash/get";
 import set from "lodash/set";
@@ -28,7 +29,6 @@ export interface RecalculateOptions<
 export interface JoinRecalculateResult<E> {
   callExternal(field: keyof E, value: unknown): void;
   callRecalculate(field: string, value?: unknown): void;
-  dispose: VoidFunction;
 }
 
 type RecalculateValue<M> =
@@ -66,7 +66,7 @@ function getRecalculateResult<M>(
   return { value: result, mode: "change" };
 }
 
-function createRecalculate<
+function useCreateRecalculate<
   T extends object,
   E extends object,
   M extends string
@@ -75,31 +75,36 @@ function createRecalculate<
   { defaultExternal = {}, fields }: RecalculateOptions<T, E, M>
 ): JoinRecalculateResult<E> {
   type Keys = keyof T | keyof E;
-  const recalculateMap = fields.reduce(
-    (acc, item) => Object.assign(acc, { [item.path]: item }),
-    {} as Record<Keys, RecalculateField<T, E, M>>
+  const recalculateMap = useMemo(
+    () =>
+      fields.reduce(
+        (acc, item) => Object.assign(acc, { [item.path]: item }),
+        {} as Record<Keys, RecalculateField<T, E, M>>
+      ),
+    [fields]
   );
-  let memo = structuredClone(defaultExternal);
-  let lastCalledPath: string | undefined;
-  const workPromises = new Map<string, Promise<any>>();
 
-  async function handleResult(
+  const memo = useRef(structuredClone(defaultExternal));
+  const lastCalledPath = useRef<string | undefined>();
+  const workPromises = useRef(new Map<string, Promise<any>>());
+
+  const handleResult = useCallback(async function (
     current: unknown,
     prev: unknown,
     { handler, path }: RecalculateField<T, E, M>
   ) {
     const handleResult = handler(current, prev, {
-      external: memo as E,
+      external: memo.current as E,
       state: form.data.state,
       values: form.data.values,
-      lastCalledPath,
+      lastCalledPath: lastCalledPath.current,
     });
 
     let result;
     if (handleResult instanceof Promise) {
-      workPromises.set(String(path), handleResult);
+      workPromises.current.set(String(path), handleResult);
       result = await handleResult;
-      if (workPromises.get(String(path)) !== handleResult) {
+      if (workPromises.current.get(String(path)) !== handleResult) {
         return;
       }
     } else {
@@ -114,7 +119,8 @@ function createRecalculate<
     }
 
     form.commit(commits);
-  }
+  },
+  []);
 
   async function callExternal(field: keyof E, value: unknown) {
     if (!(field in recalculateMap)) {
@@ -122,50 +128,62 @@ function createRecalculate<
     }
 
     const options = recalculateMap[field];
-    const prev = get(memo, String(field));
-    set(memo, String(field), value);
+    const prev = get(memo.current, String(field));
+    set(memo.current, String(field), value);
 
     try {
       await handleResult(value, prev, options);
     } catch {}
   }
 
-  async function callRecalculate(field: string, detail: Details<T, M>) {
-    const options = recalculateMap[field as Keys];
-    const { watchType = "native" } = options;
-    if (watchType !== (detail.modes.get(field) || "change")) {
-      return;
+  const callRecalculate = useCallback(
+    async function (field: string, detail: Details<T, M>) {
+      const options = recalculateMap[field as Keys];
+      const { watchType = "native" } = options;
+      if (watchType !== (detail.modes.get(field) || "change")) {
+        return;
+      }
+
+      lastCalledPath.current = field;
+
+      try {
+        await handleResult(
+          get(detail.curr, field),
+          get(detail.prev, field),
+          options
+        );
+      } catch {}
+    },
+    [recalculateMap, handleResult]
+  );
+
+  useEffect(() => {
+    const entries: [string, PathTree][] = [];
+    for (const path in recalculateMap) {
+      if (!has(form.data.values, path)) {
+        continue;
+      }
+
+      entries.push([path, new PathTree([`values.${path}`])]);
     }
 
-    lastCalledPath = field;
+    const unsubscribe = form.listen(({ changeTree, detail }) => {
+      const entry =
+        detail.values && entries.find(([, tree]) => tree.includes(changeTree));
+      if (!entry) {
+        return;
+      }
 
-    try {
-      await handleResult(
-        get(detail.curr, field),
-        get(detail.prev, field),
-        options
-      );
-    } catch {}
-  }
+      callRecalculate(entry[0], detail);
+    });
 
-  const entries: [string, PathTree][] = [];
-  for (const path in recalculateMap) {
-    if (!has(form.data.values, path)) {
-      continue;
-    }
-
-    entries.push([path, new PathTree([`values.${path}`])]);
-  }
-
-  const unsubscribe = form.listen(({ changeTree, detail }) => {
-    const entry =
-      detail.values && entries.find(([, tree]) => tree.includes(changeTree));
-    if (!entry) {
-      return;
-    }
-
-    callRecalculate(entry[0], detail);
-  });
+    return () => {
+      unsubscribe();
+      memo.current = structuredClone(defaultExternal);
+      lastCalledPath.current = undefined;
+      workPromises.current.clear();
+    };
+  }, [callRecalculate]);
 
   return {
     callExternal: (path, value) => callExternal(path, value),
@@ -183,13 +201,7 @@ function createRecalculate<
         },
       ]);
     },
-    dispose: () => {
-      unsubscribe();
-      memo = structuredClone(defaultExternal);
-      lastCalledPath = undefined;
-      workPromises.clear();
-    },
   };
 }
 
-export { createRecalculate };
+export { useCreateRecalculate };

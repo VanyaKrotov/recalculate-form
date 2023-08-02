@@ -7,14 +7,13 @@ import Form, {
   Errors,
   InputErrors,
   FormState,
-  ChangeMode,
   DefaultModes,
 } from "./form";
 
 import {
   JoinRecalculateResult,
   RecalculateOptions,
-  createRecalculate,
+  useCreateRecalculate,
 } from "./recalculate";
 import { FormContext } from "./provider";
 
@@ -169,19 +168,8 @@ export function useRecalculate<
   form?: Form<T, M>
 ): JoinRecalculateResult<E> {
   const formContext = useContextOrDefault(form);
-  const resultRef = useRef<JoinRecalculateResult<E> | null>(null);
-  if (!resultRef.current) {
-    resultRef.current = createRecalculate<T, E, M>(formContext, schema);
-  }
 
-  useEffect(
-    () => () => {
-      resultRef.current?.dispose();
-    },
-    []
-  );
-
-  return resultRef.current;
+  return useCreateRecalculate<T, E, M>(formContext, schema);
 }
 
 export function useFormState<T extends object, M extends string>(

@@ -6,7 +6,7 @@ import {
   useValidate,
   useError,
   useWatch,
-} from "../../";
+} from "../../src";
 
 interface InputProps {
   name: string;
