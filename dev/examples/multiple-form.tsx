@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import {
   useForm,
   useField,
@@ -6,6 +6,7 @@ import {
   useRecalculate,
   useValidate,
 } from "../../src";
+import { debounce } from "lodash";
 
 interface InputProps {
   name: string;
@@ -91,11 +92,18 @@ function FirstForm({ mul }) {
 }
 
 function Form({ isFirstForm, mul }) {
-  useValidate((values) => {
-    console.log(values);
+  const validateFn = useCallback(
+    debounce((values): any => {
+      console.log(values);
 
-    return {};
-  });
+      return {};
+    }, 100),
+    []
+  );
+
+
+
+  // useValidate(validateFn);
 
   const FormComponent = isFirstForm ? FirstForm : SecondForm;
 

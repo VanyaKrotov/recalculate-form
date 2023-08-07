@@ -234,7 +234,7 @@ export function useValidate<
 
     if (result === null) {
       formContext.resetErrors();
-    } else {
+    } else if (result) {
       formContext.setErrors(result);
     }
   });

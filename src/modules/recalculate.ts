@@ -161,7 +161,7 @@ function useCreateRecalculate<
     [recalculateMap, handleResult]
   );
 
-  useEffect(() => {
+  const entries = useMemo(() => {
     const entries: [string, PathTree][] = [];
     for (const path in recalculateMap) {
       if (!has(form.data.values, path)) {
@@ -171,23 +171,32 @@ function useCreateRecalculate<
       entries.push([path, new PathTree([`values.${path}`])]);
     }
 
-    const unsubscribe = form.listen(({ changeTree, detail }) => {
-      const entry =
-        detail.values && entries.find(([, tree]) => tree.includes(changeTree));
-      if (!entry) {
-        return;
-      }
+    return entries;
+  }, [recalculateMap]);
 
-      callRecalculate(entry[0], detail);
-    }, -1);
+  useEffect(
+    () =>
+      form.listen(({ changeTree, detail }) => {
+        const entry =
+          detail.values &&
+          entries.find(([, tree]) => tree.includes(changeTree));
+        if (!entry) {
+          return;
+        }
 
-    return () => {
-      unsubscribe();
+        callRecalculate(entry[0], detail);
+      }, -1),
+    [callRecalculate, entries]
+  );
+
+  useEffect(
+    () => () => {
       memo.current = structuredClone(defaultExternal);
       lastCalledPath.current = undefined;
       workPromises.current.clear();
-    };
-  }, [callRecalculate]);
+    },
+    []
+  );
 
   return {
     callExternal: (path, value) => callExternal(path, value),
